@@ -23,7 +23,7 @@ def create_app(config_name):
     db.init_app(app)
     JWTManager(app)
     LoginManager(app)
-    admin = Admin(app, index_view=HomeAdminModelView(), name="Control Panel")
+    admin = Admin(app, index_view=HomeAdminModelView(name='Overview'), name="Control Panel")
     flask_bcrypt.init_app(app)
 
     return app, admin

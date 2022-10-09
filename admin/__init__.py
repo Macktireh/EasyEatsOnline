@@ -9,7 +9,7 @@ from flask.cli import with_appcontext
 # from services.user_service import UserServices
 
 class HomeAdminModelView(AdminIndexView):
-    def is_accessible(self):
+    def is_accessible(self) -> bool:
         return current_user.is_authenticated and current_user.isActive and current_user.isStaff and current_user.isAdmin
     
     def inaccessible_callback(self, name, **kwargs):
@@ -23,13 +23,13 @@ class AdminModelView(ModelView):
     create_modal = True
     edit_modal = True
     can_export = True
+    can_view_details = True
     page_size=15
     # can_create = True
     # can_edit = False
     # can_delete = False
     
-    def is_accessible(self):
-        print(current_user.isAdmin)
+    def is_accessible(self) -> bool:
         return current_user.is_authenticated and current_user.isActive and current_user.isStaff and current_user.isAdmin
     
     def inaccessible_callback(self, name, **kwargs):

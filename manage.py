@@ -26,7 +26,7 @@ migrate = Migrate(flask_app, db)
 # Admin pannel register model
 admin.add_view(AdminModelView(User, db.session))
 # admin.add_menu_item
-# admin.add_category(MenuLink(name='user', category='', url="/admin/user/logout"))
+admin.add_link(MenuLink(name='API Doc', category='', url="/api"))
 admin.add_link(MenuLink(name='Logout', category='', url="/admin/user/logout"))
 
 # register api routes
@@ -73,11 +73,13 @@ def forbidden(e):
 @click.command(name='createsurperuser')
 @with_appcontext
 def createsurperuser():
+    """Create a super user"""
     createsurperuser_cli(UserServices)
 
 @click.command(name='test')
 @with_appcontext
 def test():
+    """Runs the unit tests."""
     test_cli()
 
 # add command function to cli commands

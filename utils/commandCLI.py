@@ -42,7 +42,6 @@ def createsurperuser_cli(UserServices):
 
 
 def test_cli():
-    """Runs the unit tests."""
     tests = unittest.TestLoader().discover('test', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
