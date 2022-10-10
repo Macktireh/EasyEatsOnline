@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
     isAdmin = db.Column(db.Boolean, nullable=False, default=False)
     createdAt = db.Column(db.DateTime, nullable=False, default=datetime.now)
     updatedAt = db.Column(db.DateTime, nullable=False, default=datetime.now)
-    passwordHash = db.Column(db.String(100))
+    passwordHash = db.Column(db.Text())
 
     @property
     def password(self):

@@ -11,7 +11,7 @@ from app import create_app, db
 from admin import AdminModelView
 from services.user_service import UserServices
 from utils import status
-from utils.commandCLI import createsurperuser_cli, test_cli
+from utils.commandCLI import createsuperuser_cli, test_cli
 
 # models
 from models.user import User
@@ -69,12 +69,11 @@ def forbidden(e):
 
 
 
-
-@click.command(name='createsurperuser')
+@click.command(name='createsuperuser')
 @with_appcontext
-def createsurperuser():
+def createsuperuser():
     """Create a super user"""
-    createsurperuser_cli(UserServices)
+    createsuperuser_cli(UserServices)
 
 @click.command(name='test')
 @with_appcontext
@@ -83,5 +82,5 @@ def test():
     test_cli()
 
 # add command function to cli commands
-flask_app.cli.add_command(createsurperuser)
+flask_app.cli.add_command(createsuperuser)
 flask_app.cli.add_command(test)

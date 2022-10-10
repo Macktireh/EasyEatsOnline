@@ -4,7 +4,7 @@ from getpass import getpass
 from utils import validators
 
 
-def createsurperuser_cli(UserServices):
+def createsuperuser_cli(UserServices):
     emailValid = False
     passwordValid = False
     confirmPassword = None
