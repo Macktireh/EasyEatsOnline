@@ -102,7 +102,7 @@ class AuthServices:
             return {
                 'status': 'success',
                 "message": "Successfully fetched auth token",
-                "token": {
+                "tokens": {
                     "access": access, "refresh": refresh
                 }
             }

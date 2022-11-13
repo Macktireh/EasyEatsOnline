@@ -5,12 +5,19 @@ from flask_login import UserMixin
 from app import db, flask_bcrypt
 
 
+user_userImage = db.Table(
+        'user_userImage',
+        db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+        db.Column('userImage_id', db.Integer, db.ForeignKey('userImage.id'))
+    )
+
+
 class User(db.Model, UserMixin):
     """ User Model for storing user related details """
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    publicId = db.Column(db.String(100), unique=True)
+    publicId = db.Column(db.Text, unique=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
     firstName = db.Column(db.String(128))
     lastName = db.Column(db.String(128))
@@ -19,7 +26,9 @@ class User(db.Model, UserMixin):
     isAdmin = db.Column(db.Boolean, nullable=False, default=False)
     createdAt = db.Column(db.DateTime, nullable=False, default=datetime.now)
     updatedAt = db.Column(db.DateTime, nullable=False, default=datetime.now)
-    passwordHash = db.Column(db.Text())
+    passwordHash = db.Column(db.Text, nullable=False)
+    picture = db.relationship('UserImage', secondary=user_userImage, backref='users')
+
 
     @property
     def password(self):
@@ -37,3 +46,14 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return "<User '{}'>".format(self.email)
+
+
+class UserImage(db.Model):
+    """ UserImage Model for profile picture registration """
+    __tablename__ = "userImage"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    publicId = db.Column(db.Text, unique=True)
+    image = db.Column(db.Text, nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    nimeType = db.Column(db.Text, nullable=False)

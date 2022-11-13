@@ -4,9 +4,9 @@ from flask_login import login_user, logout_user
 from services.user_service import UserServices
 
 
-admin_protected = Blueprint('admin_login', __name__)
+admin_login = Blueprint('admin_login', __name__)
 
-@admin_protected.route('/admin/user/login', methods=['GET', 'POST'])
+@admin_login.route('/admin/user/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -23,7 +23,7 @@ def login():
             return redirect(url_for('admin.index'))
     return render_template('admin/login.html')
 
-@admin_protected.route('/admin/user/logout')
+@admin_login.route('/admin/user/logout')
 def logout():
     logout_user()
     return redirect(url_for('home'))
