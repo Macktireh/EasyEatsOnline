@@ -5,11 +5,11 @@ from flask_login import UserMixin
 from app import db, flask_bcrypt
 
 
-user_userImage = db.Table(
-        'user_userImage',
-        db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-        db.Column('userImage_id', db.Integer, db.ForeignKey('userImage.id'))
-    )
+# user_userImage = db.Table(
+#         'user_userImage',
+#         db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+#         db.Column('userImage_id', db.Integer, db.ForeignKey('userImage.id'))
+#     )
 
 
 class User(db.Model, UserMixin):
@@ -27,7 +27,8 @@ class User(db.Model, UserMixin):
     createdAt = db.Column(db.DateTime, nullable=False, default=datetime.now)
     updatedAt = db.Column(db.DateTime, nullable=False, default=datetime.now)
     passwordHash = db.Column(db.Text, nullable=False)
-    picture = db.relationship('UserImage', secondary=user_userImage, backref='users')
+    image_id = db.Column(db.Integer, db.ForeignKey('userImage.id'))
+    # picture = db.relationship('UserImage', secondary=user_userImage, backref='users')
 
 
     @property
@@ -57,3 +58,4 @@ class UserImage(db.Model):
     image = db.Column(db.Text, nullable=False)
     name = db.Column(db.Text, nullable=False)
     nimeType = db.Column(db.Text, nullable=False)
+    user = db.relationship('User', uselist=False, backref='image')

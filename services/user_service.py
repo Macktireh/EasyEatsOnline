@@ -4,7 +4,7 @@ import datetime
 from typing import List, Literal, Dict
 
 from app import db
-from models.user import User
+from models.user import User, UserImage
 from utils import status
 
 
@@ -13,6 +13,7 @@ class UserServices:
         return
 
     def create(self, data) -> User:
+        
         user = User(
                 publicId=str(uuid.uuid4()),
                 email=data.get('email'),
@@ -50,9 +51,6 @@ class UserServices:
         return User.query.all()
     
     def update_user_by_publicId(self, data: dict, publicId: str = None) -> tuple[Dict[str, str], Literal[400]] | User:
-        print()
-        print(data)
-        print()
         if publicId is None or publicId == "" or data is None:
             return {
                 "status": "Fail",
