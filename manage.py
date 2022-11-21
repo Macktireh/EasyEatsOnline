@@ -25,7 +25,7 @@ from admin.auth.login import admin_login
 from controller import blueprint as blueprint_api
 
 # create app flask
-flask_app, admin = create_app(os.environ.get('BOILERPLATE_ENV', 'dev'))
+flask_app, admin = create_app(os.environ.get('ProductionConfig', 'dev'))
 migrate = Migrate(flask_app, db)
 
 # Admin pannel register model

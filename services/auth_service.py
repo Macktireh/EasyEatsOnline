@@ -4,7 +4,7 @@ import jwt
 from flask import current_app as app
 from flask_jwt_extended import create_access_token, create_refresh_token
 
-from config.settings import SECRET_KEY
+from config.settings import GlobalConfig
 from services.user_service import UserServices
 from utils.token import generate_access_token, check_access_token
 from utils import status, validators
@@ -76,10 +76,10 @@ class AuthServices:
             'publicId': user.publicId,
             'isAdmin': user.isAdmin,
         }
-        return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        return jwt.encode(payload, GlobalConfig.SECRET_KEY, algorithm='HS256')
 
     def decode_auth_token(self, token):
-        data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        data = jwt.decode(token, GlobalConfig.SECRET_KEY, algorithms=["HS256"])
         return UserServices().get_by_publicId(data.sub.publicId)
 
     def login(self, email, password):
@@ -93,7 +93,7 @@ class AuthServices:
                     'status': 'fail',
                     'message': 'email or password does not match.'
                 }
-            return res, status.HTTP_401_UNAUTHORIZED
+            return res, status.HTTP_403_FORBIDDEN
         if not user.isActive:
             return {"status":'fail', "message":'Please confirm your account!'}, status.HTTP_403_FORBIDDEN
         try:

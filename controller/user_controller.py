@@ -32,6 +32,27 @@ class CurrentUserRoute(Resource):
         return UserServices().update_user_by_publicId(publicId=identity["publicId"], data=request.json)
 
 
+@api.route('/upload')
+class UploadImage(Resource):
+    @api.doc('upload_image')
+    # @api.marshal_list_with(UserDto.IUserUpdtae, envelope='data')
+    @jwt_required()
+    def patch(self) -> tuple[Dict[str, str], Literal[400]] | User:
+        """Update Current User"""
+        identity = get_jwt_identity()
+        print()
+        print(request.files)
+        print()
+        try:
+            image = request.files['image']
+        except AttributeError:
+            return {
+                "status": "Fail",
+                "message": "image field is required"
+            }, status.HTTP_400_BAD_REQUEST
+        return UserServices().upload_image(publicId=identity["publicId"], image=image)
+
+
 @api.route('')
 class CurrentUserRoute(Resource):
     @api.doc('list_of_registered_users')
