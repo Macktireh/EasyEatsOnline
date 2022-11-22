@@ -1,6 +1,6 @@
 import os
 import click
-from typing import Dict, Literal
+from typing import Dict, Literal, Union
 from werkzeug.exceptions import NotFound, Forbidden
 
 import flask_login
@@ -46,7 +46,7 @@ login_manager.login_view = 'admin.login'
 
 
 @login_manager.user_loader
-def user_loader(id: str | int) -> User:
+def user_loader(id: Union[str, int]) -> User:
     return UserServices().get_by_id(int(id))
 
 @login_manager.request_loader
