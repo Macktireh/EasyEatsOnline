@@ -1,4 +1,4 @@
-from typing import Literal, Dict
+from typing import Literal, Dict, Union
 
 from flask import request
 from flask_restplus import Resource
@@ -26,7 +26,7 @@ class CurrentUserRoute(Resource):
     @api.doc('update_current_user')
     @api.marshal_list_with(UserDto.IUserUpdtae, envelope='data')
     @jwt_required()
-    def patch(self) -> tuple[Dict[str, str], Literal[400]] | User:
+    def patch(self) -> Union[tuple[Dict[str, str], Literal[400]], User]:
         """Update Current User"""
         identity = get_jwt_identity()
         return UserServices().update_user_by_publicId(publicId=identity["publicId"], data=request.json)
@@ -37,7 +37,7 @@ class UploadImage(Resource):
     @api.doc('upload_image')
     # @api.marshal_list_with(UserDto.IUserUpdtae, envelope='data')
     @jwt_required()
-    def patch(self) -> tuple[Dict[str, str], Literal[400]] | User:
+    def patch(self) -> Union[tuple[Dict[str, str], Literal[400]], User]:
         """Update Current User"""
         identity = get_jwt_identity()
         print()
