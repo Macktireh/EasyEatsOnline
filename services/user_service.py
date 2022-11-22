@@ -1,7 +1,7 @@
 import uuid
 import datetime
 
-from typing import List, Literal, Dict
+from typing import List, Literal, Dict, Union
 from werkzeug.utils import secure_filename
 
 from app import db
@@ -51,7 +51,7 @@ class UserServices:
     def get_all_users(self) -> List[User]:
         return User.query.all()
     
-    def update_user_by_publicId(self, data: dict, publicId: str = None) -> tuple[Dict[str, str], Literal[400]] | User:
+    def update_user_by_publicId(self, data: dict, publicId: str = None) -> Union[tuple[Dict[str, str], Literal[400]], User]:
         if not publicId or data is None:
             return {
                 "status": "Fail",
@@ -66,7 +66,7 @@ class UserServices:
             user.lastName = lastName
         return self.save(user)
     
-    def upload_image(self, publicId: str, image) -> (tuple[dict[str, str], Literal[400]] | tuple[dict[str, str], Literal[200]]):
+    def upload_image(self, publicId: str, image) -> Union[tuple[dict[str, str], Literal[400]], tuple[dict[str, str], Literal[200]]]:
         if not publicId or not image:
             return {
                 "status": "Fail",
