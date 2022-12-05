@@ -72,13 +72,18 @@ class UserServices:
                 "status": "Fail",
                 "message": "Missing paramters"
             }, status.HTTP_400_BAD_REQUEST
+        
         user = self.get_by_publicId(publicId=publicId)
         fileName = secure_filename(image.filename)
-        userImage = UserImage(image=image.read(), name=fileName, nimeType="jpg")
-        db.session.add(UserImage)
-        db.session.commit()
-        user = user.image_id = userImage.id
+        minetype = image.mimetype
+        if not user.image:
+            user.image = UserImage(image=image.read(), name=fileName, nimeType=minetype, publicId=user.publicId)
+        else:
+            user.image.image = image.read()
+            user.image.name=fileName
+            user.image.nimeType=minetype
         self.save(user)
+        
         return {
             "status": "Success",
             "message": "Image uploaded successfully"
