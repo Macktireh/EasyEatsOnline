@@ -15,10 +15,10 @@ from utils import status
 from utils.commandCLI import createsuperuser_cli, test_cli
 
 # models
-from models.user import User, UserImage
+from models.user import User
 
 # Admin
-from admin.user import UserAdminModelView, UserImageAdminModelView
+from admin.user import UserAdminModelView
 
 # routes
 from admin.auth.login import admin_login
@@ -30,7 +30,7 @@ migrate = Migrate(flask_app, db)
 
 # Admin pannel register model
 admin.add_view(UserAdminModelView(User, db.session))
-admin.add_view(UserImageAdminModelView(UserImage, db.session))
+
 # admin.add_menu_item
 admin.add_link(MenuLink(name='API Doc', category='', url="/api"))
 admin.add_link(MenuLink(name='Logout', category='', url="/admin/user/logout"))

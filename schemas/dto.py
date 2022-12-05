@@ -26,7 +26,6 @@ class UserDto:
         'firstName': fields.String(required=True, description='user firstname'),
         'lastName': fields.String(required=True, description='user lastname'),
         'publicId': fields.String(description='user Identifier'),
-        'image': fields.String(description='user Identifier'),
     })
     IUserUpdtae = api.model('users', {
         'firstName': fields.String(required=False, description='user firstname'),
