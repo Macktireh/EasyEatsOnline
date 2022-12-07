@@ -13,7 +13,8 @@ class UserServices:
     def __init__(self) -> None:
         return
     
-    def create(self, data) -> User:
+    @staticmethod
+    def create(data) -> User:
         
         user = User(
                 publicId=str(uuid.uuid4()),
@@ -23,9 +24,10 @@ class UserServices:
                 password=data.get('password'),
                 updatedAt=datetime.datetime.utcnow()
             )
-        return self.save(user)
+        return user.save()
     
-    def create_superuser(self, data) -> User:
+    @staticmethod
+    def create_superuser(data) -> User:
         user = User(
                 publicId=str(uuid.uuid4()),
                 email=data.get('email'),
@@ -37,18 +39,22 @@ class UserServices:
                 isAdmin=True,
                 updatedAt=datetime.datetime.utcnow()
             )
-        return self.save(user)
+        return user.save()
     
-    def get_by_id(self, id: int) -> User:
+    @staticmethod
+    def get_by_id(id: int) -> User:
         return User.query.filter_by(id=id).first()
     
-    def get_by_publicId(self, publicId: str) -> User:
+    @staticmethod
+    def get_by_publicId(publicId: str) -> User:
         return User.query.filter_by(publicId=publicId).first()
     
-    def get_by_email(self, email: str) -> User:
+    @staticmethod
+    def get_by_email(email: str) -> User:
         return User.query.filter_by(email=email).first()
     
-    def get_all_users(self) -> List[User]:
+    @staticmethod
+    def get_all_users() -> List[User]:
         return User.query.all()
     
     def update_user_by_publicId(self, data: dict, publicId: str = None) -> Union[tuple[Dict[str, str], Literal[400]], User]:
@@ -64,9 +70,4 @@ class UserServices:
             user.firstName = firstName
         if lastName: 
             user.lastName = lastName
-        return self.save(user)
-    
-    def save(self, user: User) -> User:
-        db.session.add(user)
-        db.session.commit()
-        return user
+        return user.save()

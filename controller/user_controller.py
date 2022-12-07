@@ -19,7 +19,7 @@ class CurrentUserRoute(Resource):
     def get(self) -> User:
         """Get Current User"""
         identity = get_jwt_identity()
-        return UserServices().get_by_publicId(identity["publicId"])
+        return UserServices.get_by_publicId(identity["publicId"])
 
     @api.doc('update_current_user')
     @api.marshal_list_with(UserDto.IUserUpdtae, envelope='data')
@@ -38,4 +38,4 @@ class CurrentUserRoute(Resource):
     def get(self):
         """List all registered users"""
         identity = get_jwt_identity()
-        return UserServices().get_all_users()
+        return UserServices.get_all_users()

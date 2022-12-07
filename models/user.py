@@ -1,3 +1,4 @@
+import uuid
 from datetime import datetime
 from typing import NoReturn
 
@@ -35,6 +36,11 @@ class User(db.Model, UserMixin):
     
     def get_full_name(self) -> str:
         return f"{self.firstName} {self.lastName}"
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+        return self
     
     def __repr__(self) -> str:
         return "<User '{}'>".format(self.email)

@@ -12,7 +12,7 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         if email and password:
-            user = UserServices().get_by_email(email)
+            user = UserServices.get_by_email(email)
             if not user or not user.check_password(password):
                 flash("Veuillez compléter correctement les champs « email » et « mot de passe » d'un compte administracteur.")
                 return render_template('admin/login.html')
