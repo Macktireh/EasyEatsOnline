@@ -1,5 +1,8 @@
 import re
-# from bson.objectid import ObjectId
+
+
+REGEX_EMAIL_VALIDATION = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+REGEX_PASSWORD_VALIDATION = r"\b^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,20}$\b"
 
 def validate(data, regex):
     """Custom Validator"""
@@ -7,13 +10,11 @@ def validate(data, regex):
 
 def validate_password(password: str):
     """Password Validator"""
-    reg = r"\b^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,20}$\b"
-    return validate(password, reg)
+    return validate(password, REGEX_PASSWORD_VALIDATION)
 
 def validate_email(email: str):
     """Email Validator"""
-    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-    return validate(email, regex)
+    return validate(email, REGEX_EMAIL_VALIDATION)
 
 # def validate_book(**args):
 #     """Book Validator"""
@@ -96,6 +97,6 @@ def validate_email_and_password(email, password):
     #     }
     return True
 
-def validate_password_and_passwordConfirm_match(password: str, passwordConfirm: str):
+def check_password_and_passwordConfirm(password: str, passwordConfirm: str):
     """Validate the match between the password and the passwordConfirm"""
     return password == passwordConfirm

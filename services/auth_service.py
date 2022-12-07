@@ -4,7 +4,7 @@ import jwt
 from flask import current_app as app
 from flask_jwt_extended import create_access_token, create_refresh_token
 
-from config.settings import SECRET_KEY
+from config.settings import GlobalConfig
 from services.user_service import UserServices
 from utils.token import generate_access_token, check_access_token
 from utils import status, validators
@@ -16,9 +16,9 @@ class AuthServices:
 
     def register(self, data: dict):
         """Register a new user and send an email with an account activation link"""
-        user = UserServices().get_by_email(data.get('email'))
+        user = UserServices.get_by_email(data.get('email'))
         if not user:
-            if not validators.validate_password_and_passwordConfirm_match(data.get('password'), data.get('passwordConfirm')):
+            if not validators.check_password_and_passwordConfirm(data.get('password'), data.get('passwordConfirm')):
                 response_object = {
                     'status': 'fail',
                     'message': "Password and Confirm Password doesn't match."
@@ -28,7 +28,7 @@ class AuthServices:
             if is_validated is not True:
                 return dict(status='fail', message='Invalid data', error=is_validated), status.HTTP_400_BAD_REQUEST
             try:
-                new_user = UserServices().create(data)
+                new_user = UserServices.create(data)
             except:
                 return {
                     "message": "Something went wrong!",
@@ -57,7 +57,7 @@ class AuthServices:
             if not user.isActive:
                 user.isActive = True
                 user.updated = datetime.datetime.now()
-                UserServices().save(user)
+                user.save()
                 
                 from utils.mail import send_email
                 subject = "Your account is confirmed successfully"
@@ -76,24 +76,24 @@ class AuthServices:
             'publicId': user.publicId,
             'isAdmin': user.isAdmin,
         }
-        return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        return jwt.encode(payload, GlobalConfig.SECRET_KEY, algorithm='HS256')
 
     def decode_auth_token(self, token):
-        data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-        return UserServices().get_by_publicId(data.sub.publicId)
+        data = jwt.decode(token, GlobalConfig.SECRET_KEY, algorithms=["HS256"])
+        return UserServices.get_by_publicId(data.sub.publicId)
 
     def login(self, email, password):
         """Login a user"""
         is_validated = validators.validate_email_and_password(email, password)
         if is_validated is not True:
             return dict(status="fail", message='Invalid data', error=is_validated), status.HTTP_400_BAD_REQUEST
-        user = UserServices().get_by_email(email)
+        user = UserServices.get_by_email(email)
         if not user or not user.check_password(password):
             res = {
                     'status': 'fail',
                     'message': 'email or password does not match.'
                 }
-            return res, status.HTTP_401_UNAUTHORIZED
+            return res, status.HTTP_403_FORBIDDEN
         if not user.isActive:
             return {"status":'fail', "message":'Please confirm your account!'}, status.HTTP_403_FORBIDDEN
         try:
@@ -102,7 +102,7 @@ class AuthServices:
             return {
                 'status': 'success',
                 "message": "Successfully fetched auth token",
-                "token": {
+                "tokens": {
                     "access": access, "refresh": refresh
                 }
             }
@@ -113,7 +113,7 @@ class AuthServices:
             }, status.HTTP_500_INTERNAL_SERVER_ERROR
 
     def refresh_token(self, identity):
-        user = UserServices().get_by_publicId(identity['publicId'])
+        user = UserServices.get_by_publicId(identity['publicId'])
         if user is not None:
             new_access = create_access_token(identity=identity)
             return {"access": new_access}, status.HTTP_200_OK

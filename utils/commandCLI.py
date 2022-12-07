@@ -13,7 +13,7 @@ def createsuperuser_cli(UserServices):
         if email != "":
             if validators.validate_email(email):
                 
-                if not UserServices().get_by_email(email):
+                if not UserServices.get_by_email(email):
                     emailValid = True
                     firstName = input("First Name : ")
                     lastName = input("Last Name : ")
@@ -31,10 +31,11 @@ def createsuperuser_cli(UserServices):
                             print("Password is required.")
                             
                     data = {"email": email, "firstName": firstName, "lastName": lastName, "password": password}
-                    UserServices().create_superuser(data)
+                    UserServices.create_superuser(data)
                     print("Super user successfully created.")
+                    print()
                 else:
-                    print("User already exists. Please Log in.")
+                    print("A user with this e-mail address already exists.")
             else:
                 print("Email is invalid.")
         else:
