@@ -16,11 +16,11 @@ from utils.commandCLI import createsuperuser_cli, test_cli
 
 # models
 from models.user import User
-# from models.product import Product
+from models.product import Product
 
 # Admin
 from admin.user import UserAdminModelView
-# from admin.product import ProductAdminModelView
+from admin.product import ProductAdminModelView
 
 # routes
 from admin.auth.login import admin_login
@@ -32,7 +32,7 @@ migrate = Migrate(flask_app, db)
 
 # Admin pannel register model
 admin.add_view(UserAdminModelView(User, db.session))
-# admin.add_view(ProductAdminModelView(Product, db.session))
+admin.add_view(ProductAdminModelView(Product, db.session))
 
 # admin.add_menu_item
 admin.add_link(MenuLink(name='API Doc', category='', url="/api"))
