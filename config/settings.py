@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load = load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 
-class Config:
+class GlobalConfig:
     SECRET_KEY = os.environ.get('SECRET_KEY')
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=20)
@@ -33,7 +33,7 @@ class Config:
     SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT', None)
 
 
-class DevelopmentConfig(Config):
+class DevelopmentConfig(GlobalConfig):
     # uncomment the line below to use postgres
     # SQLALCHEMY_DATABASE_URI = postgres_local_base
     DEBUG = True
@@ -41,7 +41,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
-class TestingConfig(Config):
+class TestingConfig(GlobalConfig):
     DEBUG = True
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'db_test.sqlite3')
@@ -49,7 +49,7 @@ class TestingConfig(Config):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
-class ProductionConfig(Config):
+class ProductionConfig(GlobalConfig):
     DEBUG = False
     # uncomment the line below to use postgres
     # SQLALCHEMY_DATABASE_URI = postgres_local_base
@@ -60,5 +60,3 @@ config_by_name = dict(
     test=TestingConfig,
     prod=ProductionConfig
 )
-
-SECRET_KEY = Config.SECRET_KEY

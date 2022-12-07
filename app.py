@@ -1,7 +1,7 @@
 # import werkzeug 
 # werkzeug.cached_property = werkzeug.utils.cached_property
-# import collections
-# collections.MutableMapping = collections.abc.MutableMapping
+import collections
+collections.MutableMapping = collections.abc.MutableMapping
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -17,7 +17,7 @@ from admin import HomeAdminModelView
 db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 
-def create_app(config_name):
+def create_app(config_name: str) -> tuple[Flask, Admin]:
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
     db.init_app(app)
