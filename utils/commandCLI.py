@@ -32,6 +32,7 @@ def createsuperuser_cli(UserServices):
                             
                     data = {"email": email, "firstName": firstName, "lastName": lastName, "password": password}
                     UserServices.create_superuser(data)
+                    print()
                     print("Super user successfully created.")
                     print()
                 else:

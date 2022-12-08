@@ -1,8 +1,8 @@
 from flask_restplus import Api
 from flask import Blueprint
 
-from controller.auth_controller import api as auth_api
-from controller.user_controller import api as user_api
+from .auth_controller import api as auth_api
+from .user_controller import api as user_api
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 

@@ -1,11 +1,12 @@
 import os
 import click
-from typing import Dict, Literal, Union
+
+from typing import Any, Dict, Literal, Union
 from werkzeug.exceptions import NotFound, Forbidden
 
-import flask_login
-from flask import jsonify, render_template
+from flask import render_template
 from flask_migrate import Migrate
+from flask_login import LoginManager
 from flask.cli import with_appcontext
 from flask_admin.menu import MenuLink
 
@@ -17,24 +18,28 @@ from utils.commandCLI import createsuperuser_cli, test_cli
 # models
 from models.user import User
 from models.product import Product
+from models.category import Category
 
 # Admin
-from admin.user import UserAdminModelView
-from admin.product import ProductAdminModelView
+from admin.user import UserAdmin
+from admin.product import ProductAdmin
+from admin.category import CategoryAdmin
 
 # routes
 from admin.auth.login import admin_login
-from controller import blueprint as blueprint_api
+from controllers import blueprint as blueprint_api
+
 
 # create app flask
 flask_app, admin = create_app(os.environ.get('ProductionConfig', 'dev'))
 migrate = Migrate(flask_app, db)
 
-# Admin pannel register model
-admin.add_view(UserAdminModelView(User, db.session))
-admin.add_view(ProductAdminModelView(Product, db.session))
+# save models in the admin panel
+admin.add_view(UserAdmin(User, db.session))
+admin.add_view(ProductAdmin(Product, db.session))
+admin.add_view(CategoryAdmin(Category, db.session))
 
-# admin.add_menu_item
+# add menu items in the admin panel
 admin.add_link(MenuLink(name='API Doc', category='', url="/api"))
 admin.add_link(MenuLink(name='Logout', category='', url="/admin/user/logout"))
 
@@ -42,8 +47,8 @@ admin.add_link(MenuLink(name='Logout', category='', url="/admin/user/logout"))
 flask_app.register_blueprint(blueprint_api)
 flask_app.register_blueprint(admin_login)
 
-# config flask login
-login_manager = flask_login.LoginManager()
+# flask login configuration
+login_manager = LoginManager()
 login_manager.init_app(flask_app)
 login_manager.login_view = 'admin.login'
 
@@ -57,7 +62,7 @@ def request_loader(request) -> None:
     return
 
 @flask_app.route('/')
-def home():
+def home() -> Any:
     return render_template('home/home.html') 
 
 @flask_app.errorhandler(status.HTTP_403_FORBIDDEN)
@@ -88,6 +93,5 @@ def test() -> None:
     """Runs the unit tests."""
     test_cli()
 
-# add command function to cli commands
 flask_app.cli.add_command(createsuperuser)
 flask_app.cli.add_command(test)

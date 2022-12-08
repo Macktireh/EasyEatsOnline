@@ -19,8 +19,8 @@ class User(db.Model, UserMixin):
     isActive = db.Column(db.Boolean, nullable=False, default=False)
     isStaff = db.Column(db.Boolean, nullable=False, default=False)
     isAdmin = db.Column(db.Boolean, nullable=False, default=False)
-    createdAt = db.Column(db.DateTime, nullable=False, default=datetime.now)
-    updatedAt = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    createdAt = db.Column(db.DateTime, nullable=False)
+    updatedAt = db.Column(db.DateTime, nullable=False)
     passwordHash = db.Column(db.Text, nullable=False)
     
     @property

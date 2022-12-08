@@ -1,4 +1,4 @@
-from typing import Literal, Dict, Union
+from typing import List, Literal, Dict, Union
 
 from flask import request
 from flask_restplus import Resource
@@ -35,7 +35,6 @@ class CurrentUserRoute(Resource):
     @api.doc('list_of_registered_users')
     @api.marshal_list_with(UserDto.IUser, envelope='data')
     @jwt_required()
-    def get(self):
+    def get(self) -> Dict[str, List[User]]:
         """List all registered users"""
-        identity = get_jwt_identity()
         return UserServices.get_all_users()
