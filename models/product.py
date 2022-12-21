@@ -26,7 +26,7 @@ class Product(db.Model):
             kwargs['slug'] = slugify(kwargs.get('name', ''))
         super().__init__(*args, **kwargs)
     
-    def save(self):
+    def save(self) -> "Product":
         db.session.add(self)
         db.session.commit()
         return self

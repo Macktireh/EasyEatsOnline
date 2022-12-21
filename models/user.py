@@ -37,7 +37,7 @@ class User(db.Model, UserMixin):
     def get_full_name(self) -> str:
         return f"{self.firstName} {self.lastName}"
     
-    def save(self):
+    def save(self) -> "User":
         db.session.add(self)
         db.session.commit()
         return self

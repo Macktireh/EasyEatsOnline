@@ -1,19 +1,20 @@
 import re
+from typing import Any, Dict, Literal, Union
 
 
 REGEX_EMAIL_VALIDATION = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 REGEX_PASSWORD_VALIDATION = r"\b^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,20}$\b"
 MESSAGE_PASSWORD_INVALID = "Password is invalid, Should be atleast 8 characters with upper and lower case letters, numbers and special characters"
 
-def validate(data, regex):
+def validate(regex: Literal, field: str) -> bool:
     """Custom Validator"""
-    return True if re.match(regex, data) else False
+    return True if re.match(regex, field) else False
 
-def validate_password(password: str):
+def validate_password(password: str) -> bool:
     """Password Validator"""
     return validate(password, REGEX_PASSWORD_VALIDATION)
 
-def validate_email(email: str):
+def validate_email(email: str) -> bool:
     """Email Validator"""
     return validate(email, REGEX_EMAIL_VALIDATION)
 
@@ -47,7 +48,7 @@ def validate_email(email: str):
 #         }
 #     return True
 
-def validate_user(**args):
+def validate_user(**args: Dict[str, Any]) -> Union[Dict[str, str], Literal[True]]:
     """User Validator"""
     if  not args.get('email') or not args.get('password') or not args.get('firstName') or not args.get('lastName'):
         return {
@@ -81,7 +82,7 @@ def validate_user(**args):
     #     }
     return True
 
-def validate_email_and_password(email, password):
+def validate_email_and_password(email: str, password: str) -> Union[Dict[str, str], Literal[True]]:
     """Email and Password Validator"""
     if not (email and password):
         return {
@@ -98,6 +99,6 @@ def validate_email_and_password(email, password):
     #     }
     return True
 
-def check_password_and_passwordConfirm(password: str, passwordConfirm: str):
+def check_password_and_passwordConfirm(password: str, passwordConfirm: str) -> bool:
     """Validate the match between the password and the passwordConfirm"""
     return password == passwordConfirm

@@ -15,7 +15,7 @@ class Category(db.Model):
     product = db.relationship(Product, backref="category", cascade="all, delete, delete-orphan", single_parent=True)
     createdAt = db.Column(db.DateTime, nullable=False)
     
-    def save(self):
+    def save(self) -> "Category":
         db.session.add(self)
         db.session.commit()
         return self
