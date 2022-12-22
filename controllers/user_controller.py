@@ -11,6 +11,7 @@ api = UserDto.api
 
 @api.route('/me')
 class CurrentUserRoute(Resource):
+    
     @api.doc('get_current_user')
     @api.marshal_list_with(UserDto.IUser, envelope='data')
     @jwt_required()
@@ -30,6 +31,7 @@ class CurrentUserRoute(Resource):
 
 @api.route('')
 class CurrentUserRoute(Resource):
+    
     @api.doc('list_of_registered_users')
     @api.marshal_list_with(UserDto.IUser, envelope='data')
     @jwt_required()

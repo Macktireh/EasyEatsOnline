@@ -11,6 +11,7 @@ api = AuthDto.api
 
 @api.route('/signup')
 class SignupRoute(Resource):
+    
     @api.response(status.HTTP_201_CREATED, 'User successfully created.')
     @api.doc('create a new user')
     @api.expect(AuthDto.ISignup, validate=True)
@@ -27,6 +28,7 @@ class SignupRoute(Resource):
 
 @api.route('/account/activation')
 class AccountActivationRoute(Resource):
+    
     @api.response(status.HTTP_200_OK, 'Account Activation successfully.')
     @api.doc('Account Activation')
     @api.expect(AuthDto.IToken, validate=True)
@@ -44,6 +46,7 @@ class AccountActivationRoute(Resource):
 
 @api.route('/login')
 class LoginRoute(Resource):
+    
     @api.response(status.HTTP_200_OK, 'User successfully login.')
     @api.doc('user login')
     @api.expect(AuthDto.ILogin, validate=True)
@@ -62,6 +65,7 @@ class LoginRoute(Resource):
 
 @api.route('/token/refresh')
 class RefreshToken(Resource):
+    
     @api.response(status.HTTP_200_OK, 'Refresh Token JWT')
     @api.doc('Refresh Token JWT')
     @jwt_required(refresh=True)
