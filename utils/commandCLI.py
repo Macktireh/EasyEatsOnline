@@ -1,37 +1,41 @@
+from typing import Dict, Literal, Union
 import unittest
+from unittest import TestResult, TestSuite
 
 from getpass import getpass
+from services.user_service import UserServices
 from utils import validators
 
 
-def createsuperuser_cli(UserServices):
-    emailValid = False
-    passwordValid = False
-    confirmPassword = None
+def createsuperuser_cli(cls: UserServices) -> None:
+    emailValid: bool = False
+    passwordValid: bool = False
+    confirmPassword: Union[str, None] = None
     while not emailValid:
-        email = input("Email : ")
+        email: str = input("Email : ")
         if email != "":
             if validators.validate_email(email):
                 
-                if not UserServices.get_by_email(email):
+                if not cls.get_by_email(email):
                     emailValid = True
-                    firstName = input("First Name : ")
-                    lastName = input("Last Name : ")
+                    firstName: str = input("First Name : ")
+                    lastName: str = input("Last Name : ")
                     while not passwordValid:
-                        password = getpass("Password : ")
+                        password: str = getpass("Password : ")
                         if password != "":
                             passwordValid = True
                             while confirmPassword is None:
-                                pc = getpass("Confirm Password : ")
-                                if pc == password:
-                                    confirmPassword = pc
+                                _confirmPassword: str = getpass("Confirm Password : ")
+                                if _confirmPassword == password:
+                                    confirmPassword = _confirmPassword
                                 else:
                                     print("Password and Confirm Password doesn't match.")
                         else:
                             print("Password is required.")
                             
-                    data = {"email": email, "firstName": firstName, "lastName": lastName, "password": password}
-                    UserServices.create_superuser(data)
+                    data: Dict[str, str] = {"email": email, "firstName": firstName, "lastName": lastName, "password": password}
+                    cls.create_superuser(data)
+                    print()
                     print("Super user successfully created.")
                     print()
                 else:
@@ -42,9 +46,9 @@ def createsuperuser_cli(UserServices):
             print("Email is required.")
 
 
-def test_cli():
-    tests = unittest.TestLoader().discover('test', pattern='test*.py')
-    result = unittest.TextTestRunner(verbosity=2).run(tests)
+def test_cli() -> Literal[0, 1]:
+    tests: TestSuite = unittest.TestLoader().discover('test', pattern='test*.py')
+    result: TestResult = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0
     return 1

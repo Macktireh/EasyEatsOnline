@@ -1,10 +1,7 @@
-import uuid
-import datetime
-
+from datetime import datetime
 from typing import List, Literal, Dict, Union
-from werkzeug.utils import secure_filename
+from uuid import uuid4
 
-from app import db
 from models.user import User
 from utils import status
 
@@ -17,19 +14,20 @@ class UserServices:
     def create(data) -> User:
         
         user = User(
-                publicId=str(uuid.uuid4()),
+                publicId=str(uuid4()),
                 email=data.get('email'),
                 firstName=data.get('firstName'),
                 lastName=data.get('lastName'),
                 password=data.get('password'),
-                updatedAt=datetime.datetime.utcnow()
+                updatedAt=datetime.now(),
+                createdAt=datetime.now()
             )
         return user.save()
     
     @staticmethod
     def create_superuser(data) -> User:
         user = User(
-                publicId=str(uuid.uuid4()),
+                publicId=str(uuid4()),
                 email=data.get('email'),
                 firstName=data.get('firstName'),
                 lastName=data.get('lastName'),
@@ -37,7 +35,8 @@ class UserServices:
                 isActive=True,
                 isStaff=True,
                 isAdmin=True,
-                updatedAt=datetime.datetime.utcnow()
+                updatedAt=datetime.now(),
+                createdAt=datetime.now()
             )
         return user.save()
     

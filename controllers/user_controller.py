@@ -1,10 +1,7 @@
-from typing import Literal, Dict, Union
-
 from flask import request
 from flask_restplus import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from models.user import User
 from schemas.dto import UserDto
 from services.user_service import UserServices
 
@@ -16,7 +13,7 @@ class CurrentUserRoute(Resource):
     @api.doc('get_current_user')
     @api.marshal_list_with(UserDto.IUser, envelope='data')
     @jwt_required()
-    def get(self) -> User:
+    def get(self):
         """Get Current User"""
         identity = get_jwt_identity()
         return UserServices.get_by_publicId(identity["publicId"])
@@ -24,7 +21,7 @@ class CurrentUserRoute(Resource):
     @api.doc('update_current_user')
     @api.marshal_list_with(UserDto.IUserUpdtae, envelope='data')
     @jwt_required()
-    def patch(self) -> Union[tuple[Dict[str, str], Literal[400]], User]:
+    def patch(self):
         """Update Current User"""
         identity = get_jwt_identity()
         return UserServices().update_user_by_publicId(publicId=identity["publicId"], data=request.json)
@@ -37,5 +34,4 @@ class CurrentUserRoute(Resource):
     @jwt_required()
     def get(self):
         """List all registered users"""
-        identity = get_jwt_identity()
         return UserServices.get_all_users()
