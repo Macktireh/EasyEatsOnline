@@ -16,9 +16,8 @@ class SignupRoute(Resource):
     @api.expect(AuthDto.ISignup, validate=True)
     def post(self):
         """Creates a new User """
-        data = request.json
         try:
-            return AuthServices().register(data=data)
+            return AuthServices.register(request.json)
         except Exception as e:
             return {
                     "message": "Something went wrong!",
@@ -34,7 +33,7 @@ class AccountActivationRoute(Resource):
     def post(self):
         """Account Activation """
         try:
-            return AuthServices().account_activate(request.json.get('token'))
+            return AuthServices.activation(request.json.get('token'))
         except Exception as e:
             return {
                     "message": "Something went wrong!",
@@ -52,7 +51,7 @@ class LoginRoute(Resource):
         """user login """
         try:
             data: dict = request.json
-            return AuthServices().login(data.get('email'), data.get('password'))
+            return AuthServices.login(data.get('email'), data.get('password'))
         except Exception as e:
             return {
                     "message": "Something went wrong!",
@@ -69,4 +68,4 @@ class RefreshToken(Resource):
     def post(self):
         """Refresh JWT Token """
         identity = get_jwt_identity()
-        return AuthServices().refresh_token(identity)
+        return AuthServices.refreshToken(identity)

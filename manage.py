@@ -31,7 +31,7 @@ from controllers import blueprint as blueprint_api
 
 
 # create app flask
-flask_app, admin = create_app(os.environ.get('ProductionConfig', 'dev'))
+flask_app, admin = create_app(os.environ.get('ENVIRONMENT', 'development'))
 migrate = Migrate(flask_app, db)
 
 # save models in the admin panel
@@ -55,7 +55,7 @@ login_manager.login_view = 'admin.login'
 
 @login_manager.user_loader
 def user_loader(id: Union[str, int]) -> User:
-    return UserServices.get_by_id(int(id))
+    return User.getById(int(id))
 
 @login_manager.request_loader
 def request_loader(request) -> None:
@@ -85,7 +85,7 @@ def forbidden(e: NotFound) -> tuple[Dict[str, str], Literal[404]]:
 @with_appcontext
 def createsuperuser() -> None:
     """Create a super user"""
-    createsuperuser_cli(UserServices)
+    createsuperuser_cli()
 
 @click.command(name='test')
 @with_appcontext

@@ -18,7 +18,7 @@ def send_async_email(app: Flask, msg: Message) -> None:
         except ConnectionRefusedError:
             raise ValueError("[MAIL SERVER] not working")
 
-def send_email(user: User, subject: str, template: Any, domain: Union[str, None] = None, token: Union[str, None] = None) -> None:
+def send_email(user: User, subject: str, template: str, domain: Union[str, None] = None, token: Union[str, None] = None) -> None:
     msg = Message(
         subject,
         recipients=[user.email],

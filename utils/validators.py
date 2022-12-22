@@ -12,11 +12,11 @@ def validate(regex: Literal, field: str) -> bool:
 
 def validate_password(password: str) -> bool:
     """Password Validator"""
-    return validate(password, REGEX_PASSWORD_VALIDATION)
+    return validate(REGEX_PASSWORD_VALIDATION, password)
 
 def validate_email(email: str) -> bool:
     """Email Validator"""
-    return validate(email, REGEX_EMAIL_VALIDATION)
+    return validate(REGEX_EMAIL_VALIDATION, email)
 
 # def validate_book(**args):
 #     """Book Validator"""

@@ -6,7 +6,6 @@ from flask_admin.helpers import get_form_data
 from flask_login import current_user
 
 from models.category import Category
-from services.category_service import CategoryServices
 
 
 class CategoryAdmin(ModelView):
@@ -31,7 +30,7 @@ class CategoryAdmin(ModelView):
     
     def create_model(self, form) -> Category:
         try:
-            form_data = get_form_data()
-            return CategoryServices.create(form_data.get('name'))
+            name = get_form_data().get('name')
+            return Category.create(name=name)
         except:
             raise NotImplementedError()
