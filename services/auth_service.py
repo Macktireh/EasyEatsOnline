@@ -1,24 +1,24 @@
-import datetime
-from typing import Any, Dict, Literal, Union
 import jwt
+
+from typing import Any, Dict, Union
+from datetime import datetime
 
 from flask import current_app as app
 from flask_jwt_extended import create_access_token, create_refresh_token
 
 from config.settings import GlobalConfig
 from models.user import User
-from services.user_service import UserServices
-from utils.token import generate_access_token, check_access_token
 from utils import status, validators
 
 
 class AuthServices:
     def __init__(self) -> None:
         return
-
-    def register(self, data: dict[str, str]):
+    
+    @staticmethod
+    def register(data: dict[str, str]):
         """Register a new user and send an email with an account activation link"""
-        user = UserServices.get_by_email(data.get('email'))
+        user = User.getByEmail(data.get('email'))
         if not user:
             if not validators.check_password_and_passwordConfirm(data.get('password'), data.get('passwordConfirm')):
                 response_object = {
@@ -30,14 +30,15 @@ class AuthServices:
             if is_validated is not True:
                 return dict(status='fail', message='Invalid data', error=is_validated), status.HTTP_400_BAD_REQUEST
             try:
-                new_user = UserServices.create(data)
+                data.pop('passwordConfirm', None)
+                new_user = User.create(**data)
             except:
                 return {
                     "message": "Something went wrong!",
                 }, status.HTTP_500_INTERNAL_SERVER_ERROR
             
             from utils.mail import send_email
-            token = generate_access_token(new_user)
+            token = new_user.generateAccessToken()
             subject = "Please confirm your email"
             send_email(new_user, subject, template='mail/activate.html', domain=app.config["DOMAIN_FRONTEND"], token=token)
             
@@ -52,13 +53,14 @@ class AuthServices:
                 'message': "User already exists. Please Log in.",
             }
             return response_object, status.HTTP_409_CONFLICT
-
-    def account_activate(self, token: str):
-        user = check_access_token(token)
+    
+    @staticmethod
+    def activation(token: str):
+        user = User.checkAccessToken(token)
         if user is not None:
             if not user.isActive:
                 user.isActive = True
-                user.updated = datetime.datetime.now()
+                user.updated = datetime.now()
                 user.save()
                 
                 from utils.mail import send_email
@@ -70,8 +72,9 @@ class AuthServices:
                 return {"status":'success', "message":'Account already confirmed. Please login.'}, status.HTTP_200_OK
         else:
             return {"status":'fail', "message":'The confirmation link is invalid or has expired.'}, status.HTTP_400_BAD_REQUEST
-
-    def encode_auth_token(self, user: User) -> str:
+    
+    @staticmethod
+    def encode_auth_token(user: User) -> str:
         payload = {
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1),
             'iat': datetime.datetime.utcnow(),
@@ -79,18 +82,19 @@ class AuthServices:
             'isAdmin': user.isAdmin,
         }
         return jwt.encode(payload, GlobalConfig.SECRET_KEY, algorithm='HS256')
-
-    def decode_auth_token(self, token: str) -> User:
+    
+    @staticmethod
+    def decode_auth_token(token: str) -> User:
         data = jwt.decode(token, GlobalConfig.SECRET_KEY, algorithms=["HS256"])
-        return UserServices.get_by_publicId(data.sub.publicId)
-
-    def login(self, email: str, password: str):
-        """Login a user"""
+        return User.getByPublicId(data.sub.publicId)
+    
+    @staticmethod
+    def login(email: str, password: str):
         is_validated = validators.validate_email_and_password(email, password)
         if is_validated is not True:
             return dict(status="fail", message='Invalid data', error=is_validated), status.HTTP_400_BAD_REQUEST
-        user = UserServices.get_by_email(email)
-        if not user or not user.check_password(password):
+        user = User.authenticate(email, password)
+        if not user:
             res = {
                     'status': 'fail',
                     'message': 'email or password does not match.'
@@ -113,9 +117,10 @@ class AuthServices:
                 "error": "Something went wrong",
                 "message": str(e)
             }, status.HTTP_500_INTERNAL_SERVER_ERROR
-
-    def refresh_token(self, identity: Any):
-        user = UserServices.get_by_publicId(identity['publicId'])
+    
+    @staticmethod
+    def refreshToken(identity: Any):
+        user = User.getByPublicId(identity['publicId'])
         if user is not None:
             new_access = create_access_token(identity=identity)
             return {"access": new_access}, status.HTTP_200_OK

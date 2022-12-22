@@ -7,7 +7,6 @@ from flask_admin.helpers import get_form_data
 from flask_login import current_user
 
 from models.product import Product
-from services.product_service import ProductServices
 
 
 class ProductAdmin(ModelView):
@@ -41,19 +40,19 @@ class ProductAdmin(ModelView):
     
     def create_model(self, form) -> Product:
         try:
-            form_data: Union[List[str], Any, None] = get_form_data()
+            form_data = get_form_data()
             try:
                 categoryId = int(form_data.get('category'))
             except ValueError:
                 categoryId = None
             data = {
                 "name": form_data.get('name'),
-                "price": float(form_data.get('price')),
                 "categoryId": categoryId,
+                "price": float(form_data.get('price')),
                 "urlImage": form_data.get('urlImage'),
                 "description": form_data.get('description'),
                 "available": True if form_data.get('available') else False,
             }
-            return ProductServices.create(data)
+            return Product.create(**data)
         except:
             raise NotImplementedError()

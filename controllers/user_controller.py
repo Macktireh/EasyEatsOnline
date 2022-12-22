@@ -2,6 +2,7 @@ from flask import request
 from flask_restplus import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
+from models.user import User
 from schemas.dto import UserDto
 from services.user_service import UserServices
 
@@ -16,15 +17,15 @@ class CurrentUserRoute(Resource):
     def get(self):
         """Get Current User"""
         identity = get_jwt_identity()
-        return UserServices.get_by_publicId(identity["publicId"])
+        return User.getByPublicId(identity["publicId"])
 
     @api.doc('update_current_user')
-    @api.marshal_list_with(UserDto.IUserUpdtae, envelope='data')
+    @api.marshal_list_with(UserDto.IUserUpdate, envelope='data')
     @jwt_required()
     def patch(self):
         """Update Current User"""
         identity = get_jwt_identity()
-        return UserServices().update_user_by_publicId(publicId=identity["publicId"], data=request.json)
+        return UserServices.updateUser(publicId=identity["publicId"], data=request.json)
 
 
 @api.route('')
@@ -34,4 +35,4 @@ class CurrentUserRoute(Resource):
     @jwt_required()
     def get(self):
         """List all registered users"""
-        return UserServices.get_all_users()
+        return User.getAll()

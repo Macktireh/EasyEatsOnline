@@ -1,8 +1,9 @@
-from datetime import timedelta
 from typing import Union
-from flask_jwt_extended import create_access_token, decode_token
+from datetime import timedelta
 from itsdangerous import TimedJSONWebSignatureSerializer
+
 from flask import current_app as app
+from flask_jwt_extended import create_access_token, decode_token
 
 from models.user import User
 

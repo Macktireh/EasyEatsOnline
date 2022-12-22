@@ -8,7 +8,6 @@ from flask_login import current_user
 from flask_admin.helpers import get_form_data
 
 from models.user import User
-from services.user_service import UserServices
 from utils.validators import MESSAGE_PASSWORD_INVALID, REGEX_PASSWORD_VALIDATION
 
 
@@ -57,6 +56,6 @@ class UserAdmin(ModelView):
                 "lastName": form_data.get('lastName'),
                 "password": form_data.get('password'),
             }  
-            return UserServices.create(data)
+            return User.create(**data)
         except:
             raise NotImplementedError()

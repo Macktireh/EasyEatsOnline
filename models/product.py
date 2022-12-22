@@ -1,3 +1,4 @@
+from typing import List
 import uuid
 from datetime import datetime
 from slugify import slugify
@@ -21,7 +22,7 @@ class Product(db.Model):
     createdAt = db.Column(db.DateTime, nullable=False)
     updatedAt = db.Column(db.DateTime, nullable=False)
     
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         if not 'slug' in kwargs:
             kwargs['slug'] = slugify(kwargs.get('name', ''))
         super().__init__(*args, **kwargs)
@@ -30,6 +31,42 @@ class Product(db.Model):
         db.session.add(self)
         db.session.commit()
         return self
+    
+    @classmethod
+    def create(cls, name: str, categoryId: int, price: float, urlImage: str, description: str, available: bool) -> "Product":
+        product = cls(
+            publicId=str(uuid.uuid4()),
+            name=name,
+            categoryId=categoryId,
+            price=price,
+            urlImage=urlImage,
+            description=description,
+            available=available,
+            createdAt=datetime.now(),
+            updatedAt=datetime.now()
+        )
+        return product.save()
+    
+    def delete(self) -> "Product":
+        db.session.delete(self)
+        db.session.commit()
+        return self
+    
+    @classmethod
+    def getById(cls, id: int) -> "Product":
+        return cls.query.filter_by(id=id).first()
+    
+    @classmethod
+    def getByPublicId(cls, publicId: str) -> "Product":
+        return cls.query.filter_by(publicId=publicId).first()
+    
+    @classmethod
+    def getAll(cls) -> "Product":
+        return cls.query.all()
+    
+    @classmethod
+    def getAllByName(cls, name: str) -> List["Product"]:
+        return cls.query.filter_by(name=name).all()
     
     def __repr__(self) -> str:
         return "<Product '{}'>".format(self.name)
