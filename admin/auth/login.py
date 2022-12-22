@@ -3,7 +3,7 @@ from typing import Any, Union
 from flask import Blueprint, render_template, url_for, redirect, flash, request, Response
 from flask_login import login_user, logout_user
 
-from services.user_service import UserServices
+from models.user import User
 
 
 admin_login = Blueprint('admin_login', __name__)
@@ -14,8 +14,8 @@ def login() -> Union[Response, Any]:
         email = request.form.get('email')
         password = request.form.get('password')
         if email and password:
-            user = UserServices.get_by_email(email)
-            if not user or not user.check_password(password):
+            user = User.authenticate(email, password)
+            if not user:
                 flash("Veuillez compléter correctement les champs « email » et « mot de passe » d'un compte administracteur.")
                 return render_template('admin/login.html')
             if not user.isActive or not user.isStaff or not user.isAdmin:

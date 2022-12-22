@@ -30,7 +30,7 @@ class UserDto:
         'firstName': fields.String(required=True, description='user firstname'),
         'lastName': fields.String(required=True, description='user lastname'),
     })
-    IUserUpdtae = api.model('users', {
+    IUserUpdate = api.model('UserUpdate', {
         'firstName': fields.String(required=False, description='user firstname'),
         'lastName': fields.String(required=False, description='user lastname'),
     })

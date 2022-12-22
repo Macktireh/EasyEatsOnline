@@ -1,13 +1,14 @@
-from typing import Dict, Literal, Union
 import unittest
-from unittest import TestResult, TestSuite
 
+from typing import Dict, Literal, Union
+from unittest import TestResult, TestSuite
 from getpass import getpass
-from services.user_service import UserServices
+
+from models.user import User
 from utils import validators
 
 
-def createsuperuser_cli(cls: UserServices) -> None:
+def createsuperuser_cli() -> None:
     emailValid: bool = False
     passwordValid: bool = False
     confirmPassword: Union[str, None] = None
@@ -15,8 +16,7 @@ def createsuperuser_cli(cls: UserServices) -> None:
         email: str = input("Email : ")
         if email != "":
             if validators.validate_email(email):
-                
-                if not cls.get_by_email(email):
+                if not User.getByEmail(email):
                     emailValid = True
                     firstName: str = input("First Name : ")
                     lastName: str = input("Last Name : ")
@@ -34,7 +34,7 @@ def createsuperuser_cli(cls: UserServices) -> None:
                             print("Password is required.")
                             
                     data: Dict[str, str] = {"email": email, "firstName": firstName, "lastName": lastName, "password": password}
-                    cls.create_superuser(data)
+                    User.createSuperUser(**data)
                     print()
                     print("Super user successfully created.")
                     print()

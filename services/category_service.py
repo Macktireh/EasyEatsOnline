@@ -12,13 +12,7 @@ class CategoryServices:
     
     @staticmethod
     def create(name) -> Category:
-        
-        category = Category(
-                publicId=str(uuid4()),
-                name=name,
-                createdAt=datetime.now(),
-            )
-        return category.save()
+        return Category.create(name)
     
     @staticmethod
     def get_by_id(id: int) -> Category:
