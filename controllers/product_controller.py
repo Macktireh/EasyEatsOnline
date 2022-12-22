@@ -12,6 +12,7 @@ api = ProductDto.api
 
 @api.route('')
 class ListOrCreateProduct(Resource):
+    
     @api.doc('list_products')
     @api.marshal_list_with(ProductDto.IProduct, envelope='data')
     @jwt_required()
@@ -30,6 +31,7 @@ class ListOrCreateProduct(Resource):
 
 @api.route('/<string:publicId>')
 class UpdateOrDeleteProduct(Resource):
+    
     @api.doc('list_products')
     @api.marshal_list_with(ProductDto.IProduct, envelope='data')
     @jwt_required()

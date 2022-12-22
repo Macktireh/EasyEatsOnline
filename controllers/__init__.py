@@ -5,6 +5,7 @@ from .auth_controller import api as auth_api
 from .user_controller import api as user_api
 from .product_controller import api as product_api
 
+
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 api = Api(blueprint,
