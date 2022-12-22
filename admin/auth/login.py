@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template, url_for, redirect, flash, request
+from typing import Any, Union
+
+from flask import Blueprint, render_template, url_for, redirect, flash, request, Response
 from flask_login import login_user, logout_user
 
 from services.user_service import UserServices
@@ -7,7 +9,7 @@ from services.user_service import UserServices
 admin_login = Blueprint('admin_login', __name__)
 
 @admin_login.route('/admin/user/login', methods=['GET', 'POST'])
-def login():
+def login() -> Union[Response, Any]:
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -24,6 +26,6 @@ def login():
     return render_template('admin/login.html')
 
 @admin_login.route('/admin/user/logout')
-def logout():
+def logout()-> Response:
     logout_user()
     return redirect(url_for('home'))

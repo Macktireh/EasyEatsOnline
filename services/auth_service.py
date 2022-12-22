@@ -1,20 +1,22 @@
 import datetime
+from typing import Any, Dict, Literal, Union
 import jwt
 
 from flask import current_app as app
 from flask_jwt_extended import create_access_token, create_refresh_token
 
 from config.settings import GlobalConfig
+from models.user import User
 from services.user_service import UserServices
 from utils.token import generate_access_token, check_access_token
 from utils import status, validators
 
 
 class AuthServices:
-    def __init__(self):
+    def __init__(self) -> None:
         return
 
-    def register(self, data: dict):
+    def register(self, data: dict[str, str]):
         """Register a new user and send an email with an account activation link"""
         user = UserServices.get_by_email(data.get('email'))
         if not user:
@@ -51,7 +53,7 @@ class AuthServices:
             }
             return response_object, status.HTTP_409_CONFLICT
 
-    def account_activate(self, token):
+    def account_activate(self, token: str):
         user = check_access_token(token)
         if user is not None:
             if not user.isActive:
@@ -69,7 +71,7 @@ class AuthServices:
         else:
             return {"status":'fail', "message":'The confirmation link is invalid or has expired.'}, status.HTTP_400_BAD_REQUEST
 
-    def encode_auth_token(self, user):
+    def encode_auth_token(self, user: User) -> str:
         payload = {
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1),
             'iat': datetime.datetime.utcnow(),
@@ -78,11 +80,11 @@ class AuthServices:
         }
         return jwt.encode(payload, GlobalConfig.SECRET_KEY, algorithm='HS256')
 
-    def decode_auth_token(self, token):
+    def decode_auth_token(self, token: str) -> User:
         data = jwt.decode(token, GlobalConfig.SECRET_KEY, algorithms=["HS256"])
         return UserServices.get_by_publicId(data.sub.publicId)
 
-    def login(self, email, password):
+    def login(self, email: str, password: str):
         """Login a user"""
         is_validated = validators.validate_email_and_password(email, password)
         if is_validated is not True:
@@ -112,7 +114,7 @@ class AuthServices:
                 "message": str(e)
             }, status.HTTP_500_INTERNAL_SERVER_ERROR
 
-    def refresh_token(self, identity):
+    def refresh_token(self, identity: Any):
         user = UserServices.get_by_publicId(identity['publicId'])
         if user is not None:
             new_access = create_access_token(identity=identity)

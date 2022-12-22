@@ -1,4 +1,5 @@
 from datetime import timedelta
+from typing import Union
 from flask_jwt_extended import create_access_token, decode_token
 from itsdangerous import TimedJSONWebSignatureSerializer
 from flask import current_app as app
@@ -6,7 +7,7 @@ from flask import current_app as app
 from models.user import User
 
 
-def generate_access_token(user):
+def generate_access_token(user: User) -> str:
     s = TimedJSONWebSignatureSerializer(app.config.get('SECRET_KEY'), 60*60*24)
     return s.dumps({'publicId': user.publicId, 'isActive': user.isActive}).decode('utf-8')
     # return create_access_token(
@@ -14,7 +15,7 @@ def generate_access_token(user):
     #     expires_delta=timedelta(hours=24)
     # )
 
-def check_access_token(token):
+def check_access_token(token: str) -> Union[User, None]:
     try:
         s = TimedJSONWebSignatureSerializer(app.config.get('SECRET_KEY'), timedelta(hours=24))
         
