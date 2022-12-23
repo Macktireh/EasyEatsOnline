@@ -1,9 +1,8 @@
 from datetime import datetime
 from typing import List, Literal, Dict, Union
-from uuid import uuid4
-from slugify import slugify
 
 from models.product import Product
+from interface.product import ProductType
 from utils import status
 
 
@@ -12,51 +11,78 @@ class ProductServices:
         return
     
     @staticmethod
-    def create(data) -> Product:
-        
-        product = Product(
-                publicId=str(uuid4()),
-                name=data.get('name'),
-                slug=slugify(data.get('name')),
-                price=float(data.get('price')),
-                categoryId=data.get('categoryId'),
-                urlImage=data.get('urlImage'),
-                description=data.get('description'),
-                available=True if data.get('available') else False,
-                createdAt=datetime.now(),
-                updatedAt=datetime.now(),
-            )
-        return product.save()
+    def getAllProducts() -> List[Product]:
+        return Product.getAll()
     
     @staticmethod
-    def get_by_id(id: int) -> Product:
-        return Product.query.filter_by(id=id).first()
-    
-    @staticmethod
-    def get_by_publicId(publicId: str) -> Product:
-        return Product.query.filter_by(publicId=publicId).first()
-    
-    @staticmethod
-    def get_all_products() -> List[Product]:
-        return Product.query.all()
-    
-    def update_product_by_publicId(self, data: dict, publicId: str = None) -> Union[tuple[Dict[str, str], Literal[400]], Product]:
-        if not publicId or data is None:
+    def addProduct(data: ProductType) -> Product:
+        if not data.get("price") > 0:
             return {
                 "status": "Fail",
-                "message": "Missing paramters"
+                "message": "Price must be greater than 0"
             }, status.HTTP_400_BAD_REQUEST
-        product = self.get_by_publicId(publicId=publicId)
-        name = data.get("name", None)
-        urlImage = data.get("urlImage", None)
-        description = data.get("description", None)
-        available = data.get("available", None)
-        if name:
-            product.name = name
-        if urlImage:
-            product.urlImage = urlImage
-        if description:
-            product.description = description
-        if available is True or available is False:
-            product.available = available
+        return Product.create(**data)
+    
+    @staticmethod
+    def getProductByPublicId(publicId: str) -> Product:
+        if not publicId:
+            return {
+                "status": "Fail",
+                "message": "Public ID cannot be empty"
+            }, status.HTTP_400_BAD_REQUEST
+        
+        product = Product.getByPublicId(publicId)
+        if not product:
+            return {
+                "status": "Fail",
+                "message": "Product not found"
+            }, status.HTTP_404_NOT_FOUND
+        return product
+    
+    @staticmethod
+    def updateProduct(publicId: str, data: ProductType) -> Product:
+        if not publicId:
+            return {
+                "status": "Fail",
+                "message": "Public ID cannot be empty"
+            }, status.HTTP_400_BAD_REQUEST
+        
+        product = Product.getByPublicId(publicId)
+        if not product:
+            return {
+                "status": "Fail",
+                "message": "Product not found"
+            }, status.HTTP_404_NOT_FOUND
+        
+        if data.get('name'):
+            product.name = data.get('name')
+        if data.get('description'):
+            product.description = data.get('description')
+        if data.get('price'):
+            product.price = data.get('price')
+        if data.get('categoryId'):
+            product.categoryId = data.get('categoryId')
+        if data.get('image'):
+            product.image = data.get('image')
+        if data.get('updatedAt'):
+            product.updatedAt = datetime.now()
+        
         return product.save()
+    
+    @staticmethod
+    def deleteProduct(publicId: str):
+        if not publicId:
+            return {
+                "status": "Fail",
+                "message": "Public ID cannot be empty"
+            }, status.HTTP_400_BAD_REQUEST
+        
+        product = Product.getByPublicId(publicId)
+        if not product:
+            return {
+                "status": "Fail",
+                "message": "Product not found"
+            }, status.HTTP_404_NOT_FOUND
+        
+        product.delete()
+        return None, status.HTTP_204_NO_CONTENT
