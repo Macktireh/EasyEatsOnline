@@ -7,4 +7,4 @@ class ProductType(TypedDict):
     price: float
     description: Optional[str]
     image: Optional[str]
-    available: Optional[bool]
+    available: bool
