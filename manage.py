@@ -40,7 +40,7 @@ admin.add_view(ProductAdmin(Product, db.session))
 admin.add_view(CategoryAdmin(Category, db.session))
 
 # add menu items in the admin panel
-admin.add_link(MenuLink(name='API Doc', category='', url="/api"))
+admin.add_link(MenuLink(name='API Docs', category='', url="/api"))
 admin.add_link(MenuLink(name='Logout', category='', url="/admin/user/logout"))
 
 # register api routes

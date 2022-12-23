@@ -49,7 +49,7 @@ def upgrade():
     sa.Column('slug', sa.String(length=128), nullable=True),
     sa.Column('categoryId', sa.Integer(), nullable=True),
     sa.Column('price', sa.Float(), nullable=False),
-    sa.Column('urlImage', sa.String(length=128), nullable=True),
+    sa.Column('image', sa.String(length=128), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('available', sa.Boolean(), nullable=False),
     sa.Column('createdAt', sa.DateTime(), nullable=False),
