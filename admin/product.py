@@ -11,11 +11,11 @@ from models.product import Product
 
 class ProductAdmin(ModelView):
     
-    column_list: List[str] = ['publicId', 'name', 'slug', 'price', 'category.name', 'urlImage', 'description', 'available', 'createdAt', 'updatedAt']
+    column_list: List[str] = ['publicId', 'name', 'slug', 'price', 'category.name', 'image', 'description', 'available', 'createdAt', 'updatedAt']
     column_searchable_list: List[str] = ['name', 'description']
     column_filters: List[str] = ['available']
     column_sortable_list: List[str] = ['createdAt', 'updatedAt']
-    column_editable_list: List[str] = ['name', 'price', 'urlImage', 'description', 'available']
+    column_editable_list: List[str] = ['name', 'price', 'image', 'description', 'available']
     
     form_excluded_columns = ['publicId', 'slug', 'createdAt', 'updatedAt']
     
@@ -49,7 +49,7 @@ class ProductAdmin(ModelView):
                 "name": form_data.get('name'),
                 "categoryId": categoryId,
                 "price": float(form_data.get('price')),
-                "urlImage": form_data.get('urlImage'),
+                "image": form_data.get('image'),
                 "description": form_data.get('description'),
                 "available": True if form_data.get('available') else False,
             }

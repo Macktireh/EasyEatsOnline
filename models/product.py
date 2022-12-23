@@ -1,5 +1,5 @@
-from typing import List
-import uuid
+from typing import List, Optional
+from uuid import uuid4
 from datetime import datetime
 from slugify import slugify
 
@@ -16,7 +16,7 @@ class Product(db.Model):
     slug = db.Column(db.String(128), nullable=True)
     categoryId = db.Column(db.Integer, db.ForeignKey("category.id"))
     price = db.Column(db.Float, nullable=False)
-    urlImage = db.Column(db.String(128), nullable=True)
+    image = db.Column(db.String(128), nullable=True)
     description = db.Column(db.Text, nullable=True)
     available = db.Column(db.Boolean, nullable=False, default=True)
     createdAt = db.Column(db.DateTime, nullable=False)
@@ -33,13 +33,13 @@ class Product(db.Model):
         return self
     
     @classmethod
-    def create(cls, name: str, categoryId: int, price: float, urlImage: str, description: str, available: bool) -> "Product":
+    def create(cls, name: str, price: float, categoryId: Optional[int] = None, image: Optional[str] = None, description: Optional[str] = None, available: Optional[bool] = True) -> "Product":
         product = cls(
-            publicId=str(uuid.uuid4()),
+            publicId=str(uuid4()),
             name=name,
             categoryId=categoryId,
             price=price,
-            urlImage=urlImage,
+            image=image,
             description=description,
             available=available,
             createdAt=datetime.now(),
@@ -61,7 +61,7 @@ class Product(db.Model):
         return cls.query.filter_by(publicId=publicId).first()
     
     @classmethod
-    def getAll(cls) -> "Product":
+    def getAll(cls) -> List["Product"]:
         return cls.query.all()
     
     @classmethod
