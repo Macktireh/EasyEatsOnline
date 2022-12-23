@@ -69,6 +69,7 @@ class ProductServices:
         
         return product.save()
     
+    
     @staticmethod
     def deleteProduct(publicId: str):
         if not publicId:
