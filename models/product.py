@@ -68,5 +68,18 @@ class Product(db.Model):
     def getAllByName(cls, name: str) -> List["Product"]:
         return cls.query.filter_by(name=name).all()
     
+    def toDict(self) -> dict:
+        return {
+            "publicId": self.publicId,
+            "name": self.name,
+            "price": self.price,
+            "category": self.category.name,
+            "image": self.image,
+            "description": self.description,
+            "available": self.available,
+            "createdAt": self.createdAt.strftime("%Y-%m-%d %H:%M:%S"),
+            "updatedAt": self.updatedAt.strftime("%Y-%m-%d %H:%M:%S")
+        }
+    
     def __repr__(self) -> str:
         return "<Product '{}'>".format(self.name)
