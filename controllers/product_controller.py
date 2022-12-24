@@ -1,5 +1,3 @@
-from typing import List
-
 from flask import request
 from flask_restplus import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -32,14 +30,13 @@ class ListCreateProduct(Resource):
     
     @api.response(status.HTTP_201_CREATED, 'Products successfully added.')
     @api.doc('add_product')
-    @api.marshal_with(ProductDto.IProduct)
     @api.expect(ProductDto.IProduct, validate=True)
     @jwt_required()
     def post(self):
         """Add a new product"""
         try:
             data: ProductType = request.json
-            return ProductServices.addProduct(data), status.HTTP_200_OK
+            return ProductServices.addProduct(data)
         except Exception as e:
             return {
                     "message": "Something went wrong!",
@@ -52,7 +49,7 @@ class RetrieveUpdateDeleteProduct(Resource):
     
     @api.response(status.HTTP_200_OK, 'product successfully retrieve.')
     @api.doc('retrieve_product')
-    @api.marshal_with(ProductDto.IProduct)
+    # @api.marshal_with(ProductDto.IProduct)
     @jwt_required()
     def get(self, publicId: str):
         """Retrieve a product"""
@@ -66,7 +63,7 @@ class RetrieveUpdateDeleteProduct(Resource):
     
     @api.response(status.HTTP_200_OK, 'product successfully updated.')
     @api.doc('update_product')
-    @api.marshal_with(ProductDto.IProduct)
+    # @api.marshal_with(ProductDto.IProduct)
     @api.expect(ProductDto.IProductUpdate, validate=True)
     @jwt_required()
     def patch(self, publicId: str):
@@ -82,7 +79,7 @@ class RetrieveUpdateDeleteProduct(Resource):
     
     @api.response(status.HTTP_204_NO_CONTENT, 'product successfully deleted.')
     @api.doc('dalete_product')
-    @api.marshal_with(ProductDto.IProduct)
+    # @api.marshal_with(ProductDto.IProduct)
     @api.expect(ProductDto.IProductUpdate, validate=True)
     @jwt_required()
     def delete(self, publicId: str):

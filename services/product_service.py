@@ -1,5 +1,6 @@
 from datetime import datetime
-from typing import List, Literal, Dict, Union
+from typing import List
+from models.category import Category
 
 from models.product import Product
 from interface.product import ProductType
@@ -7,8 +8,6 @@ from utils import status
 
 
 class ProductServices:
-    def __init__(self) -> None:
-        return
     
     @staticmethod
     def getAllProducts() -> List[Product]:
@@ -21,7 +20,22 @@ class ProductServices:
                 "status": "Fail",
                 "message": "Price must be greater than 0"
             }, status.HTTP_400_BAD_REQUEST
-        return Product.create(**data)
+        
+        if data.get('categoryId'):
+            if not Category.getById(data.get('categoryId')):
+                return {
+                    "status": "Fail",
+                    "message": f"Category with id {data.get('categoryId')} does not exist"
+                    }, status.HTTP_404_NOT_FOUND
+        
+        if data.get('publicId') or data.get('createdAt') or data.get('updatedAt'):
+            return {
+                "status": "Fail",
+                "message": "PublicId, createdAt and updatedAt are read only"
+            }, status.HTTP_400_BAD_REQUEST
+        
+        product = Product.create(**data)
+        return product.toDict(), status.HTTP_201_CREATED
     
     @staticmethod
     def getProductByPublicId(publicId: str) -> Product:
@@ -37,7 +51,7 @@ class ProductServices:
                 "status": "Fail",
                 "message": "Product not found"
             }, status.HTTP_404_NOT_FOUND
-        return product
+        return product.toDict(), status.HTTP_200_OK
     
     @staticmethod
     def updateProduct(publicId: str, data: ProductType) -> Product:
@@ -54,6 +68,12 @@ class ProductServices:
                 "message": "Product not found"
             }, status.HTTP_404_NOT_FOUND
         
+        if data.get('publicId') or data.get('createdAt') or data.get('updatedAt'):
+            return {
+                "status": "Fail",
+                "message": "PublicId, createdAt and updatedAt are read only"
+            }, status.HTTP_400_BAD_REQUEST
+        
         if data.get('name'):
             product.name = data.get('name')
         if data.get('description'):
@@ -61,14 +81,18 @@ class ProductServices:
         if data.get('price'):
             product.price = data.get('price')
         if data.get('categoryId'):
+            if not Category.getById(data.get('categoryId')):
+                return {
+                    "status": "Fail",
+                    "message": f"Category with id {data.get('categoryId')} does not exist"
+                    }, status.HTTP_404_NOT_FOUND
             product.categoryId = data.get('categoryId')
         if data.get('image'):
             product.image = data.get('image')
         if data.get('updatedAt'):
             product.updatedAt = datetime.now()
         
-        return product.save()
-    
+        return product.save().toDict(), status.HTTP_200_OK
     
     @staticmethod
     def deleteProduct(publicId: str):
