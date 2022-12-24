@@ -8,3 +8,8 @@ class ProductType(TypedDict):
     description: Optional[str]
     image: Optional[str]
     available: bool
+
+
+class CategoryType(TypedDict): 
+    name: str 
+    categoryId: Optional[int]

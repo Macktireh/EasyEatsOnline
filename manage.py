@@ -1,5 +1,6 @@
 import os
 import click
+import warnings
 
 from typing import Any, Dict, Literal, Union
 from werkzeug.exceptions import NotFound, Forbidden
@@ -35,7 +36,9 @@ flask_app, admin = create_app(os.environ.get('ENVIRONMENT', 'development'))
 migrate = Migrate(flask_app, db)
 
 # save models in the admin panel
-admin.add_view(UserAdmin(User, db.session))
+with warnings.catch_warnings():
+    warnings.filterwarnings('ignore', 'Fields missing from ruleset', UserWarning)
+    admin.add_view(UserAdmin(User, db.session))
 admin.add_view(ProductAdmin(Product, db.session))
 admin.add_view(CategoryAdmin(Category, db.session))
 
