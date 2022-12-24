@@ -21,12 +21,18 @@ class ProductServices:
                 "message": "Price must be greater than 0"
             }, status.HTTP_400_BAD_REQUEST
         
-        if data.get('categoryId'):
-            if not Category.getById(data.get('categoryId')):
+        if data.get('categoryPublicId'):
+            category = Category.getByPublicId(data.get('categoryPublicId'))
+            if not category:
                 return {
                     "status": "Fail",
-                    "message": f"Category with id {data.get('categoryId')} does not exist"
+                    "message": f"Category does not exist"
                     }, status.HTTP_404_NOT_FOUND
+            else:
+                data.pop('categoryPublicId')
+                data.update({
+                    "categoryId": category.id if category else None
+                })
         
         if data.get('publicId') or data.get('createdAt') or data.get('updatedAt'):
             return {
@@ -80,13 +86,14 @@ class ProductServices:
             product.description = data.get('description')
         if data.get('price'):
             product.price = data.get('price')
-        if data.get('categoryId'):
-            if not Category.getById(data.get('categoryId')):
+        if data.get('categoryPublicId'):
+            category = Category.getByPublicId(data.get('categoryPublicId'))
+            if not category:
                 return {
                     "status": "Fail",
-                    "message": f"Category with id {data.get('categoryId')} does not exist"
+                    "message": f"Category does not exist"
                     }, status.HTTP_404_NOT_FOUND
-            product.categoryId = data.get('categoryId')
+            product.categoryId = category.id
         if data.get('image'):
             product.image = data.get('image')
         if data.get('updatedAt'):

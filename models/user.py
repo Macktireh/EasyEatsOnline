@@ -99,15 +99,15 @@ class User(db.Model, UserMixin):
         return None
     
     @classmethod
-    def getById(cls, id: int) -> "User":
+    def getById(cls, id: int) -> Union["User", None]:
         return cls.query.filter_by(id=id).first()
     
     @classmethod
-    def getByPublicId(cls, publicId: str) -> "User":
+    def getByPublicId(cls, publicId: str) -> Union["User", None]:
         return cls.query.filter_by(publicId=publicId).first()
     
     @classmethod
-    def getByEmail(cls, email: str) -> "User":
+    def getByEmail(cls, email: str) -> Union["User", None]:
         return cls.query.filter_by(email=email).first()
     
     @classmethod

@@ -12,4 +12,3 @@ class ProductType(TypedDict):
 
 class CategoryType(TypedDict): 
     name: str 
-    categoryId: Optional[int]
