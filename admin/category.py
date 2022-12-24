@@ -12,9 +12,9 @@ class CategoryAdmin(ModelView):
     
     column_editable_list: List[str] = ['name']
     column_searchable_list: List[str] = ['name']
-    column_sortable_list: List[str] = ['createdAt']
+    column_sortable_list: List[str] = ['createdAt', 'updatedAt']
     
-    form_excluded_columns: List[str] = ['publicId', 'createdAt']
+    form_excluded_columns: List[str] = ['publicId', 'createdAt', 'updatedAt']
     
     create_modal: bool = True
     edit_modal: bool = True
