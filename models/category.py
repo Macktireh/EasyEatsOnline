@@ -15,6 +15,7 @@ class Category(db.Model):
     name = db.Column(db.String(128), nullable=False)
     product = db.relationship(Product, backref="category", cascade="all, delete, delete-orphan", single_parent=True)
     createdAt = db.Column(db.DateTime, nullable=False)
+    updatedAt = db.Column(db.DateTime, nullable=False)
     
     def save(self) -> "Category":
         db.session.add(self)
@@ -23,7 +24,12 @@ class Category(db.Model):
     
     @classmethod
     def create(cls, name: str) -> "Category":
-        category = cls(publicId=str(uuid4()), name=name, createdAt=datetime.now())
+        category = cls(
+            publicId=str(uuid4()), 
+            name=name, 
+            createdAt=datetime.now(), 
+            updatedAt=datetime.now()
+        )
         return category.save()
     
     def delete(self) -> "Category":

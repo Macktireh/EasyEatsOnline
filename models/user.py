@@ -37,7 +37,7 @@ class User(db.Model, UserMixin):
         return flask_bcrypt.check_password_hash(self.passwordHash, password)
     
     def generateAccessToken(self) -> str:
-        s = TimedJSONWebSignatureSerializer(app.config.get('SECRET_KEY'), timedelta(hours=24))
+        s = TimedJSONWebSignatureSerializer(app.config.get('SECRET_KEY'), 60*60*24)
         return s.dumps({'publicId': self.publicId, 'isActive': self.isActive}).decode('utf-8')
     
     @classmethod
