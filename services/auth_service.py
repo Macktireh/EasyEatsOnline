@@ -12,8 +12,6 @@ from utils import status, validators
 
 
 class AuthServices:
-    def __init__(self) -> None:
-        return
     
     @staticmethod
     def register(data: dict[str, str]):
