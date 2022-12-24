@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Union
 from uuid import uuid4
 from datetime import datetime
 from slugify import slugify
@@ -53,11 +53,11 @@ class Product(db.Model):
         return self
     
     @classmethod
-    def getById(cls, id: int) -> "Product":
+    def getById(cls, id: int) -> Union["Product", None]:
         return cls.query.filter_by(id=id).first()
     
     @classmethod
-    def getByPublicId(cls, publicId: str) -> "Product":
+    def getByPublicId(cls, publicId: str) -> Union["Product", None]:
         return cls.query.filter_by(publicId=publicId).first()
     
     @classmethod
@@ -73,7 +73,7 @@ class Product(db.Model):
             "publicId": self.publicId,
             "name": self.name,
             "price": self.price,
-            "category": self.category.name,
+            "category": self.category.name if self.category else None,
             "image": self.image,
             "description": self.description,
             "available": self.available,
