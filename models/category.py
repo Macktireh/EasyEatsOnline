@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Union
 from uuid import uuid4
 
 from app import db
@@ -38,24 +38,37 @@ class Category(db.Model):
         return self
     
     @classmethod
-    def getById(cls, id: int) -> "Category":
+    def getById(cls, id: int) -> Union["Category", None]:
         return cls.query.filter_by(id=id).first()
     
     @classmethod
-    def getByPublicId(cls, publicId: str) -> "Category":
+    def getByPublicId(cls, publicId: str) -> Union["Category", None]:
         return cls.query.filter_by(publicId=publicId).first()
     
     @classmethod
-    def getByName(cls, name: str) -> "Category":
-        return cls.query.filter_by(name=name).first()
-    
-    @classmethod
-    def getAll(cls) -> list:
+    def getAll(cls) -> List["Category"]:
         return cls.query.all()
     
     @classmethod
     def getAllByName(cls, name: str) -> List["Category"]:
         return cls.query.filter_by(name=name).all()
+    
+    def toDict(self) -> dict:
+        return {
+            "publicId": self.publicId,
+            "name": self.name,
+            "createdAt": self.createdAt.strftime("%Y-%m-%d %H:%M:%S"),
+            "updatedAt": self.updatedAt.strftime("%Y-%m-%d %H:%M:%S")
+        }
+    
+    def toDictWithProducts(self) -> dict:
+        return {
+            "publicId": self.publicId,
+            "name": self.name,
+            "createdAt": self.createdAt.strftime("%Y-%m-%d %H:%M:%S"),
+            "updatedAt": self.updatedAt.strftime("%Y-%m-%d %H:%M:%S"),
+            "products": [product.toDict() for product in self.product]
+        }
     
     def __repr__(self) -> str:
         return "<Category '{}'>".format(self.name)

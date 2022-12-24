@@ -1,6 +1,6 @@
 from flask_restplus import Namespace, fields
 
-from services.category_service import CategoryServices
+from models.category import Category
 
 
 class AuthDto:
@@ -43,11 +43,11 @@ class UserDto:
     })
 
 
-class CategoryField(fields.Raw):
+class CategoryNameField(fields.Raw):
     
     def format(self, id):
         if id:
-            category = CategoryServices.get_by_id(id)
+            category = Category.getById(id)
             return category.name
         return
 
@@ -55,16 +55,11 @@ class ProductDto:
     
     api = Namespace('Product', description='product related operations')
     
-    ICategory = api.model('category', {
-        'publicId': fields.String(description='category Identifier'),
-        'name': fields.String(required=True, description='category Name'),
-    })
-    
     IProduct = api.model('product', {
         'publicId': fields.String(readonly=True, description='product Identifier'),
         'name': fields.String(required=True, description='Product Name'),
-        'categoryId': fields.Integer(required=False, description='Product Category Id'),
-        'category': CategoryField(readonly=True, attribute='categoryId'),
+        'categoryPublicId': fields.String(required=False, description='Product Category publicId'),
+        'category': CategoryNameField(readonly=True, attribute='categoryId'),
         'price': fields.Float(required=True, description='Product price'),
         'image': fields.String(required=False, description='the URL of the product image'),
         'description': fields.String(required=False, description='Product description'),
@@ -76,8 +71,8 @@ class ProductDto:
     IProductUpdate = api.model('productUpdate', {
         'publicId': fields.String(readonly=True, description='product Identifier'),
         'name': fields.String(required=False, description='Product Name'),
-        'categoryId': fields.Integer(required=False, description='Product Category Id'),
-        'category': CategoryField(readonly=True, attribute='categoryId'),
+        'categoryPublicId': fields.String(required=False, description='Product Category publicId'),
+        'category': CategoryNameField(readonly=True, attribute='categoryId'),
         'price': fields.Float(required=False, description='Product price'),
         'image': fields.String(required=False, description='the URL of the product image'),
         'description': fields.String(required=False, description='Product description'),
@@ -85,3 +80,22 @@ class ProductDto:
         'createdAt': fields.DateTime(readonly=True, description='Product created at'),
         'updatedAt': fields.DateTime(readonly=True, description='Product updated at'),
     }, mask='{publicId, name, category, price, image, description, available, createdAt, updatedAt}')
+
+
+class CategoryDto:
+    
+    api = Namespace('Category', description='category related operations')
+    
+    ICategory = api.model('category', {
+        'publicId': fields.String(readonly=True, description='product Identifier'),
+        'name': fields.String(required=True, description='Product Name'),
+        'createdAt': fields.DateTime(readonly=True, description='Product created at'),
+        'updatedAt': fields.DateTime(readonly=True, description='Product updated at'),
+    })
+    
+    ICategoryUpdate = api.model('categoryUpdate', {
+        'publicId': fields.String(readonly=True, description='product Identifier'),
+        'name': fields.String(required=False, description='Product Name'),
+        'createdAt': fields.DateTime(readonly=True, description='Product created at'),
+        'updatedAt': fields.DateTime(readonly=True, description='Product updated at'),
+    })
