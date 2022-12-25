@@ -10,7 +10,7 @@ from utils import status
 api = AuthDto.api
 
 @api.route('/signup')
-class SignupRoute(Resource):
+class Signup(Resource):
     
     @api.response(status.HTTP_201_CREATED, 'User successfully created.')
     @api.doc('create a new user')
@@ -27,7 +27,7 @@ class SignupRoute(Resource):
 
 
 @api.route('/account/activation')
-class AccountActivationRoute(Resource):
+class Activation(Resource):
     
     @api.response(status.HTTP_200_OK, 'Account Activation successfully.')
     @api.doc('Account Activation')
@@ -45,7 +45,7 @@ class AccountActivationRoute(Resource):
 
 
 @api.route('/login')
-class LoginRoute(Resource):
+class Login(Resource):
     
     @api.response(status.HTTP_200_OK, 'User successfully login.')
     @api.doc('user login')
