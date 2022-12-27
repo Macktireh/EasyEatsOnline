@@ -5,7 +5,7 @@ from flask import current_app
 from flask_testing import TestCase
 
 from manage import flask_app
-from config.settings import BASE_DIR
+from config.settings import BASE_DIR, DevelopmentConfig, TestingConfig
 
 
 class TestDevelopmentConfig(TestCase):
@@ -17,7 +17,8 @@ class TestDevelopmentConfig(TestCase):
         self.assertFalse(flask_app.config['SECRET_KEY'] == 'my_precious')
         self.assertTrue(flask_app.config['DEBUG'])
         self.assertFalse(current_app == None)
-        self.assertTrue(flask_app.config['SQLALCHEMY_DATABASE_URI'] == 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'))
+        # self.assertTrue(flask_app.config['SQLALCHEMY_DATABASE_URI'] == DevelopmentConfig.SQLALCHEMY_DATABASE_URI)
+        self.assertTrue(flask_app.config['SQLALCHEMY_DATABASE_URI'] == DevelopmentConfig.SQLALCHEMY_DATABASE_URI)
 
 
 class TestTestingConfig(TestCase):
@@ -28,9 +29,8 @@ class TestTestingConfig(TestCase):
     def test_app_is_testing(self):
         self.assertFalse(flask_app.config['SECRET_KEY'] == 'my_precious')
         self.assertTrue(flask_app.config['DEBUG'])
-        self.assertTrue(
-            flask_app.config['SQLALCHEMY_DATABASE_URI'] == 'sqlite:///' + os.path.join(BASE_DIR, 'db_test.sqlite3')
-        )
+        self.assertTrue(flask_app.config['TESTING'])
+        self.assertTrue(flask_app.config['SQLALCHEMY_DATABASE_URI'] == TestingConfig.SQLALCHEMY_DATABASE_URI)
 
 
 class TestProductionConfig(TestCase):

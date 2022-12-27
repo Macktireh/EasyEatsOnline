@@ -1,0 +1,33 @@
+version: '3'
+
+name: ecommerce
+
+services:
+
+  api: 
+    build: 
+      context: .
+      dockerfile: ./docker/development/api/Dockerfile
+    image: ecommerce-api
+    container_name: ecommerce-api
+    volumes:
+      - .:/app
+    env_file:
+      - ./.env
+    ports:
+      - 5000:5000
+    command: /start
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14
+    container_name: postgres
+    env_file: 
+      - ./.env
+    volumes:
+      - ecommerce-data:/var/lib/postgresql/data
+
+
+volumes:
+  ecommerce-data: {}
