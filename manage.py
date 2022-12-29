@@ -28,7 +28,7 @@ from admin.category import CategoryAdmin
 
 # routes
 from admin.auth.login import admin_login
-from controllers import blueprint as blueprint_api
+from routes import blueprint as blueprint_api
 
 
 # create app flask

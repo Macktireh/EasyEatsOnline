@@ -16,16 +16,16 @@ class GlobalConfig:
     JWT_SECRET_KEY: str = os.environ.get('JWT_SECRET_KEY')
     JWT_ACCESS_TOKEN_EXPIRES: str = timedelta(minutes=20)
     JWT_REFRESH_TOKEN_EXPIRES: str = timedelta(days=1)
-    SECURITY_PASSWORD_SALT: str = os.environ.get('SECURITY_PASSWORD_SALT', None)
+    SECURITY_PASSWORD_SALT: str = os.environ.get('SECURITY_PASSWORD_SALT', "")
     MAIL_SERVER: str = 'smtp.gmail.com'
-    MAIL_PORT: str = int(os.environ.get('APP_MAIL_PORT'))
-    MAIL_USERNAME: str = os.environ.get('APP_MAIL_USERNAME', None)
-    MAIL_PASSWORD: str = os.environ.get('APP_MAIL_PASSWORD', None)
+    MAIL_PORT: int = 587
+    MAIL_USERNAME: str = os.environ.get('APP_MAIL_USERNAME', "")
+    MAIL_PASSWORD: str = os.environ.get('APP_MAIL_PASSWORD', "")
     MAIL_USE_TLS: bool = True
     MAIL_USE_SSL: bool = False
     MAIL_DEBUG=False
-    MAIL_DEFAULT_SENDER: str = os.environ.get('APP_MAIL_USERNAME', None)
-    DOMAIN_FRONTEND: str = os.environ.get('DOMAIN_FRONTEND', None)
+    MAIL_DEFAULT_SENDER: str = os.environ.get('APP_MAIL_USERNAME', "")
+    DOMAIN_FRONTEND: str = os.environ.get('DOMAIN_FRONTEND', "")
 
 
 class DevelopmentConfig(GlobalConfig):

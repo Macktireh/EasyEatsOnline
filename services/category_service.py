@@ -3,7 +3,7 @@ from typing import List, Literal, Dict, Union
 from uuid import uuid4
 
 from models.category import Category
-from interface.product import CategoryType
+from models.types import CategoryType
 from utils import status
 
 
@@ -25,7 +25,7 @@ class CategoryServices:
         return category.toDict(), status.HTTP_201_CREATED
     
     @staticmethod
-    def getCategoryByPublicId(publicId: str) -> Category:
+    def getCategoryByPublicId(publicId: str):
         if not publicId:
             return {
                 "status": "Fail",
