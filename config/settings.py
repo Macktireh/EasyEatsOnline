@@ -3,11 +3,11 @@ import secrets
 
 from datetime import timedelta
 from pathlib import Path
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-# load = load_dotenv(os.path.join(BASE_DIR, '.env'))
+load = load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 
 class GlobalConfig:
@@ -50,3 +50,10 @@ class TestingConfig(GlobalConfig):
 
 class ProductionConfig(GlobalConfig):
     pass
+
+
+config_by_name = dict(
+    development=DevelopmentConfig,
+    testing=TestingConfig,
+    production=ProductionConfig
+)
