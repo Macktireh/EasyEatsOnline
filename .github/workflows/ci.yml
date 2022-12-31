@@ -27,11 +27,11 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: FLASK CONFIG environment variable
-        run: |
-          export FLASK_ENV=development
-          export FLASK_APP=manage
-          export FLASK_CONFIG=development
+      # - name: FLASK CONFIG environment variable
+      #   run: |
+      #     export FLASK_ENV=development
+      #     export FLASK_APP=manage
+      #     export FLASK_CONFIG=development
 
       - name: Run migrations
         run: |
