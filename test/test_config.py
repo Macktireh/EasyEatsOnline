@@ -18,7 +18,6 @@ class TestDevelopmentConfig(TestCase):
         self.assertTrue(flask_app.config['DEBUG'])
         self.assertFalse(current_app == None)
         # self.assertTrue(flask_app.config['SQLALCHEMY_DATABASE_URI'] == DevelopmentConfig.SQLALCHEMY_DATABASE_URI)
-        self.assertTrue(flask_app.config['SQLALCHEMY_DATABASE_URI'] == DevelopmentConfig.SQLALCHEMY_DATABASE_URI)
 
 
 class TestTestingConfig(TestCase):
