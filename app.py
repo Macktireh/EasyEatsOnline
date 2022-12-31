@@ -11,7 +11,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_admin import Admin
 
-from config.settings import config_by_name
+from config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
 from admin import HomeAdminModelView
 
 
@@ -20,7 +20,14 @@ flask_bcrypt = Bcrypt()
 
 def create_app(config_name: str) -> Tuple[Flask, Admin]:
     app = Flask(__name__)
-    app.config.from_object(config_by_name[config_name])
+    if config_name == 'development':
+        app.config.from_object(DevelopmentConfig)
+    elif config_name == 'testing':
+        app.config.from_object(TestingConfig)
+    elif config_name == 'production':
+        app.config.from_object(ProductionConfig)
+    else:
+        raise Exception('Unknown configuration')
     db.init_app(app)
     JWTManager(app)
     LoginManager(app)

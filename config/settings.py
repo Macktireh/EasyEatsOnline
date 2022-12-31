@@ -50,10 +50,3 @@ class TestingConfig(GlobalConfig):
 
 class ProductionConfig(GlobalConfig):
     pass
-
-
-config_by_name = dict(
-    development=DevelopmentConfig,
-    test=TestingConfig,
-    production=ProductionConfig
-)
