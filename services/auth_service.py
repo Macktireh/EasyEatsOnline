@@ -14,7 +14,7 @@ from utils import status, validators
 class AuthServices:
     
     @staticmethod
-    def register(data: dict[str, str]):
+    def register(data: Dict[str, str]):
         """Register a new user and send an email with an account activation link"""
         user = User.getByEmail(data.get('email'))
         if not user:
