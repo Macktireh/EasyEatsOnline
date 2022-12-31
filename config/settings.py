@@ -32,8 +32,10 @@ class GlobalConfig:
 class DevelopmentConfig(GlobalConfig):
     
     DEBUG: bool = True
-    # SQLALCHEMY_DATABASE_URI: str = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
-    SQLALCHEMY_DATABASE_URI: str = f"postgresql://{os.environ.get('POSTGRES_USER')}:{os.environ.get('POSTGRES_PASSWORD')}@{os.environ.get('POSTGRES_HOST')}:{os.environ.get('POSTGRES_PORT')}/{os.environ.get('POSTGRES_DB')}"
+    TYPE_DATABASE = os.environ.get('TYPE_DATABASE', 'sqlite')
+    SQLALCHEMY_DATABASE_URI_SQLITE: str = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+    SQLALCHEMY_DATABASE_URI_POSTGRESQL: str = f"postgresql://{os.environ.get('POSTGRES_USER')}:{os.environ.get('POSTGRES_PASSWORD')}@{os.environ.get('POSTGRES_HOST')}:{os.environ.get('POSTGRES_PORT')}/{os.environ.get('POSTGRES_DB')}"
+    SQLALCHEMY_DATABASE_URI: str = SQLALCHEMY_DATABASE_URI_POSTGRESQL if TYPE_DATABASE == 'postgresql' else SQLALCHEMY_DATABASE_URI_SQLITE
     SQLALCHEMY_TRACK_MODIFICATIONS: bool = False
 
 
