@@ -19,6 +19,11 @@ db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 
 def create_app(config_name: str) -> Tuple[Flask, Admin]:
+    print("************************************************************************")
+    print()
+    print(config_name)
+    print()
+    print("************************************************************************")
     app = Flask(__name__)
     if config_name == 'development':
         app.config.from_object(DevelopmentConfig)
