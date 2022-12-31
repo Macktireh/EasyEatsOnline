@@ -1,8 +1,4 @@
 name: Ecommerce API Flask App
- *
- * @author:  Macktireh AS
- * @version: 1.0
- */
 
 on:
   push:

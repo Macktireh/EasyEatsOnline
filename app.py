@@ -2,6 +2,7 @@
 # werkzeug.cached_property = werkzeug.utils.cached_property
 import collections
 collections.MutableMapping = collections.abc.MutableMapping
+from typing import Tuple
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -17,9 +18,12 @@ from admin import HomeAdminModelView
 db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 
-def create_app(config_name: str) -> tuple[Flask, Admin]:
+def create_app(config_name: str) -> Tuple[Flask, Admin]:
     app = Flask(__name__)
-    app.config.from_object(config_by_name[config_name])
+    try:
+        app.config.from_object(config_by_name[config_name])
+    except KeyError:
+        raise Exception('Unknown configuration')
     db.init_app(app)
     JWTManager(app)
     LoginManager(app)
