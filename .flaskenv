@@ -1,21 +1,2 @@
 export FLASK_ENV=development
 export FLASK_APP=manage
-
-SECRET_KEY=sfd$heor!itgtrhg95-tr2ybh9t_ry5h95ert2b5e&9r5grh9d2gtrg5bh49rtgb9-dgf&
-SECURITY_PASSWORD_SALT=pfrgjntroi95tg4r9teh5rty
-JWT_SECRET_KEY=g95-9d2g&9r5grhh49trg5eor!ibtr2ybsfd$htgtrhh9t_ertgb9-dgf&ry5h95ert2b5
-
-TYPE_DATABASE=sqlite
-POSTGRES_USER=admin
-POSTGRES_PASSWORD=admin
-POSTGRES_DB=ecommerce
-POSTGRES_HOST=postgres
-POSTGRES_PORT=5432
-
-PGADMIN_DEFAULT_EMAIL=admin@gmail.com
-PGADMIN_DEFAULT_PASSWORD=admin
-
-APP_MAIL_USERNAME=mackdin.001@gmail.com
-APP_MAIL_PASSWORD=xefmmucoqybwaptp
-
-DOMAIN_FRONTEND=localhost:3000
