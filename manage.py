@@ -32,7 +32,7 @@ from routes import blueprint as blueprint_api
 
 
 # create app flask
-flask_app, admin = create_app(os.environ.get('APP_ENVIRONMENT_FLASK', 'development'))
+flask_app, admin = create_app('development')
 migrate = Migrate(flask_app, db)
 
 # save models in the admin panel
