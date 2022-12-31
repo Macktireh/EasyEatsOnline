@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-load = load_dotenv(os.path.join(BASE_DIR, '.env'))
+load = load_dotenv(os.path.join(BASE_DIR, '.env.example'))
 
 
 class GlobalConfig:
