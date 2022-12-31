@@ -2,7 +2,7 @@ import os
 import click
 import warnings
 
-from typing import Any, Dict, Literal, Union
+from typing import Any, Dict, Literal, Tuple, Union
 from werkzeug.exceptions import NotFound, Forbidden
 
 from flask import render_template
@@ -69,14 +69,14 @@ def home() -> Any:
     return render_template('home/home.html') 
 
 @flask_app.errorhandler(status.HTTP_403_FORBIDDEN)
-def forbidden(e: Forbidden) -> tuple[Dict[str, str], Literal[403]]:
+def forbidden(e: Forbidden) -> Tuple[Dict[str, str], Literal[403]]:
     return {
         "message": "Forbidden",
         "error": str(e),
     }, status.HTTP_403_FORBIDDEN
 
 @flask_app.errorhandler(status.HTTP_404_NOT_FOUND)
-def forbidden(e: NotFound) -> tuple[Dict[str, str], Literal[404]]:
+def forbidden(e: NotFound) -> Tuple[Dict[str, str], Literal[404]]:
     return {
         "message": "Endpoint Not Found",
         "error": str(e),
