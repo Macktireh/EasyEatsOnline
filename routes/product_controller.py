@@ -2,7 +2,7 @@ from flask import request
 from flask_restplus import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from interface.product import ProductType
+from models.types import ProductType
 from schemas.dto import ProductDto
 from services.product_service import ProductServices
 from utils import status

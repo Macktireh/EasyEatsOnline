@@ -1,8 +1,9 @@
+from typing import Any
 from flask import request
 from flask_restplus import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from interface.product import CategoryType
+from models.types import CategoryType
 from schemas.dto import CategoryDto
 from services.category_service import CategoryServices
 from utils import status
@@ -49,7 +50,6 @@ class RetrieveUpdateDeleteCategory(Resource):
     
     @api.response(status.HTTP_200_OK, 'category successfully retrieve.')
     @api.doc('retrieve_category')
-    # @api.marshal_with(CategoryDto.IProduct)
     @jwt_required()
     def get(self, publicId: str):
         """Retrieve a category"""
@@ -63,7 +63,6 @@ class RetrieveUpdateDeleteCategory(Resource):
     
     @api.response(status.HTTP_200_OK, 'category successfully updated.')
     @api.doc('update_category')
-    # @api.marshal_with(CategoryDto.IProduct)
     @api.expect(CategoryDto.ICategoryUpdate, validate=True)
     @jwt_required()
     def patch(self, publicId: str):
@@ -79,7 +78,6 @@ class RetrieveUpdateDeleteCategory(Resource):
     
     @api.response(status.HTTP_204_NO_CONTENT, 'category successfully deleted.')
     @api.doc('dalete_category')
-    # @api.marshal_with(CategoryDto.IProduct)
     @api.expect(CategoryDto.ICategoryUpdate, validate=True)
     @jwt_required()
     def delete(self, publicId: str):

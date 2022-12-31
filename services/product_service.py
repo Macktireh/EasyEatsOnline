@@ -3,7 +3,7 @@ from typing import List
 from models.category import Category
 
 from models.product import Product
-from interface.product import ProductType
+from models.types import ProductType
 from utils import status
 
 
