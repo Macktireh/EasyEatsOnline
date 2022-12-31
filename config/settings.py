@@ -1,4 +1,5 @@
 import os
+import secrets
 
 from datetime import timedelta
 from pathlib import Path
@@ -12,20 +13,20 @@ load = load_dotenv(os.path.join(BASE_DIR, '.env'))
 class GlobalConfig:
     
     DEBUG: bool = False
-    SECRET_KEY: str = os.environ.get('SECRET_KEY')
-    JWT_SECRET_KEY: str = os.environ.get('JWT_SECRET_KEY')
+    SECRET_KEY: str = os.environ.get('SECRET_KEY', secrets.token_urlsafe(128))
+    JWT_SECRET_KEY: str = os.environ.get('JWT_SECRET_KEY', secrets.token_urlsafe(128))
     JWT_ACCESS_TOKEN_EXPIRES: str = timedelta(minutes=20)
     JWT_REFRESH_TOKEN_EXPIRES: str = timedelta(days=1)
-    SECURITY_PASSWORD_SALT: str = os.environ.get('SECURITY_PASSWORD_SALT', "")
+    SECURITY_PASSWORD_SALT: str = os.environ.get('SECURITY_PASSWORD_SALT', secrets.token_urlsafe(128))
     MAIL_SERVER: str = 'smtp.gmail.com'
     MAIL_PORT: int = 587
-    MAIL_USERNAME: str = os.environ.get('APP_MAIL_USERNAME', "")
-    MAIL_PASSWORD: str = os.environ.get('APP_MAIL_PASSWORD', "")
+    MAIL_USERNAME: str = os.environ.get('APP_MAIL_USERNAME')
+    MAIL_PASSWORD: str = os.environ.get('APP_MAIL_PASSWORD')
     MAIL_USE_TLS: bool = True
     MAIL_USE_SSL: bool = False
     MAIL_DEBUG=False
-    MAIL_DEFAULT_SENDER: str = os.environ.get('APP_MAIL_USERNAME', "")
-    DOMAIN_FRONTEND: str = os.environ.get('DOMAIN_FRONTEND', "")
+    MAIL_DEFAULT_SENDER: str = os.environ.get('APP_MAIL_USERNAME')
+    DOMAIN_FRONTEND: str = os.environ.get('DOMAIN_FRONTEND')
 
 
 class DevelopmentConfig(GlobalConfig):
