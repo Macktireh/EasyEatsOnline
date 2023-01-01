@@ -9,6 +9,7 @@ from utils import status
 
 api = AuthDto.api
 
+
 @api.route('/signup')
 class Signup(Resource):
     
@@ -17,13 +18,7 @@ class Signup(Resource):
     @api.expect(AuthDto.ISignup, validate=True)
     def post(self):
         """Creates a new User """
-        try:
-            return AuthServices.register(request.json)
-        except Exception as e:
-            return {
-                    "message": "Something went wrong!",
-                    "error": str(e),
-            }, status.HTTP_500_INTERNAL_SERVER_ERROR
+        return AuthServices.register(request.json)
 
 
 @api.route('/account/activation')
@@ -34,14 +29,7 @@ class Activation(Resource):
     @api.expect(AuthDto.IToken, validate=True)
     def post(self):
         """Account Activation """
-        try:
-            return AuthServices.activation(request.json.get('token'))
-        except Exception as e:
-            return {
-                    "message": "Something went wrong!",
-                    "error": str(e),
-                    "data": None
-            }, status.HTTP_500_INTERNAL_SERVER_ERROR
+        return AuthServices.activation(request.json.get('token'))
 
 
 @api.route('/login')
@@ -52,15 +40,8 @@ class Login(Resource):
     @api.expect(AuthDto.ILogin, validate=True)
     def post(self):
         """user login """
-        try:
-            data: dict = request.json
-            return AuthServices.login(data.get('email'), data.get('password'))
-        except Exception as e:
-            return {
-                    "message": "Something went wrong!",
-                    "error": str(e),
-                    "data": None
-            }, status.HTTP_500_INTERNAL_SERVER_ERROR
+        data: dict = request.json
+        return AuthServices.login(data.get('email'), data.get('password'))
 
 
 @api.route('/token/refresh')

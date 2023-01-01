@@ -1,6 +1,6 @@
 from flask import request
 from flask_restplus import Resource
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required
 
 from models.types import ProductType
 from schemas.dto import ProductDto
@@ -20,13 +20,7 @@ class ListCreateProduct(Resource):
     @jwt_required()
     def get(self):
         """List Products"""
-        try:
-            return ProductServices.getAllProducts()
-        except Exception as e:
-            return {
-                    "message": "Something went wrong!",
-                    "error": str(e),
-            }, status.HTTP_500_INTERNAL_SERVER_ERROR
+        return ProductServices.getAllProducts()
     
     @api.response(status.HTTP_201_CREATED, 'Products successfully added.')
     @api.doc('add_product')
@@ -34,14 +28,8 @@ class ListCreateProduct(Resource):
     @jwt_required()
     def post(self):
         """Add a new product"""
-        try:
-            data: ProductType = request.json
-            return ProductServices.addProduct(data)
-        except Exception as e:
-            return {
-                    "message": "Something went wrong!",
-                    "error": str(e),
-            }, status.HTTP_500_INTERNAL_SERVER_ERROR
+        data: ProductType = request.json
+        return ProductServices.addProduct(data)
 
 
 @api.route('/<string:publicId>')
@@ -53,13 +41,7 @@ class RetrieveUpdateDeleteProduct(Resource):
     @jwt_required()
     def get(self, publicId: str):
         """Retrieve a product"""
-        try:
-            return ProductServices.getProductByPublicId(publicId)
-        except Exception as e:
-            return {
-                    "message": "Something went wrong!",
-                    "error": str(e),
-            }, status.HTTP_500_INTERNAL_SERVER_ERROR
+        return ProductServices.getProductByPublicId(publicId)
     
     @api.response(status.HTTP_200_OK, 'product successfully updated.')
     @api.doc('update_product')
@@ -68,14 +50,8 @@ class RetrieveUpdateDeleteProduct(Resource):
     @jwt_required()
     def patch(self, publicId: str):
         """Update a product"""
-        try:
-            data: ProductType = request.json
-            return ProductServices.updateProduct(publicId, data)
-        except Exception as e:
-            return {
-                    "message": "Something went wrong!",
-                    "error": str(e),
-            }, status.HTTP_500_INTERNAL_SERVER_ERROR
+        data: ProductType = request.json
+        return ProductServices.updateProduct(publicId, data)
     
     @api.response(status.HTTP_204_NO_CONTENT, 'product successfully deleted.')
     @api.doc('dalete_product')
@@ -84,10 +60,4 @@ class RetrieveUpdateDeleteProduct(Resource):
     @jwt_required()
     def delete(self, publicId: str):
         """Delete a product"""
-        try:
-            return ProductServices.deleteProduct(publicId)
-        except Exception as e:
-            return {
-                    "message": "Something went wrong!",
-                    "error": str(e),
-            }, status.HTTP_500_INTERNAL_SERVER_ERROR
+        return ProductServices.deleteProduct(publicId)
