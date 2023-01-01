@@ -72,14 +72,14 @@ class TestAuthServices(TestCase):
     def test_activation(self):
         # Test valid activation
         token = self.user2.generateAccessToken()
-        res, status_code = self.auth_services.activation(token)
+        res, status_code = self.auth_services.activation(token, sendMail=False)
         self.assertEqual(status_code, status.HTTP_200_OK)
         self.assertEqual(res['status'], 'success')
         self.assertEqual(res['message'], 'You have confirmed your account. Thanks!')
         
         # Test invalid activation (token expired)
         self.user1.accessTokenExpiration = datetime.utcnow() - timedelta(hours=1)
-        res, status_code = self.auth_services.activation(token)
+        res, status_code = self.auth_services.activation(token, sendMail=False)
         self.assertEqual(status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(res['status'], 'fail')
         self.assertEqual(res['message'], 'The confirmation link is invalid or has expired.')
