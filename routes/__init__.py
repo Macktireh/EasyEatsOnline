@@ -1,10 +1,10 @@
 from flask_restplus import Api
 from flask import Blueprint
 
-from routes.auth_controller import api as auth_api
-from routes.user_controller import api as user_api
-from routes.product_controller import api as product_api
-from routes.category_controller import api as category_api
+from routes.auth_routes import api as auth_api
+from routes.user_routes import api as user_api
+from routes.product_routes import api as product_api
+from routes.category_routes import api as category_api
 
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
