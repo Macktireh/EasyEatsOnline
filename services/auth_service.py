@@ -53,7 +53,7 @@ class AuthServices:
             return response_object, status.HTTP_409_CONFLICT
     
     @staticmethod
-    def activation(token: str):
+    def activation(token: str, sendMail: bool = True):
         user = User.checkAccessToken(token)
         if user is not None:
             if not user.isActive:
@@ -61,9 +61,10 @@ class AuthServices:
                 user.updated = datetime.now()
                 user.save()
                 
-                from utils.mail import send_email
-                subject = "Your account is confirmed successfully"
-                send_email(user, subject, template='mail/activate_success.html')
+                if sendMail:
+                    from utils.mail import send_email
+                    subject = "Your account is confirmed successfully"
+                    send_email(user, subject, template='mail/activate_success.html')
                 
                 return {"status":'success', "message":'You have confirmed your account. Thanks!'}, status.HTTP_200_OK
             else:
