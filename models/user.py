@@ -36,9 +36,17 @@ class User(db.Model, UserMixin):
     def checkPassword(self, password: str) -> bool:
         return flask_bcrypt.check_password_hash(self.passwordHash, password)
     
-    def generateAccessToken(self) -> str:
-        s = TimedJSONWebSignatureSerializer(app.config.get('SECRET_KEY'), 60*60*24)
+    def generateAccessToken(self, expiration: int = 60*60*24) -> str:
+        s = TimedJSONWebSignatureSerializer(app.config.get('SECRET_KEY'), expiration)
         return s.dumps({'publicId': self.publicId, 'isActive': self.isActive}).decode('utf-8')
+    
+    @classmethod
+    def getJWTIdentity(cls, token: str) -> Union["User", None]:
+        try:
+            s = TimedJSONWebSignatureSerializer(app.config.get('SECRET_KEY'), timedelta(hours=24))
+            return s.loads(token)
+        except:
+            return None
     
     @classmethod
     def checkAccessToken(cls, token: str) -> Union["User", None]:
@@ -51,6 +59,21 @@ class User(db.Model, UserMixin):
             return None
         except:
             return None
+    
+    # method getByPublicId
+    @classmethod
+    def getByPublicId(cls, publicId: str) -> "User":
+        return cls.query.filter_by(publicId=publicId).first()
+    
+    # method getByEmail
+    @classmethod
+    def getByEmail(cls, email: str) -> "User":
+        return cls.query.filter_by(email=email).first()
+    
+    # method getAll
+    @classmethod
+    def getAll(cls) -> List["User"]:
+        return cls.query.all()
     
     def save(self) -> "User":
         db.session.add(self)

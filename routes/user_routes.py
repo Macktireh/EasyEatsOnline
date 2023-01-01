@@ -9,8 +9,9 @@ from services.user_service import UserServices
 
 api = UserDto.api
 
+
 @api.route('/me')
-class CurrentUserRoute(Resource):
+class RetrieveUpdateCurrentUser(Resource):
     
     @api.doc('get_current_user')
     @api.marshal_list_with(UserDto.IUser, envelope='data')
@@ -18,7 +19,7 @@ class CurrentUserRoute(Resource):
     def get(self):
         """Get Current User"""
         identity = get_jwt_identity()
-        return User.getByPublicId(identity["publicId"])
+        return UserServices.getUserByPubliId(identity["publicId"])
 
     @api.doc('update_current_user')
     @api.marshal_list_with(UserDto.IUserUpdate, envelope='data')
@@ -30,11 +31,11 @@ class CurrentUserRoute(Resource):
 
 
 @api.route('')
-class CurrentUserRoute(Resource):
+class ListUsers(Resource):
     
     @api.doc('list_of_registered_users')
     @api.marshal_list_with(UserDto.IUser, envelope='data')
     @jwt_required()
     def get(self):
         """List all registered users"""
-        return User.getAll()
+        return UserServices.getAllUsers()

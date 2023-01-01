@@ -1,12 +1,12 @@
 import jwt
 
-from typing import Any, Dict, Union
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from flask import current_app as app
 from flask_jwt_extended import create_access_token, create_refresh_token
 
 from config.settings import GlobalConfig
+from models.types import TokenIdentityType, UserType
 from models.user import User
 from utils import status, validators
 
@@ -14,7 +14,7 @@ from utils import status, validators
 class AuthServices:
     
     @staticmethod
-    def register(data: Dict[str, str]):
+    def register(data: UserType):
         """Register a new user and send an email with an account activation link"""
         user = User.getByEmail(data.get('email'))
         if not user:
@@ -74,8 +74,8 @@ class AuthServices:
     @staticmethod
     def encode_auth_token(user: User) -> str:
         payload = {
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1),
-            'iat': datetime.datetime.utcnow(),
+            'exp': datetime.utcnow() + timedelta(hours=1),
+            'iat': datetime.utcnow(),
             'publicId': user.publicId,
             'isAdmin': user.isAdmin,
         }
@@ -83,8 +83,8 @@ class AuthServices:
     
     @staticmethod
     def decode_auth_token(token: str) -> User:
-        data = jwt.decode(token, GlobalConfig.SECRET_KEY, algorithms=["HS256"])
-        return User.getByPublicId(data.sub.publicId)
+        payload = jwt.decode(token, GlobalConfig.SECRET_KEY, algorithms=["HS256"])
+        return User.getByPublicId(payload.get('publicId'))
     
     @staticmethod
     def login(email: str, password: str):
@@ -95,21 +95,21 @@ class AuthServices:
         if not user:
             res = {
                     'status': 'fail',
-                    'message': 'email or password does not match.'
+                    'message': 'Invalid email or password.'
                 }
-            return res, status.HTTP_403_FORBIDDEN
+            return res, status.HTTP_401_UNAUTHORIZED
         if not user.isActive:
-            return {"status":'fail', "message":'Please confirm your account!'}, status.HTTP_403_FORBIDDEN
+            return {"status":'fail', "message": 'Please confirm your account!'}, status.HTTP_403_FORBIDDEN
         try:
-            access = create_access_token(identity={'publicId': user.publicId, 'isAdmin': user.isAdmin})
-            refresh = create_refresh_token(identity={'publicId': user.publicId, 'isAdmin': user.isAdmin})
+            access = create_access_token(identity={'publicId': user.publicId, 'isActive': user.isActive})
+            refresh = create_refresh_token(identity={'publicId': user.publicId, 'isActive': user.isActive})
             return {
                 'status': 'success',
-                "message": "Successfully fetched auth token",
+                "message": "Successfully logged in.",
                 "tokens": {
                     "access": access, "refresh": refresh
                 }
-            }
+            }, status.HTTP_200_OK
         except Exception as e:
             return {
                 "error": "Something went wrong",
@@ -117,13 +117,17 @@ class AuthServices:
             }, status.HTTP_500_INTERNAL_SERVER_ERROR
     
     @staticmethod
-    def refreshToken(identity: Any):
+    def refreshToken(identity: TokenIdentityType):
         user = User.getByPublicId(identity['publicId'])
         if user is not None:
             new_access = create_access_token(identity=identity)
-            return {"access": new_access}, status.HTTP_200_OK
+            return {
+                'status': 'success',
+                "message": "Successfully logged in.",
+                "access": new_access
+            }, status.HTTP_200_OK
         return {
                 'status': 'fail',
-                "message": "The token is invalid or expired",
+                "message": "The refresh token is invalid or has expired.",
                 "code": "token_not_valid"
             }, status.HTTP_401_UNAUTHORIZED
