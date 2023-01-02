@@ -7,11 +7,11 @@ from utils import status
 class UserServices:
     
     @staticmethod
-    def getAllUsers() -> List[User]:
-        return User.getAll()
+    def getAllUsers() -> Tuple[List[User], Literal[200]]:
+        return User.getAll(), status.HTTP_200_OK
     
     @staticmethod
-    def getUserByPubliId(publicId: int) -> User:
+    def getUserByPubliId(publicId: int):
         if not publicId:
             return {
                 "status": "Fail",
@@ -27,7 +27,7 @@ class UserServices:
         return user, status.HTTP_200_OK
     
     @staticmethod
-    def updateUser(data: dict, publicId: str = None) -> Union[Tuple[Dict[str, str], Literal[400]], User]:
+    def updateUserByPublicId(publicId: str, data: dict) -> Union[Tuple[Dict[str, str], Literal[400]], User]:
         if not publicId or data is None:
             return {
                 "status": "Fail",
@@ -42,4 +42,4 @@ class UserServices:
             user.firstName = firstName
         if lastName: 
             user.lastName = lastName
-        return user.save()
+        return user.save(), status.HTTP_200_OK

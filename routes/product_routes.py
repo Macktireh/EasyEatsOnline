@@ -37,7 +37,6 @@ class RetrieveUpdateDeleteProduct(Resource):
     
     @api.response(status.HTTP_200_OK, 'product successfully retrieve.')
     @api.doc('retrieve_product')
-    # @api.marshal_with(ProductDto.IProduct)
     @jwt_required()
     def get(self, publicId: str):
         """Retrieve a product"""
@@ -45,19 +44,16 @@ class RetrieveUpdateDeleteProduct(Resource):
     
     @api.response(status.HTTP_200_OK, 'product successfully updated.')
     @api.doc('update_product')
-    # @api.marshal_with(ProductDto.IProduct)
     @api.expect(ProductDto.IProductUpdate, validate=True)
     @jwt_required()
     def patch(self, publicId: str):
         """Update a product"""
         data: ProductType = request.json
-        return ProductServices.updateProduct(publicId, data)
+        return ProductServices.updateProductByPublicId(publicId, data)
     
     @api.response(status.HTTP_204_NO_CONTENT, 'product successfully deleted.')
     @api.doc('dalete_product')
-    # @api.marshal_with(ProductDto.IProduct)
-    @api.expect(ProductDto.IProductUpdate, validate=True)
     @jwt_required()
     def delete(self, publicId: str):
         """Delete a product"""
-        return ProductServices.deleteProduct(publicId)
+        return ProductServices.deleteProductByPublicId(publicId)
