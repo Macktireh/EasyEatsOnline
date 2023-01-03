@@ -68,7 +68,7 @@ class TestUserModel(TestCase):
         self.assertFalse(self.user1.checkPassword('wrong_password'))
         self.assertFalse(self.user2.checkPassword('wrong_password'))
 
-    def test_get_user_by_public_id(self):
+    def test_get_user_by_publicId(self):
         user = User.getByPublicId(self.user1.publicId)
         self.assertEqual(user.email, 'user1@example.com')
         self.assertEqual(user.firstName, 'User')

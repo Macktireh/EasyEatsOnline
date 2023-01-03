@@ -60,17 +60,14 @@ class User(db.Model, UserMixin):
         except:
             return None
     
-    # method getByPublicId
     @classmethod
     def getByPublicId(cls, publicId: str) -> "User":
         return cls.query.filter_by(publicId=publicId).first()
     
-    # method getByEmail
     @classmethod
     def getByEmail(cls, email: str) -> "User":
         return cls.query.filter_by(email=email).first()
     
-    # method getAll
     @classmethod
     def getAll(cls) -> List["User"]:
         return cls.query.all()
