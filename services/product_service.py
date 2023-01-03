@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Literal, Tuple
 from models.category import Category
 
 from models.product import Product
@@ -10,11 +10,11 @@ from utils import status
 class ProductServices:
     
     @staticmethod
-    def getAllProducts() -> List[Product]:
-        return Product.getAll()
+    def getAllProducts() -> Tuple[List[Product], Literal[200]]:
+        return Product.getAll(), status.HTTP_200_OK
     
     @staticmethod
-    def addProduct(data: ProductType) -> Product:
+    def addProduct(data: ProductType):
         if not data.get("price") > 0:
             return {
                 "status": "Fail",
@@ -44,7 +44,7 @@ class ProductServices:
         return product.toDict(), status.HTTP_201_CREATED
     
     @staticmethod
-    def getProductByPublicId(publicId: str) -> Product:
+    def getProductByPublicId(publicId: str):
         if not publicId:
             return {
                 "status": "Fail",
@@ -60,7 +60,7 @@ class ProductServices:
         return product.toDict(), status.HTTP_200_OK
     
     @staticmethod
-    def updateProduct(publicId: str, data: ProductType) -> Product:
+    def updateProductByPublicId(publicId: str, data: ProductType):
         if not publicId:
             return {
                 "status": "Fail",
@@ -102,7 +102,7 @@ class ProductServices:
         return product.save().toDict(), status.HTTP_200_OK
     
     @staticmethod
-    def deleteProduct(publicId: str):
+    def deleteProductByPublicId(publicId: str):
         if not publicId:
             return {
                 "status": "Fail",

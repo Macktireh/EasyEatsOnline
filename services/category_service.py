@@ -1,6 +1,4 @@
-from datetime import datetime
-from typing import List, Literal, Dict, Union
-from uuid import uuid4
+from typing import List, Literal, Tuple
 
 from models.category import Category
 from models.types import CategoryType
@@ -10,8 +8,8 @@ from utils import status
 class CategoryServices:
     
     @staticmethod
-    def getAllCategories() -> List[Category]:
-        return Category.getAll()
+    def getAllCategories() -> Tuple[List[Category], Literal[200]]:
+        return Category.getAll(), status.HTTP_200_OK
     
     @staticmethod
     def addCategory(data: CategoryType) -> Category:
@@ -41,7 +39,7 @@ class CategoryServices:
         return category.toDict(), status.HTTP_200_OK
     
     @staticmethod
-    def updateCategory(publicId: str, data: CategoryType) -> Category:
+    def updateCategoryByPublicId(publicId: str, data: CategoryType):
         if not publicId:
             return {
                 "status": "Fail",
@@ -68,7 +66,7 @@ class CategoryServices:
         return category.toDict(), status.HTTP_200_OK
     
     @staticmethod
-    def deleteCategory(publicId: str) -> Category:
+    def deleteCategoryByPublicId(publicId: str):
         if not publicId:
             return {
                 "status": "Fail",

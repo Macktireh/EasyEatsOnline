@@ -71,7 +71,7 @@ class TestProductModel(TestCase):
         self.assertEqual(product.image, 'product1.jpg')
         self.assertEqual(product.description, 'This is product 1')
     
-    def test_get_product_by_public_id(self):
+    def test_get_product_by_publicId(self):
         product = Product.getByPublicId(self.product1.publicId)
         self.assertEqual(product.id, self.product1.id)
         self.assertEqual(product.name, 'Product 1')

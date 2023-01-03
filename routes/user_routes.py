@@ -2,7 +2,6 @@ from flask import request
 from flask_restplus import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from models.user import User
 from schemas.dto import UserDto
 from services.user_service import UserServices
 
@@ -27,7 +26,7 @@ class RetrieveUpdateCurrentUser(Resource):
     def patch(self):
         """Update Current User"""
         identity = get_jwt_identity()
-        return UserServices.updateUser(publicId=identity["publicId"], data=request.json)
+        return UserServices.updateUserByPublicId(publicId=identity["publicId"], data=request.json)
 
 
 @api.route('')

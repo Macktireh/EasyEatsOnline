@@ -47,12 +47,11 @@ class RetrieveUpdateDeleteCategory(Resource):
     @jwt_required()
     def patch(self, publicId: str):
         """Update a category"""
-        return CategoryServices.updateCategory(publicId, request.json)
+        return CategoryServices.updateCategoryByPublicId(publicId, request.json)
     
     @api.response(status.HTTP_204_NO_CONTENT, 'category successfully deleted.')
     @api.doc('dalete_category')
-    @api.expect(CategoryDto.ICategoryUpdate, validate=True)
     @jwt_required()
     def delete(self, publicId: str):
         """Delete a category"""
-        return CategoryServices.deleteCategory(publicId)
+        return CategoryServices.deleteCategoryByPublicId(publicId)

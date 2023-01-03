@@ -29,7 +29,7 @@ class Activation(Resource):
     @api.expect(AuthDto.IToken, validate=True)
     def post(self):
         """Account Activation """
-        return AuthServices.activation(request.json.get('token'))
+        return AuthServices.activation(request.json)
 
 
 @api.route('/login')

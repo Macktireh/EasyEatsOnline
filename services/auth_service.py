@@ -26,23 +26,26 @@ class AuthServices:
                 return response_object, status.HTTP_400_BAD_REQUEST
             is_validated = validators.validate_user(**data)
             if is_validated is not True:
-                return dict(status='fail', message='Invalid data', error=is_validated), status.HTTP_400_BAD_REQUEST
+                return dict(status='fail', message='Invalid data', errors=is_validated), status.HTTP_400_BAD_REQUEST
             try:
+                data1 = data.copy()
                 data.pop('passwordConfirm', None)
+                data.pop('sendMail', None)
                 new_user = User.create(**data)
             except:
                 return {
                     "message": "Something went wrong!",
                 }, status.HTTP_500_INTERNAL_SERVER_ERROR
             
-            from utils.mail import send_email
-            token = new_user.generateAccessToken()
-            subject = "Please confirm your email"
-            send_email(new_user, subject, template='mail/activate.html', domain=app.config["DOMAIN_FRONTEND"], token=token)
+            if not data1.get('sendMail') == False:
+                from utils.mail import send_email
+                token = new_user.generateAccessToken()
+                subject = "Please confirm your email"
+                send_email(new_user, subject, template='mail/activate.html', domain=app.config["DOMAIN_FRONTEND"], token=token)
             
             response_object = {
                 'status': 'success',
-                'message': "Successfully registered."
+                'message': "User successfully created."
             }
             return response_object, status.HTTP_201_CREATED
         else:
@@ -53,24 +56,22 @@ class AuthServices:
             return response_object, status.HTTP_409_CONFLICT
     
     @staticmethod
-    def activation(token: str, sendMail: bool = True):
-        user = User.checkAccessToken(token)
+    def activation(data: dict):
+        user = User.checkAccessToken(data.get('token'))
         if user is not None:
             if not user.isActive:
                 user.isActive = True
                 user.updated = datetime.now()
                 user.save()
                 
-                if sendMail:
+                if not data.get('sendMail') == False:
                     from utils.mail import send_email
                     subject = "Your account is confirmed successfully"
                     send_email(user, subject, template='mail/activate_success.html')
                 
                 return {"status":'success', "message":'You have confirmed your account. Thanks!'}, status.HTTP_200_OK
-            else:
-                return {"status":'success', "message":'Account already confirmed. Please login.'}, status.HTTP_200_OK
-        else:
-            return {"status":'fail', "message":'The confirmation link is invalid or has expired.'}, status.HTTP_400_BAD_REQUEST
+            return {"status":'success', "message":'Account already confirmed. Please login.'}, status.HTTP_200_OK
+        return {"status":'fail', "message":'The confirmation link is invalid or has expired.'}, status.HTTP_400_BAD_REQUEST
     
     @staticmethod
     def encode_auth_token(user: User) -> str:
@@ -91,14 +92,14 @@ class AuthServices:
     def login(email: str, password: str):
         is_validated = validators.validate_email_and_password(email, password)
         if is_validated is not True:
-            return dict(status="fail", message='Invalid data', error=is_validated), status.HTTP_400_BAD_REQUEST
+            return dict(status="fail", message='Invalid data', errors=is_validated), status.HTTP_400_BAD_REQUEST
         user = User.authenticate(email, password)
         if not user:
             res = {
                     'status': 'fail',
                     'message': 'Invalid email or password.'
                 }
-            return res, status.HTTP_401_UNAUTHORIZED
+            return res, status.HTTP_400_BAD_REQUEST
         if not user.isActive:
             return {"status":'fail', "message": 'Please confirm your account!'}, status.HTTP_403_FORBIDDEN
         try:
