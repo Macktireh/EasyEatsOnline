@@ -7,6 +7,8 @@ from flask_login import UserMixin
 from flask import current_app as app
 
 from app import db, flask_bcrypt
+from models.cart import Cart
+from models.order import Order
 
 
 class User(db.Model, UserMixin):
@@ -24,6 +26,8 @@ class User(db.Model, UserMixin):
     createdAt = db.Column(db.DateTime, nullable=False)
     updatedAt = db.Column(db.DateTime, nullable=False)
     passwordHash = db.Column(db.Text, nullable=False)
+    order = db.relationship(Order, backref="user", cascade="all, delete, delete-orphan", single_parent=True)
+    cart = db.relationship(Cart, backref="user", cascade="all, delete, delete-orphan", single_parent=True, uselist=False)
     
     @property
     def password(self) -> NoReturn:

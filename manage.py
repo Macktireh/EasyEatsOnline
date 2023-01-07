@@ -1,4 +1,3 @@
-import os
 import click
 import warnings
 
@@ -12,24 +11,26 @@ from flask.cli import with_appcontext
 from flask_admin.menu import MenuLink
 
 from app import create_app, db
-from services.user_service import UserServices
 from utils import status
-from utils.commandCLI import createsuperuser_cli, test_cli
+from utils.cli import createsuperuserCli, testCli
 
 # models
 from models.user import User
 from models.product import Product
 from models.category import Category
+from models.order import Order
+from models.cart import Cart
 
 # Admin
 from admin.user import UserAdmin
 from admin.product import ProductAdmin
 from admin.category import CategoryAdmin
+from admin.cart import CartAdmin
+from admin.order import OrderAdmin
 
 # routes
 from admin.auth.login import admin_login
 from routes import blueprint as blueprint_api
-
 
 # create app flask
 flask_app, admin = create_app('development')
@@ -41,6 +42,8 @@ with warnings.catch_warnings():
     admin.add_view(UserAdmin(User, db.session))
 admin.add_view(ProductAdmin(Product, db.session))
 admin.add_view(CategoryAdmin(Category, db.session))
+admin.add_view(CartAdmin(Cart, db.session))
+admin.add_view(OrderAdmin(Order, db.session))
 
 # add menu items in the admin panel
 admin.add_link(MenuLink(name='API Docs', category='', url="/api"))
@@ -83,18 +86,17 @@ def forbidden(e: NotFound) -> Tuple[Dict[str, str], Literal[404]]:
     }, status.HTTP_404_NOT_FOUND
 
 
-
 @click.command(name='createsuperuser')
 @with_appcontext
 def createsuperuser() -> None:
     """Create a super user"""
-    createsuperuser_cli()
+    createsuperuserCli()
 
 @click.command(name='test')
 @with_appcontext
 def test() -> None:
     """Runs the unit tests."""
-    test_cli()
+    testCli()
 
 flask_app.cli.add_command(createsuperuser)
 flask_app.cli.add_command(test)
