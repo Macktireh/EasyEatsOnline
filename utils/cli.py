@@ -8,7 +8,7 @@ from models.user import User
 from utils import validators
 
 
-def createsuperuser_cli() -> None:
+def createsuperuserCli() -> None:
     emailValid: bool = False
     passwordValid: bool = False
     confirmPassword: Union[str, None] = None
@@ -46,7 +46,7 @@ def createsuperuser_cli() -> None:
             print("Email is required.")
 
 
-def test_cli() -> Literal[0, 1]:
+def testCli() -> Literal[0, 1]:
     tests: TestSuite = unittest.TestLoader().discover('test', pattern='test*.py')
     result: TestResult = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
