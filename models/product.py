@@ -4,6 +4,7 @@ from datetime import datetime
 from slugify import slugify
 
 from app import db
+from models.order import Order
 
 
 class Product(db.Model):
@@ -21,6 +22,7 @@ class Product(db.Model):
     available = db.Column(db.Boolean, nullable=False, default=True)
     createdAt = db.Column(db.DateTime, nullable=False)
     updatedAt = db.Column(db.DateTime, nullable=False)
+    order = db.relationship(Order, backref="product", cascade="all, delete, delete-orphan", single_parent=True)
     
     def __init__(self, *args, **kwargs) -> None:
         if not 'slug' in kwargs:
