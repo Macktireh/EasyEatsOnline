@@ -51,7 +51,6 @@ class Cart(db.Model):
     
     def toDict(self) -> dict:
         return {
-            "id": self.id,
             "publicId": self.publicId,
             "userPublicId": self.user.publicId,
             "orders": [order.toDict() for order in self.orders]

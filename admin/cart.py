@@ -28,12 +28,8 @@ class CartAdmin(ModelView):
     def inaccessible_callback(self, name, **kwargs) -> Response:
         return redirect(url_for('admin_login.login'))
     
-    def on_model_change(self, form, model, is_created) -> None:
-        if is_created and not model.slug:
-            model.slug = slugify(model.name)
-        else:
-            if model.slug != slugify(model.name):
-                model.slug = slugify(model.name)
+    def on_model_delete(self, model):
+        for order in model.orders: order.delete()
     
     def create_model(self, form) -> Cart:
         try:

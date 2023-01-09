@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import List, Literal, Tuple
-from models.category import Category
 
 from models.product import Product
+from models.category import Category
 from models.types import ProductType
 from utils import status
 

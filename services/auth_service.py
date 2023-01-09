@@ -20,13 +20,13 @@ class AuthServices:
         if not user:
             if not validators.check_password_and_passwordConfirm(data.get('password'), data.get('passwordConfirm')):
                 response_object = {
-                    'status': 'fail',
+                    'status': "Fail",
                     'message': "Password and Confirm Password doesn't match."
                     }
                 return response_object, status.HTTP_400_BAD_REQUEST
             is_validated = validators.validate_user(**data)
             if is_validated is not True:
-                return dict(status='fail', message='Invalid data', errors=is_validated), status.HTTP_400_BAD_REQUEST
+                return dict(status="Fail", message='Invalid data', errors=is_validated), status.HTTP_400_BAD_REQUEST
             try:
                 data1 = data.copy()
                 data.pop('passwordConfirm', None)
@@ -50,7 +50,7 @@ class AuthServices:
             return response_object, status.HTTP_201_CREATED
         else:
             response_object = {
-                'status': 'fail',
+                'status': "Fail",
                 'message': "User already exists. Please Log in.",
             }
             return response_object, status.HTTP_409_CONFLICT
@@ -71,7 +71,7 @@ class AuthServices:
                 
                 return {"status":'success', "message":'You have confirmed your account. Thanks!'}, status.HTTP_200_OK
             return {"status":'success', "message":'Account already confirmed. Please login.'}, status.HTTP_200_OK
-        return {"status":'fail', "message":'The confirmation link is invalid or has expired.'}, status.HTTP_400_BAD_REQUEST
+        return {"status":"Fail", "message":'The confirmation link is invalid or has expired.'}, status.HTTP_400_BAD_REQUEST
     
     @staticmethod
     def encode_auth_token(user: User) -> str:
@@ -96,12 +96,12 @@ class AuthServices:
         user = User.authenticate(email, password)
         if not user:
             res = {
-                    'status': 'fail',
+                    'status': "Fail",
                     'message': 'Invalid email or password.'
                 }
             return res, status.HTTP_400_BAD_REQUEST
         if not user.isActive:
-            return {"status":'fail', "message": 'Please confirm your account!'}, status.HTTP_403_FORBIDDEN
+            return {"status":"Fail", "message": 'Please confirm your account!'}, status.HTTP_403_FORBIDDEN
         try:
             access = create_access_token(identity={'publicId': user.publicId, 'isActive': user.isActive})
             refresh = create_refresh_token(identity={'publicId': user.publicId, 'isActive': user.isActive})
@@ -129,7 +129,7 @@ class AuthServices:
                 "access": new_access
             }, status.HTTP_200_OK
         return {
-                'status': 'fail',
+                'status': "Fail",
                 "message": "The refresh token is invalid or has expired.",
                 "code": "token_not_valid"
             }, status.HTTP_401_UNAUTHORIZED

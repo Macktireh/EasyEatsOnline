@@ -64,7 +64,7 @@ class TestAuthServices(TestCase):
         # Test invalid user registration (email already exists)
         res, status_code = self.auth_services.register(data)
         self.assertEqual(status_code, status.HTTP_409_CONFLICT)
-        self.assertEqual(res['status'], 'fail')
+        self.assertEqual(res['status'], "Fail")
         self.assertEqual(res['message'], 'User already exists. Please Log in.')
     
     def test_services_activation(self):
@@ -96,13 +96,13 @@ class TestAuthServices(TestCase):
         # Test invalid login (the user has not confirmed his account)
         res, status_code = self.auth_services.login(self.user2.email, 'password')
         self.assertEqual(status_code, status.HTTP_403_FORBIDDEN)
-        self.assertEqual(res['status'], 'fail')
+        self.assertEqual(res['status'], "Fail")
         self.assertEqual(res['message'], 'Please confirm your account!')
         
         # Test invalid login (email does not exist)
         res, status_code = self.auth_services.login('test-user-three@example.com', 'password')
         self.assertEqual(status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(res['status'], 'fail')
+        self.assertEqual(res['status'], "Fail")
         self.assertEqual(res['message'], 'Invalid email or password.')
     
     def test_services_refreshToken(self):

@@ -60,7 +60,7 @@ class TestAuthRoutes(TestCase):
         payload['email'] = 'test-user-one@example.com'
         response = self.client.post(f"{self.baseUrl}/signup", json=payload)
         self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
-        self.assertEqual(response.json['status'], 'fail')
+        self.assertEqual(response.json['status'], "Fail")
         self.assertEqual(response.json['message'], 'User already exists. Please Log in.')
     
     def test_endpoint_signup_with_invalid_data_password_doesnt_match(self):
@@ -69,7 +69,7 @@ class TestAuthRoutes(TestCase):
         payload['passwordConfirm'] = 'Hello@123'
         response = self.client.post(f"{self.baseUrl}/signup", json=payload)
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.json['status'], 'fail')
+        self.assertEqual(response.json['status'], "Fail")
         self.assertEqual(response.json['message'], "Password and Confirm Password doesn't match.")
     
     def test_endpoint_signup_with_invalid_data_password_is_invalid(self):
@@ -78,7 +78,7 @@ class TestAuthRoutes(TestCase):
         payload['passwordConfirm'] = 'Test'
         response = self.client.post(f"{self.baseUrl}/signup", json=payload)
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.json['status'], 'fail')
+        self.assertEqual(response.json['status'], "Fail")
         self.assertEqual(response.json['message'], "Invalid data")
         self.assertEqual(response.json['errors']['password'], "Password is invalid, Should be atleast 8 characters with upper and lower case letters, numbers and special characters")
     
@@ -100,7 +100,7 @@ class TestAuthRoutes(TestCase):
         payload = { "token": self.user1.generateAccessToken()+"i", "sendMail": False }
         response = self.client.post(f"{self.baseUrl}/account/activation", json=payload)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.json['status'], 'fail')
+        self.assertEqual(response.json['status'], "Fail")
         self.assertEqual(response.json['message'], 'The confirmation link is invalid or has expired.')
     
     # Test for user login
@@ -121,7 +121,7 @@ class TestAuthRoutes(TestCase):
         }
         response = self.client.post(f"{self.baseUrl}/login", json=payload)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        self.assertEqual(response.json['status'], 'fail')
+        self.assertEqual(response.json['status'], "Fail")
         self.assertEqual(response.json['message'], 'Please confirm your account!')
     
     def test_endpoint_login_invalid_email(self):
@@ -131,7 +131,7 @@ class TestAuthRoutes(TestCase):
         }
         response = self.client.post(f"{self.baseUrl}/login", json=payload)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.json['status'], 'fail')
+        self.assertEqual(response.json['status'], "Fail")
         self.assertEqual(response.json['message'], 'Invalid email or password.')
     
     def test_endpoint_login_invalid_password(self):
@@ -141,7 +141,7 @@ class TestAuthRoutes(TestCase):
         }
         response = self.client.post(f"{self.baseUrl}/login", json=payload)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.json['status'], 'fail')
+        self.assertEqual(response.json['status'], "Fail")
         self.assertEqual(response.json['message'], 'Invalid email or password.')
     
     def test_endpoint_refresh_success(self):
