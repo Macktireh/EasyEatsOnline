@@ -99,3 +99,8 @@ class CategoryDto:
         'createdAt': fields.DateTime(readonly=True, description='Product created at'),
         'updatedAt': fields.DateTime(readonly=True, description='Product updated at'),
     })
+
+
+class CartDto:
+    
+    api = Namespace('Cart', description='Cart related operations')
