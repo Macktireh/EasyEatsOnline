@@ -35,13 +35,10 @@ class CartServices:
                 "message": "Product not found"
             }, status.HTTP_404_NOT_FOUND
         
-        cart = Cart.getByUser(user.id)
-        if not cart:
-            cart = Cart.create(user.id)
+        cart, _ = Cart.getOrCreate(user.id)
+        order, created = Order.getOrCreate(userId=user.id, productId=product.id)
         
-        order = Order.getByUserProductOrdered(userId=user.id, productId=product.id)
-        if not order:
-            order = Order.create(userId=user.id, productId=product.id)
+        if created:
             cart.orders.append(order)
             order.save()
         elif order not in cart.orders:
@@ -102,7 +99,7 @@ class CartServices:
                 "message": "Cart not found"
             }, status.HTTP_400_BAD_REQUEST
         
-        if order := Order.getByUserProductOrdered(userId=user.id, productId=product.id):
+        if order := Order.getByUserAndProduct(userId=user.id, productId=product.id):
             order.delete()
         
         return cart.toDict(), status.HTTP_200_OK
