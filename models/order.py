@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Union
+from typing import List, Tuple, Union
 from uuid import uuid4
 
 from app import db
@@ -49,7 +49,7 @@ class Order(db.Model):
         return cls.query.filter_by(publicId=publicId).first()
     
     @classmethod
-    def getByUserProductOrdered(cls, userId: int, productId: int, ordered: bool = False) -> Union["Order", None]:
+    def getByUserAndProduct(cls, userId: int, productId: int, ordered: bool = False) -> Union["Order", None]:
         return cls.query.filter_by(userId=userId, productId=productId, ordered=ordered).first()
     
     @classmethod
@@ -59,6 +59,12 @@ class Order(db.Model):
     @classmethod
     def getAllByOrdered(cls, ordered: bool) -> List["Order"]:
         return cls.query.filter_by(ordered=ordered).all()
+    
+    @classmethod
+    def getOrCreate(cls, userId: int, productId: int) -> Tuple["Order", bool]:
+        if cart := cls.getByUserAndProduct(userId=userId, productId=productId):
+            return cart, False
+        return cls.create(userId=userId, productId=productId), True
     
     def toDict(self) -> dict:
         return {

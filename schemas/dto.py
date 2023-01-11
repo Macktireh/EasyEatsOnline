@@ -104,3 +104,12 @@ class CategoryDto:
 class CartDto:
     
     api = Namespace('Cart', description='Cart related operations')
+
+
+class OrderDto:
+    
+    api = Namespace('Oerder', description='Order related operations')
+    
+    IUpdateQuantityOrder = api.model('UpdateQuantityOrder', {
+        'isAdded': fields.Boolean(required=True, description='isAdded boolean'), 
+    })

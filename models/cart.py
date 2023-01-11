@@ -1,5 +1,4 @@
-from datetime import datetime
-from typing import List, Union
+from typing import List, Tuple, Union
 from uuid import uuid4
 
 from app import db
@@ -48,6 +47,12 @@ class Cart(db.Model):
     @classmethod
     def getAll(cls) -> List["Cart"]:
         return cls.query.all()
+    
+    @classmethod
+    def getOrCreate(cls, userId: int) -> Tuple["Cart", bool]:
+        if cart := cls.getByUser(userId):
+            return cart, False
+        return cls.create(userId), True
     
     def toDict(self) -> dict:
         return {
