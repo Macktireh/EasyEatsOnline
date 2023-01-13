@@ -36,3 +36,27 @@ python -m venv .venv
 ```bash
 source .venv/bin/activate
 ```
+
+### 4. Installer les dépendances
+
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Configurer les variables d'environnement
+
+Renommer le fichier `.env.example` en `.env` et renseigner vos informations. 
+
+### 6. Appliquer les migrations
+
+```bash
+flask db upgrade
+```
+
+### 7. Lancer le server de développement :
+
+```bash
+flask run
+```
+
+C'est fait 🚀
