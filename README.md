@@ -18,6 +18,7 @@ git clone https://github.com/Macktireh/ecommerce-backend-flask.git ecommerce-bac
 cd ecommerce-backend
 ```
 
+
 ### 2. Créer l'environnement virtual
 
 ```bash
