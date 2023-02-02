@@ -25,7 +25,7 @@ Si vous avez `Docker` installer sur vorte ordinateur, vous pouvez utilisez docke
 lancer la commande ci-dessous à la racine du projet
 
 ```bash
-docker-compose up -d
+docker-compose up --build -d
 ```
 
 ### 3. Sans Docker
