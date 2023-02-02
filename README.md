@@ -18,12 +18,24 @@ git clone https://github.com/Macktireh/ecommerce-backend-flask.git ecommerce-bac
 cd ecommerce-backend
 ```
 
-### 2. Créer l'environnement virtual
+Si vous avez `Docker` installer sur vorte ordinateur, vous pouvez utilisez docker pour lancer le projet
+
+### 2. Avec Docker
+
+lancer la commande ci-dessous à la racine du projet
+
+```bash
+docker-compose up -d
+```
+
+### 3. Sans Docker
+
+#### 3.1 Créer l'environnement virtual
 
 ```bash
 python -m venv .venv
 ```
-### 3. Activer l'environnement virtual
+#### 3.2 Activer l'environnement virtual
 
 ****Pour Windows :****
 
@@ -37,23 +49,23 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-### 4. Installer les dépendances
+#### 3.3 Installer les dépendances
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5. Configurer les variables d'environnement
+#### 3.4 Configurer les variables d'environnement
 
 Renommer le fichier `.env.example` en `.env` et renseigner vos informations. 
 
-### 6. Appliquer les migrations
+#### 3.5 Appliquer les migrations
 
 ```bash
 flask db upgrade
 ```
 
-### 7. Lancer le server de développement :
+#### 3.6 Lancer le server de développement :
 
 ```bash
 flask run
