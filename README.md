@@ -6,7 +6,7 @@ Pour que ce projet soit opérationnel, vous devez commencer par installer `Pytho
 
 Dans un terminal et exécuter les commandes suivantes:
 
-### 1. Cloner le projet 
+### 1. Cloner le projet
 
 Si vous avez `Git` sur votre ordinateur utiliser les commandes ci-dessous sinon télécharger simplement le projet.
 
