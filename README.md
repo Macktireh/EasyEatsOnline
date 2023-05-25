@@ -65,7 +65,7 @@ Renommer le fichier `.env.example` en `.env` et renseigner vos informations.
 flask db upgrade
 ```
 
-#### 3.6 Démarer le server de développement:
+#### 3.6 Démarer le server de développement :
 
 ```bash
 flask run
