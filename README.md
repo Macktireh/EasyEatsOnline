@@ -71,4 +71,4 @@ flask db upgrade
 flask run
 ```
 
-C'est fait 🚀
+C'est fait 🚀👍
