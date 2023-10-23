@@ -11,15 +11,23 @@ set -o nounset
 postgres_ready() {
 python << END_PYTHON
 import sys
+import os
 import psycopg2
-try:
-    psycopg2.connect(
-        dbname="${POSTGRES_DB}",
-        user="${POSTGRES_USER}",
-        password="${POSTGRES_PASSWORD}",
-        host="${POSTGRES_HOST}",
-        port="${POSTGRES_PORT}",
-    )
+from dotenv import load_dotenv
+load = load_dotenv('.env')
+try:       
+    if os.getenv('TYPE_DATABASE') == 'postgresql':
+        print("Connecting to databas postgresql ...")
+        psycopg2.connect(
+            dbname="${POSTGRES_DB}",
+            user="${POSTGRES_USER}",
+            password="${POSTGRES_PASSWORD}",
+            host="${POSTGRES_HOST}",
+            port="${POSTGRES_PORT}",
+        )
+    else:
+        print("Connecting to databas sqlite ...")
+        sys.exit(0)
 except psycopg2.OperationalError:
     sys.exit(-1)
 sys.exit(0)

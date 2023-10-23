@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+*.mo
+*.db
+*.css.map
+*.egg-info
+*.sql.gz
+.git/
+.venv
+.env.example
+.github
+.gitignore
+.vscode/
+db.sqlite3
+README.md
