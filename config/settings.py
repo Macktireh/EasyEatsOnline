@@ -1,5 +1,4 @@
 import os
-import secrets
 
 from datetime import timedelta
 from pathlib import Path
@@ -7,45 +6,59 @@ from dotenv import load_dotenv
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-load = load_dotenv(os.path.join(BASE_DIR, '.env'))
+load = load_dotenv(os.path.join(BASE_DIR, ".env"))
+
+
+def getEnvVar(
+    varName: str, default: str | None = None, required: bool = True
+) -> str | None:
+    value = os.environ.get(varName, default)
+    if required and not value:
+        raise Exception(f"Environment variable {varName} is required")
+    return value
 
 
 class GlobalConfig:
-    
-    DEBUG: bool = False
-    SECRET_KEY: str = os.environ.get('SECRET_KEY', secrets.token_urlsafe(128))
-    JWT_SECRET_KEY: str = os.environ.get('JWT_SECRET_KEY', secrets.token_urlsafe(128))
-    JWT_ACCESS_TOKEN_EXPIRES: str = timedelta(minutes=20)
-    JWT_REFRESH_TOKEN_EXPIRES: str = timedelta(days=1)
-    SECURITY_PASSWORD_SALT: str = os.environ.get('SECURITY_PASSWORD_SALT', secrets.token_urlsafe(128))
-    MAIL_SERVER: str = 'smtp.gmail.com'
-    MAIL_PORT: int = 587
-    MAIL_USERNAME: str = os.environ.get('APP_MAIL_USERNAME')
-    MAIL_PASSWORD: str = os.environ.get('APP_MAIL_PASSWORD')
-    MAIL_USE_TLS: bool = True
-    MAIL_USE_SSL: bool = False
-    MAIL_DEBUG=False
-    MAIL_DEFAULT_SENDER: str = os.environ.get('APP_MAIL_USERNAME')
-    DOMAIN_FRONTEND: str = os.environ.get('DOMAIN_FRONTEND')
+    DEBUG = False
+    FLASK_DEBUG = False
+    FLASK_ENV = getEnvVar("FLASK_ENV", "development")
+    SECRET_KEY = getEnvVar("SECRET_KEY")
+    JWT_SECRET_KEY = getEnvVar("JWT_SECRET_KEY")
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=20)
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=1)
+    SECURITY_PASSWORD_SALT = getEnvVar("SECURITY_PASSWORD_SALT")
+
+    MAIL_SERVER = getEnvVar("APP_MAIL_SERVER")
+    MAIL_PORT = getEnvVar("APP_MAIL_PORT")
+    MAIL_USERNAME = getEnvVar("APP_MAIL_USERNAME")
+    MAIL_PASSWORD = getEnvVar("APP_MAIL_PASSWORD")
+    MAIL_DEFAULT_SENDER = getEnvVar("APP_MAIL_USERNAME")
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_DEBUG = False
+    DOMAIN_FRONTEND = getEnvVar("DOMAIN_FRONTEND", "localhost:3000")
+
+    TYPE_DATABASE = getEnvVar("TYPE_DATABASE", "sqlite")
+    SQLALCHEMY_DATABASE_URI_SQLITE = "sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
+    if TYPE_DATABASE == "postgresql":
+        SQLALCHEMY_DATABASE_URI = f"postgresql://{getEnvVar('POSTGRES_USER')}:{getEnvVar('POSTGRES_PASSWORD')}@{getEnvVar('POSTGRES_HOST')}:{getEnvVar('POSTGRES_PORT')}/{getEnvVar('POSTGRES_DB')}"  # noqa
+    else:
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI_SQLITE
 
 
 class DevelopmentConfig(GlobalConfig):
-    
-    DEBUG: bool = True
-    TYPE_DATABASE = os.environ.get('TYPE_DATABASE', 'sqlite')
-    SQLALCHEMY_DATABASE_URI_SQLITE: str = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
-    SQLALCHEMY_DATABASE_URI_POSTGRESQL: str = f"postgresql://{os.environ.get('POSTGRES_USER')}:{os.environ.get('POSTGRES_PASSWORD')}@{os.environ.get('POSTGRES_HOST')}:{os.environ.get('POSTGRES_PORT')}/{os.environ.get('POSTGRES_DB')}"
-    SQLALCHEMY_DATABASE_URI: str = SQLALCHEMY_DATABASE_URI_POSTGRESQL if TYPE_DATABASE == 'postgresql' else SQLALCHEMY_DATABASE_URI_SQLITE
-    SQLALCHEMY_TRACK_MODIFICATIONS: bool = False
+    DEBUG = True
+    FLASK_DEBUG = True
+    MAIL_DEBUG = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class TestingConfig(GlobalConfig):
-    
-    DEBUG: bool = True
-    TESTING: bool = True
-    SQLALCHEMY_DATABASE_URI: str = 'sqlite:///' + os.path.join(BASE_DIR, 'db_test.sqlite3')
-    PRESERVE_CONTEXT_ON_EXCEPTION: bool = False
-    SQLALCHEMY_TRACK_MODIFICATIONS: bool = False
+    DEBUG = True
+    TESTING = True
+    MAIL_DEBUG = True
+    PRESERVE_CONTEXT_ON_EXCEPTION = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class ProductionConfig(GlobalConfig):
@@ -53,7 +66,5 @@ class ProductionConfig(GlobalConfig):
 
 
 config_by_name = dict(
-    development=DevelopmentConfig,
-    testing=TestingConfig,
-    production=ProductionConfig
+    development=DevelopmentConfig, testing=TestingConfig, production=ProductionConfig
 )

@@ -1,104 +1,129 @@
 import re
-from typing import Any, Dict, Literal, Union
+from typing import Any, Dict, Literal
 
 
-REGEX_EMAIL_VALIDATION = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-REGEX_PASSWORD_VALIDATION = r"\b^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,20}$\b"
-MESSAGE_PASSWORD_INVALID = "Password is invalid, Should be atleast 8 characters with upper and lower case letters, numbers and special characters"
+REGEX_EMAIL_VALIDATION = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
+REGEX_PASSWORD_VALIDATION = (
+    r"\b^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,20}$\b"
+)
+MESSAGE_PASSWORD_INVALID = "Password is invalid, Should be atleast 8 characters with upper and lower case letters, numbers and special characters"  # noqa
 
-def validate(regex: Literal, field: str) -> bool:
-    """Custom Validator"""
-    return True if re.match(regex, field) else False
 
-def validate_password(password: str) -> bool:
-    """Password Validator"""
-    return validate(REGEX_PASSWORD_VALIDATION, password)
+class Validator:
+    """
+    A class for validating data using regular expressions.
+    """
 
-def validate_email(email: str) -> bool:
-    """Email Validator"""
-    return validate(REGEX_EMAIL_VALIDATION, email)
+    @staticmethod
+    def validate(regex: Literal, field: str) -> bool:
+        """
+        Validate if a given field matches a specified regular expression pattern.
 
-# def validate_book(**args):
-#     """Book Validator"""
-#     if not args.get('title') or not args.get('image_url') \
-#         or not args.get('category') or not args.get('user_id'):
-#         return {
-#             'title': 'Title is required',
-#             'image_url': 'Image URL is required',
-#             'category': 'Category is required',
-#             'user_id': 'User ID is required'
-#         }
-#     if args.get('category') not in ['romance', 'peotry', 'politics' 'picture book', 'science', 'fantasy', 'horror', 'thriller']:
-#         return {
-#             'status': 'error',
-#             'message': 'Invalid category'
-#         }
-#     try:
-#         ObjectId(args.get('user_id'))
-#     except:
-#         return {
-#             'user_id': 'User ID must be valid'
-#         }
-#     if not isinstance(args.get('title'), str) or not isinstance(args.get('description'), str) \
-#         or not isinstance(args.get('image_url'), str):
-#         return {
-#             'title': 'Title must be a string',
-#             'description': 'Description must be a string',
-#             'image_url': 'Image URL must be a string'
-#         }
-#     return True
+        Args:
+            regex (Literal): The regular expression pattern to match against.
+            field (str): The field to be validated.
 
-def validate_user(**args: Dict[str, Any]) -> Union[Dict[str, str], Literal[True]]:
-    """User Validator"""
-    if  not args.get('email') or not args.get('password') or not args.get('firstName') or not args.get('lastName'):
-        return {
-            'email': 'Email is required',
-            'firstName': 'firstName is required',
-            'lastName': 'lastName is required',
-            'password': 'Password is required',
-        }
-    if not isinstance(args.get('email'), str) or not isinstance(args.get('password'), str):
-        return {
-            'email': 'Email must be a string',
-            'firstName': 'firstName must be a string',
-            'lastName': 'lastName must be a string',
-            'password': 'Password must be a string',
-        }
-    if not validate_email(args.get('email')):
-        return {
-            'email': 'Email is invalid'
-        }
-    if not validate_password(args.get('password')):
-        return {
-            'password': MESSAGE_PASSWORD_INVALID
-        }
-    # if not 2 <= len(args['firstName'].split(' ')) <= 10:
-    #     return {
-    #         'firstName': 'firstName must be between 2 and 10 words'
-    #     }
-    # if not 2 <= len(args['lastName'].split(' ')) <= 10:
-    #     return {
-    #         'lastName': 'lastName must be between 2 and 10 words'
-    #     }
-    return True
+        Returns:
+            bool: True if the field matches the pattern, False otherwise.
+        """
+        return True if re.match(regex, field) else False
 
-def validate_email_and_password(email: str, password: str) -> Union[Dict[str, str], Literal[True]]:
-    """Email and Password Validator"""
-    if not (email and password):
-        return {
-            'email': 'Email is required',
-            'password': 'Password is required'
-        }
-    # if not validate_email(email):
-    #     return {
-    #         'email': 'Email is invalid'
-    #     }
-    # if not validate_password(password):
-    #     return {
-    #         'password': 'Password is invalid, Should be atleast 8 characters with upper and lower case letters, numbers and special characters'
-    #     }
-    return True
+    def validatePassword(self, password: str) -> bool:
+        """
+        Validate the given password.
 
-def check_password_and_passwordConfirm(password: str, passwordConfirm: str) -> bool:
-    """Validate the match between the password and the passwordConfirm"""
-    return password == passwordConfirm
+        Parameters:
+            - password (str): The password to be validated.
+
+        Returns:
+            - bool: True if the password is valid, False otherwise.
+        """
+        return self.validate(REGEX_PASSWORD_VALIDATION, password)
+
+    def validateEmail(self, email: str) -> bool:
+        """
+        Validates an email address using a regular expression pattern.
+
+        Args:
+            email (str): The email address to be validated.
+
+        Returns:
+            bool: True if the email is valid, False otherwise.
+        """
+        return self.validate(REGEX_EMAIL_VALIDATION, email)
+
+    def validateSignup(self, **args: Dict[str, Any]) -> dict | Literal[True]:
+        """
+        Validate the signup data provided.
+
+        Parameters:
+            args (Dict[str, Any]): A dictionary containing the signup data.
+
+        Returns:
+            Union[Dict[str, str], Literal[True]]: Returns a dictionary of validation errors if there are any,
+            otherwise returns True if the signup data is valid.
+        """
+        errors = {}
+
+        required_fields = ["email", "password", "firstName", "lastName"]
+        for field in required_fields:
+            if not args.get(field):
+                errors[field] = f"{field.capitalize()} is required"
+
+        string_fields = ["email", "password"]
+        for field in string_fields:
+            if not isinstance(args.get(field), str):
+                errors[field] = f"{field.capitalize()} must be a string"
+
+        if "email" in args and not self.validateEmail(args["email"]):
+            errors["email"] = "Email is invalid"
+
+        if "password" in args and not self.validatePassword(args["password"]):
+            errors["password"] = MESSAGE_PASSWORD_INVALID
+
+        if "passwordConfirm" in args and not self.checkPasswordAndPasswordConfirm(
+            args["password"], args["passwordConfirm"]
+        ):
+            errors["passwordConfirm"] = "Password and Confirm Password doesn't match"
+
+        if errors:
+            return errors
+
+        return True
+
+    @staticmethod
+    def validateLogin(email: str, password: str) -> dict | Literal[True]:
+        """
+        Validates a login by checking if the email and password are provided.
+
+        Parameters:
+            email (str): The email of the user.
+            password (str): The password of the user.
+
+        Returns:
+            dict | Literal[True]: If there are any validation errors, a dictionary containing the errors. Otherwise,
+            returns True.
+        """
+        errors = {}
+        if not email:
+            errors["email"] = "Email is required"
+        if not password:
+            errors["password"] = "Password is required"
+        return errors or True
+
+    @staticmethod
+    def checkPasswordAndPasswordConfirm(password: str, passwordConfirm: str) -> bool:
+        """
+        Check if the given password and password confirmation match.
+
+        Args:
+            password (str): The password to be checked.
+            passwordConfirm (str): The password confirmation.
+
+        Returns:
+            bool: True if the password and password confirmation match, False otherwise.
+        """
+        return password == passwordConfirm
+
+
+validator = Validator()

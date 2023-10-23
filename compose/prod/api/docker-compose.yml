@@ -7,7 +7,7 @@ services:
   api: 
     build: 
       context: .
-      dockerfile: ./docker/development/api/Dockerfile
+      dockerfile: ./compose/prod/api/Dockerfile
     image: ecommerce-api
     container_name: ecommerce-api
     volumes:

@@ -1,4 +1,4 @@
-FROM python:3.9 as python
+FROM python:3.10-slim as python
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -11,15 +11,15 @@ RUN apt update && apt install --no-install-recommends -y \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
 
-COPY ./requirements.txt .
+COPY . .
 RUN pip install --upgrade pip \
     pip install -r requirements.txt
 
-COPY ./docker/development/api/entrypoint /entrypoint
+COPY ./compose/local/api/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
 
-COPY ./docker/development/api/start /start
+COPY ./compose/local/api/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 

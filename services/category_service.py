@@ -1,7 +1,7 @@
 from typing import List, Literal, Tuple
 
+from dto import CategoryType
 from models.category import Category
-from models.types import CategoryType
 from utils import status
 
 
