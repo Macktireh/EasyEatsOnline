@@ -1,7 +1,7 @@
 from flask_restx import Namespace, fields
 
 
-class authSchema:
+class AuthSchema:
     api = Namespace("Auth", description="user auth")
 
     Login = api.model(
@@ -18,7 +18,6 @@ class authSchema:
         {
             "firstName": fields.String(required=True, description="user firstname"),
             "lastName": fields.String(required=True, description="user lastname"),
-            "publicId": fields.String(description="user Identifier"),
             "passwordConfirm": fields.String(
                 required=True, description="user password confirm"
             ),
