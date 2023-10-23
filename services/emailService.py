@@ -215,10 +215,10 @@ class EmailService:
         emailService.recipients([f"{email}"])
         emailService.subject(subject)
         emailService.body(f"{body}")
-        Thread(target=send_async_email, args=(emailService,)).start()
+        Thread(target=sendAsyncEmail, args=(emailService,)).start()
 
 
-def send_async_email(email: EmailService) -> None:
+def sendAsyncEmail(email: EmailService) -> None:
     try:
         email.send()
     except ConnectionRefusedError:

@@ -22,6 +22,7 @@ class BaseRepository:
         Returns:
             User: The saved model.
         """
+        _model.updatedAt = datetime.now()
         db.session.add(_model)
         db.session.commit()
         return _model

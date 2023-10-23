@@ -24,7 +24,7 @@ class GlobalConfig:
     FLASK_ENV = getEnvVar("FLASK_ENV", "development")
     SECRET_KEY = getEnvVar("SECRET_KEY")
     JWT_SECRET_KEY = getEnvVar("JWT_SECRET_KEY")
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=20)
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=60)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=1)
     SECURITY_PASSWORD_SALT = getEnvVar("SECURITY_PASSWORD_SALT")
 

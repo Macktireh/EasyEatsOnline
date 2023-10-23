@@ -1,15 +1,22 @@
 from typing import Optional, TypedDict
 
 
+class RequestUserUpdateDTO(TypedDict):
+    firstName: str
+    lastName: str
+
+
 class RequestLoginDTO(TypedDict):
     email: str
     password: str
 
 
-class RequestSignupDTO(RequestLoginDTO):
-    firstName: str
-    lastName: str
+class RequestSignupDTO(RequestUserUpdateDTO, RequestLoginDTO):
     passwordConfirm: str
+
+
+class RequestActivateDTO(TypedDict):
+    token: str
 
 
 class TokenPayload(TypedDict):

@@ -6,7 +6,7 @@ from flask import current_app as app, render_template
 from flask_jwt_extended import create_access_token, create_refresh_token
 from flask_restx import abort
 
-from dto import RequestLoginDTO, RequestSignupDTO, TokenPayload
+from dto import RequestActivateDTO, RequestLoginDTO, RequestSignupDTO, TokenPayload
 from models.user import User
 from repository.userRepository import userRepository
 from services.emailService import EmailService
@@ -55,12 +55,12 @@ class AuthService:
         return dict(message="You have registered successfully.")
 
     @staticmethod
-    def activation(data: dict) -> Dict[str, str]:
+    def activation(data: RequestActivateDTO) -> Dict[str, str]:
         """
         Verify the user's token and activate the user's account if it is not already active.
 
         Parameters:
-            data (dict): A dictionary containing the user's token.
+            data (RequestActivateDTO): A dictionary containing the user's token.
 
         Returns:
             dict: A dictionary containing a message indicating the result of the activation process.

@@ -1,10 +1,6 @@
-from typing import List, NoReturn, Union
-from datetime import datetime, timedelta
-from uuid import uuid4
-from itsdangerous import URLSafeTimedSerializer
+from typing import NoReturn
 
 from flask_login import UserMixin
-from flask import current_app as app
 
 from app import db, flask_bcrypt
 from models.cart import Cart
