@@ -20,7 +20,7 @@ db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 
 
-def create_app(config_name: str) -> Tuple[Flask, Admin]:
+def createApp(config_name: str) -> Tuple[Flask, Admin]:
     app = Flask(__name__)
     try:
         app.config.from_object(config_by_name[config_name])

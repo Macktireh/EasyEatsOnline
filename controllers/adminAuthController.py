@@ -1,25 +1,17 @@
-from typing import Any, Union
+from typing import Union
 
-from flask import (
-    Blueprint,
-    render_template,
-    url_for,
-    redirect,
-    flash,
-    request,
-    Response,
-)
+from flask import Blueprint, render_template, url_for, redirect, flash, request, Response
 from flask_login import login_user, logout_user
 
 from services.authService import AuthService
 
 
-admin_login = Blueprint("admin_login", __name__)
+adminLogin = Blueprint("adminLogin", __name__)
 
 messageError = "Veuillez compléter correctement les champs « email » et « mot de passe » d'un compte administracteur."
 
 
-@admin_login.route("/admin/auth/login", methods=["GET", "POST"])
+@adminLogin.route("/admin/auth/login", methods=["GET", "POST"])
 def login() -> Union[Response, str]:
     if request.method == "POST":
         email = request.form.get("email")
@@ -33,7 +25,7 @@ def login() -> Union[Response, str]:
     return render_template("admin/login.html")
 
 
-@admin_login.route("/admin/auth/logout")
+@adminLogin.route("/admin/auth/logout")
 def logout() -> Response:
     logout_user()
     return redirect(url_for("home"))

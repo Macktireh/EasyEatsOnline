@@ -24,14 +24,12 @@ class TokenPayload(TypedDict):
     isActive: bool
 
 
-class ProductType(TypedDict):
+class RequestCategoryCreateOrUpdateDTO(TypedDict):
     name: str
-    categoryId: Optional[int]
+
+
+class RequestProductCreateOrUpdateDTO(RequestCategoryCreateOrUpdateDTO):
+    categoryPublicId: str
     price: float
     description: Optional[str]
     image: Optional[str]
-    available: bool
-
-
-class CategoryType(TypedDict):
-    name: str

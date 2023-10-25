@@ -1,16 +1,14 @@
-from datetime import datetime
 from typing import Type
-from uuid import uuid4
 
 from models.user import User
 from repository.baseRepository import BaseRepository
 
 
 class UserRepository(BaseRepository):
-    def __init__(self, model: Type[User]) -> None:
+    def __init__(self, model: User) -> None:
         super().__init__(model)
 
-    def createSuperUser(self, *args, **kwargs) -> "User":
+    def createSuperUser(self, *args, **kwargs) -> User:
         """
         Creates a super user with the given arguments.
 

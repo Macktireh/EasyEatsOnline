@@ -5,7 +5,7 @@ from unittest import TestResult, TestSuite
 from getpass import getpass
 
 from repository.userRepository import userRepository
-from utils.validators import validator
+from validators.authValidator import AuthValidator
 
 
 def printGreen(text: str) -> None:
@@ -16,13 +16,13 @@ def printRed(text: str) -> None:
     print("\033[91m" + text + "\033[0m")
 
 
-def createsuperuserCli() -> None:
+def createSuperUserCli() -> None:
     while True:
         email = input("Enter email address: ")
         if email == "":
             printRed("Email is required.")
             continue
-        if not validator.validateEmail(email):
+        if not AuthValidator.validateEmail(email):
             printRed("Email is invalid.")
             continue
         if userRepository.getByEmail(email):

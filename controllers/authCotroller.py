@@ -17,7 +17,7 @@ class SignupContrller(Resource):
     @api.expect(AuthSchema.Signup, validate=True)
     def post(self):
         """Creates a new User"""
-        return AuthService.register(request.json)
+        return AuthService.register(request.json), status.HTTP_201_CREATED
 
 
 @api.route("/account/activation")

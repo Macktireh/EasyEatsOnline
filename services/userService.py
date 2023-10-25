@@ -14,7 +14,7 @@ class UserService:
         return userRepository.getAll()
 
     @staticmethod
-    def getUserByPubliId(publicId: str) -> User:
+    def getUser(publicId: str) -> User:
         user: User | None = userRepository.getByPublicId(publicId)
         if not user:
             abort(status.HTTP_404_NOT_FOUND, message="User not found")

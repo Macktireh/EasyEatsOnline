@@ -2,14 +2,12 @@ from typing import Dict, List
 
 from wtforms import PasswordField, validators
 
-from flask import redirect, url_for, Response
-from flask_admin.contrib.sqla import ModelView
-from flask_login import current_user
 from flask_admin.helpers import get_form_data
 
+from admin import ModelView
 from models.user import User
 from repository.userRepository import userRepository
-from utils.validators import MESSAGE_PASSWORD_INVALID, REGEX_PASSWORD_VALIDATION
+from validators.authValidator import MESSAGE_PASSWORD_INVALID, REGEX_PASSWORD_VALIDATION
 
 
 class UserAdmin(ModelView):
@@ -66,12 +64,6 @@ class UserAdmin(ModelView):
             ],
         ),
     }
-
-    def is_accessible(self) -> bool:
-        return current_user.is_authenticated and current_user.isActive and current_user.isStaff and current_user.isAdmin
-
-    def inaccessible_callback(self, name, **kwargs) -> Response:
-        return redirect(url_for("admin_login.login"))
 
     def create_model(self, form) -> User:
         try:

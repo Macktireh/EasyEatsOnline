@@ -2,53 +2,56 @@ from flask import request
 from flask_restx import Resource
 from flask_jwt_extended import jwt_required
 
-from schemas.dto import CategoryDto
-from services.category_service import CategoryServices
+from schemas.categorySchema import CategorySchema
+from services.categoryService import CategoryService
 from utils import status
 
 
-api = CategoryDto.api
+api = CategorySchema.api
 
 
 @api.route("")
-class ListCreateCategory(Resource):
+class ListCreateCategoryController(Resource):
     @api.response(status.HTTP_200_OK, "List of categories successfully.")
     @api.doc("list_categories")
-    @api.marshal_with(CategoryDto.ICategory, envelope="data")
+    @api.marshal_with(CategorySchema.responseCategory, envelope="data")
     @jwt_required()
     def get(self):
         """List Categories"""
-        return CategoryServices.getAllCategories()
+        return CategoryService.getAllCategories()
 
     @api.response(status.HTTP_201_CREATED, "Categories successfully added.")
     @api.doc("add_category")
-    @api.expect(CategoryDto.ICategory, validate=True)
+    @api.marshal_with(CategorySchema.responseCategory)
+    @api.expect(CategorySchema.requestCategory, validate=True)
     @jwt_required()
     def post(self):
         """Add a new Category"""
-        return CategoryServices.addCategory(request.json)
+        return CategoryService.addCategory(request.json), status.HTTP_201_CREATED
 
 
 @api.route("/<string:publicId>")
-class RetrieveUpdateDeleteCategory(Resource):
+class RetrieveUpdateDeleteCategoryController(Resource):
     @api.response(status.HTTP_200_OK, "category successfully retrieve.")
     @api.doc("retrieve_category")
+    @api.marshal_with(CategorySchema.responseCategory)
     @jwt_required()
     def get(self, publicId: str):
         """Retrieve a category"""
-        return CategoryServices.getCategoryByPublicId(publicId)
+        return CategoryService.getCategory(publicId)
 
     @api.response(status.HTTP_200_OK, "category successfully updated.")
     @api.doc("update_category")
-    @api.expect(CategoryDto.ICategoryUpdate, validate=True)
+    @api.marshal_with(CategorySchema.responseCategory)
+    @api.expect(CategorySchema.requestCategory, validate=True)
     @jwt_required()
     def patch(self, publicId: str):
         """Update a category"""
-        return CategoryServices.updateCategoryByPublicId(publicId, request.json)
+        return CategoryService.updateCategory(publicId=publicId, data=request.json)
 
     @api.response(status.HTTP_204_NO_CONTENT, "category successfully deleted.")
     @api.doc("dalete_category")
     @jwt_required()
     def delete(self, publicId: str):
         """Delete a category"""
-        return CategoryServices.deleteCategoryByPublicId(publicId)
+        return CategoryService.deleteCategory(publicId), status.HTTP_204_NO_CONTENT

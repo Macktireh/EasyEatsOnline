@@ -18,7 +18,8 @@ class TokenService:
     def getPayload(token: str, expiration: int = 60 * 60 * 24) -> TokenPayload | None:
         try:
             serializer = URLSafeTimedSerializer(app.config["SECRET_KEY"])
-            return serializer.loads(token, salt=app.config["SECURITY_PASSWORD_SALT"], max_age=expiration)
+            payload = serializer.loads(token, salt=app.config["SECURITY_PASSWORD_SALT"], max_age=expiration)
+            return payload
         except Exception:
             return None
 

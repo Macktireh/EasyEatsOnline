@@ -17,7 +17,7 @@ class RetrieveUpdateCurrentUserController(Resource):
     def get(self):
         """Get Current User"""
         identity = get_jwt_identity()
-        return UserService.getUserByPubliId(identity["publicId"])
+        return UserService.getUser(identity["publicId"])
 
     @api.doc("update_current_user")
     @api.marshal_list_with(UserSchema.User, envelope="data")

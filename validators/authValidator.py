@@ -9,7 +9,7 @@ REGEX_PASSWORD_VALIDATION = (
 MESSAGE_PASSWORD_INVALID = "Password is invalid, Should be atleast 8 characters with upper and lower case letters, numbers and special characters"  # noqa
 
 
-class Validator:
+class AuthValidator:
     """
     A class for validating data using regular expressions.
     """
@@ -28,7 +28,8 @@ class Validator:
         """
         return True if re.match(regex, field) else False
 
-    def validatePassword(self, password: str) -> bool:
+    @classmethod
+    def validatePassword(cls, password: str) -> bool:
         """
         Validate the given password.
 
@@ -38,9 +39,10 @@ class Validator:
         Returns:
             - bool: True if the password is valid, False otherwise.
         """
-        return self.validate(REGEX_PASSWORD_VALIDATION, password)
+        return cls.validate(REGEX_PASSWORD_VALIDATION, password)
 
-    def validateEmail(self, email: str) -> bool:
+    @classmethod
+    def validateEmail(cls, email: str) -> bool:
         """
         Validates an email address using a regular expression pattern.
 
@@ -50,9 +52,10 @@ class Validator:
         Returns:
             bool: True if the email is valid, False otherwise.
         """
-        return self.validate(REGEX_EMAIL_VALIDATION, email)
+        return cls.validate(REGEX_EMAIL_VALIDATION, email)
 
-    def validateSignup(self, **args: Dict[str, Any]) -> dict | Literal[True]:
+    @classmethod
+    def validateSignup(cls, **args: Dict[str, Any]) -> dict | Literal[True]:
         """
         Validate the signup data provided.
 
@@ -75,14 +78,14 @@ class Validator:
             if not isinstance(args.get(field), str):
                 errors[field] = f"{field.capitalize()} must be a string"
 
-        if "email" in args and not self.validateEmail(args["email"]):
+        if "email" in args and not cls.validateEmail(args["email"]):
             errors["email"] = "Email is invalid"
 
-        if "password" in args and not self.validatePassword(args["password"]):
+        if "password" in args and not cls.validatePassword(args["password"]):
             errors["password"] = MESSAGE_PASSWORD_INVALID
 
-        if "passwordConfirm" in args and not self.checkPasswordAndPasswordConfirm(
-            args["password"], args["passwordConfirm"]
+        if "passwordConfirm" in args and not cls.checkPasswordAndPasswordConfirm(
+            password=args["password"], passwordConfirm=args["passwordConfirm"]
         ):
             errors["passwordConfirm"] = "Password and Confirm Password doesn't match"
 
@@ -124,6 +127,3 @@ class Validator:
             bool: True if the password and password confirmation match, False otherwise.
         """
         return password == passwordConfirm
-
-
-validator = Validator()

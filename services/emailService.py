@@ -6,7 +6,7 @@ from smtplib import SMTP
 from smtplib import SMTPException
 from ssl import create_default_context
 from threading import Thread
-from typing import Optional
+from typing import List, Optional
 
 from flask import current_app as app
 
@@ -203,7 +203,7 @@ class EmailService:
         return True
 
     @staticmethod
-    def sendEmail(email: str, subject: str, body: str) -> None:
+    def sendEmail(recipients: List[str], subject: str, body: str) -> None:
         emailServiceSettings = EmailServiceSettings(
             username=app.config["MAIL_USERNAME"],
             password=app.config["MAIL_PASSWORD"],
@@ -212,7 +212,7 @@ class EmailService:
             dev_mode=app.config["FLASK_ENV"] != "production",
         )
         emailService = EmailService(emailServiceSettings)
-        emailService.recipients([f"{email}"])
+        emailService.recipients(recipients)
         emailService.subject(subject)
         emailService.body(f"{body}")
         Thread(target=sendAsyncEmail, args=(emailService,)).start()
