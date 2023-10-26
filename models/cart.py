@@ -1,6 +1,3 @@
-from typing import List, Tuple, Union
-from uuid import uuid4
-
 from app import db
 from models import BaseModel
 from models.order import Order
@@ -17,7 +14,15 @@ class Cart(BaseModel):
     __tablename__ = "cart"
 
     userId = db.Column(db.Integer, db.ForeignKey("user.id"))
-    orders = db.relationship(Order, secondary=cartOrder, backref="cart")
+    user = db.relationship("User", backref="cart", lazy="joined", uselist=False)
+    orders = db.relationship(
+        Order,
+        secondary=cartOrder,
+        backref="cart",
+        lazy="joined",
+        uselist=True,
+        cascade="all, delete",
+    )
 
     def __repr__(self) -> str:
         return "<Cart '{}'>".format(self.user.email)

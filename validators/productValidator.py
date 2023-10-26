@@ -28,7 +28,8 @@ class ProductValidator:
         if not isinstance(kwargs.get("price"), Number):
             errors["price"] = "Price must be a number"
 
-        # if kwargs.get("type") not in [item.value for item in TypeEnum]:
-        #     errors["type"] = "Type must be one of the following: appetizer, dish, dessert, drink"
+        values = [item.value.upper() for item in TypeEnum]
+        if kwargs.get("type") not in values:
+            errors["type"] = f"Type must be one of the following: {', '.join(values)}"
 
         return errors if errors else True

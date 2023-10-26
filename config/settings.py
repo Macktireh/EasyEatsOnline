@@ -27,6 +27,7 @@ class GlobalConfig:
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=60)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=1)
     SECURITY_PASSWORD_SALT = getEnvVar("SECURITY_PASSWORD_SALT")
+    SQLALCHEMY_ECHO = True
 
     MAIL_SERVER = getEnvVar("APP_MAIL_SERVER")
     MAIL_PORT = getEnvVar("APP_MAIL_PORT")

@@ -1,10 +1,11 @@
 from typing import List
 
 from flask_restx import abort
+from slugify import slugify
 from werkzeug import exceptions
 
 from dto import RequestProductCreateOrUpdateDTO
-from models.product import Product, TypeEnum
+from models.product import Product
 from repository.categoryRepository import categoryRepository
 from repository.productRepository import productRepository
 from utils import status
@@ -25,6 +26,9 @@ class ProductService:
                 message="The information provided is not valid",
                 errors=validate,
             )
+
+        if _ := productRepository.filter(slug=slugify(data["name"])):
+            raise exceptions.Conflict("Product already exists")
 
         if data.get("categoryPublicId"):
             if category := categoryRepository.getByPublicId(data.get("categoryPublicId")):

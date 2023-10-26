@@ -4,8 +4,6 @@ from flask_login import UserMixin
 
 from app import db, flask_bcrypt
 from models import BaseModel
-from models.cart import Cart
-from models.order import Order
 
 
 class User(UserMixin, BaseModel):
@@ -18,16 +16,10 @@ class User(UserMixin, BaseModel):
     isStaff = db.Column(db.Boolean, nullable=False, default=False)
     isAdmin = db.Column(db.Boolean, nullable=False, default=False)
     passwordHash = db.Column(db.Text, nullable=False)
-    order = db.relationship(
-        Order, backref="user", cascade="all, delete, delete-orphan", single_parent=True
-    )
-    cart = db.relationship(
-        Cart,
-        backref="user",
-        cascade="all, delete, delete-orphan",
-        single_parent=True,
-        uselist=False,
-    )
+
+    @property
+    def name(self) -> str:
+        return "{} {}".format(self.firstName, self.lastName)
 
     @property
     def password(self) -> NoReturn:
@@ -35,9 +27,7 @@ class User(UserMixin, BaseModel):
 
     @password.setter
     def password(self, password: str) -> None:
-        self.passwordHash = flask_bcrypt.generate_password_hash(password).decode(
-            "utf-8"
-        )
+        self.passwordHash = flask_bcrypt.generate_password_hash(password).decode("utf-8")
 
     def checkPassword(self, password: str) -> bool:
         return flask_bcrypt.check_password_hash(self.passwordHash, password)

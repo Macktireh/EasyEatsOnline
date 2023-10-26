@@ -18,6 +18,7 @@ class ProductAdmin(ModelView):
         "image",
         "description",
         "available",
+        "type",
         "createdAt",
         "updatedAt",
     ]
@@ -31,14 +32,16 @@ class ProductAdmin(ModelView):
         "image",
         "description",
         "available",
+        "type",
     ]
-    # form_create_rules: List[str] = [
-    #     "name",
-    #     "price",
-    #     "image",
-    #     "description",
-    #     "available",
-    # ]
+    form_create_rules: List[str] = [
+        "name",
+        "price",
+        "image",
+        "description",
+        "available",
+        "type",
+    ]
 
     form_excluded_columns = ["publicId", "slug", "createdAt", "updatedAt"]
 

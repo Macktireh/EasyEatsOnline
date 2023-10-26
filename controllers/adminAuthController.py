@@ -8,8 +8,6 @@ from services.authService import AuthService
 
 adminLogin = Blueprint("adminLogin", __name__)
 
-messageError = "Veuillez compléter correctement les champs « email » et « mot de passe » d'un compte administracteur."
-
 
 @adminLogin.route("/admin/auth/login", methods=["GET", "POST"])
 def login() -> Union[Response, str]:
@@ -21,7 +19,7 @@ def login() -> Union[Response, str]:
             if user and user.isActive and user.isStaff and user.isAdmin:
                 login_user(user)
                 return redirect(url_for("admin.index"))
-        flash(messageError)
+        flash("Please fill in the 'email' and 'password' fields for an administrator account.")
     return render_template("admin/login.html")
 
 

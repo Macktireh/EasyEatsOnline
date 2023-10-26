@@ -33,3 +33,8 @@ class RequestProductCreateOrUpdateDTO(RequestCategoryCreateOrUpdateDTO):
     price: float
     description: Optional[str]
     image: Optional[str]
+
+
+class RequestCreateOrUpdateOrder(TypedDict):
+    publicId: int
+    quantity: int

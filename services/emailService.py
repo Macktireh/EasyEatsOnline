@@ -214,7 +214,7 @@ class EmailService:
         emailService = EmailService(emailServiceSettings)
         emailService.recipients(recipients)
         emailService.subject(subject)
-        emailService.body(f"{body}")
+        emailService.body(body)
         Thread(target=sendAsyncEmail, args=(emailService,)).start()
 
 

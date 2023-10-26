@@ -28,24 +28,24 @@ class ProductSchema:
     api = Namespace("Product", description="product related operations")
     _productFields = productFields(api)
 
-    requestCreateProduct = api.clone(
-        "requestCreateProduct",
+    createProduct = api.clone(
+        "createProduct",
         _productFields,
         {
             "categoryPublicId": fields.String(required=False, description="Product Category publicId"),
         },
     )
 
-    requestUpdateProduct = api.clone(
-        "requestUpdateProduct",
+    updateProduct = api.clone(
+        "updateProduct",
         productFields(api, False),
         {
             "categoryPublicId": fields.String(required=False, description="Product Category publicId"),
         },
     )
 
-    responseProduct = api.clone(
-        "responsePoduct",
+    product = api.clone(
+        "product",
         _productFields,
         {
             "publicId": fields.String(readonly=True, description="product Identifier"),

@@ -14,17 +14,17 @@ api = AuthSchema.api
 class SignupContrller(Resource):
     @api.response(status.HTTP_201_CREATED, "User successfully created.")
     @api.doc("create a new user")
-    @api.expect(AuthSchema.Signup, validate=True)
+    @api.expect(AuthSchema.signup, validate=True)
     def post(self):
         """Creates a new User"""
         return AuthService.register(request.json), status.HTTP_201_CREATED
 
 
-@api.route("/account/activation")
+@api.route("/activation")
 class ActivationContrller(Resource):
     @api.response(status.HTTP_200_OK, "Account Activation successfully.")
     @api.doc("Account Activation")
-    @api.expect(AuthSchema.Token, validate=True)
+    @api.expect(AuthSchema.token, validate=True)
     def post(self):
         """Account Activation"""
         return AuthService.activation(request.json)
@@ -34,7 +34,7 @@ class ActivationContrller(Resource):
 class LoginContrller(Resource):
     @api.response(status.HTTP_200_OK, "User successfully login.")
     @api.doc("user login")
-    @api.expect(AuthSchema.Login, validate=True)
+    @api.expect(AuthSchema.login, validate=True)
     def post(self):
         """User Login"""
         return AuthService.login(request.json)

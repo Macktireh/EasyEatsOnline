@@ -4,19 +4,23 @@ from flask_restx import Namespace, fields
 class CategorySchema:
     api = Namespace("Category", description="category related operations")
 
-    requestCategory = api.model(
-        "requestCategory",
+    createCategory = api.model(
+        "createCategory",
         {
             "name": fields.String(required=True, description="Category Name"),
         },
     )
 
-    responseCategory = api.clone(
+    category = api.clone(
         "category",
-        requestCategory,
+        createCategory,
         {
             "publicId": fields.String(readonly=True, description="category Identifier"),
-            "createdAt": fields.DateTime(readonly=True, description="Category created at"),
-            "updatedAt": fields.DateTime(readonly=True, description="Category updated at"),
+            "createdAt": fields.DateTime(
+                readonly=True, description="Category created at"
+            ),
+            "updatedAt": fields.DateTime(
+                readonly=True, description="Category updated at"
+            ),
         },
     )

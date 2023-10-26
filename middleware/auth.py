@@ -1,45 +1,24 @@
 from functools import wraps
-from flask import request, abort
-from flask_jwt_extended import decode_token
 
-from services.userService import UserService
-from utils import status
-from utils.token import check_access_token
+from flask import request
+from werkzeug import exceptions
+
+from services.tokenService import TokenService
 
 
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        print("token_required")
-        token = None
-        print(request.headers["Authorization"])
-        if "Authorization" in request.headers:
-            authorization = request.headers["Authorization"].split(" ")
-            if "bearer" != authorization[0].lower() or len(authorization) != 2:
-                return {
-                    "message": "Authentication Token is missing!",
-                    "error": "Unauthorized",
-                }, status.HTTP_401_UNAUTHORIZED
-            token = authorization[1]
+        authorization_header = request.headers.get("Authorization")
+        if authorization_header:
+            authorization = authorization_header.split(" ")
+            if len(authorization) == 2 and authorization[0].lower() == "bearer":
+                token = authorization[1]
         if not token:
-            return {
-                "message": "Authentication Token is missing!",
-                "error": "Unauthorized",
-            }, status.HTTP_401_UNAUTHORIZED
-        try:
-            current_user = check_access_token(token)
-            if current_user is None:
-                return {
-                    "message": "Invalid Authentication token!",
-                    "error": "Unauthorized",
-                }, status.HTTP_401_UNAUTHORIZED
-            # if not current_user.isActive:
-            #     abort(403)
-        except Exception as e:
-            return {
-                "message": "Something went wrong",
-                "error": str(e),
-            }, status.HTTP_500_INTERNAL_SERVER_ERROR
+            raise exceptions.Unauthorized("Authentication Token is missing!")
+        current_user = TokenService.verify(token)
+        if not current_user:
+            raise exceptions.Unauthorized("Invalid token")
         return f(current_user, *args, **kwargs)
 
     return decorated

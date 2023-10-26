@@ -14,7 +14,7 @@ api = CategorySchema.api
 class ListCreateCategoryController(Resource):
     @api.response(status.HTTP_200_OK, "List of categories successfully.")
     @api.doc("list_categories")
-    @api.marshal_with(CategorySchema.responseCategory, envelope="data")
+    @api.marshal_with(CategorySchema.category, envelope="data")
     @jwt_required()
     def get(self):
         """List Categories"""
@@ -22,8 +22,8 @@ class ListCreateCategoryController(Resource):
 
     @api.response(status.HTTP_201_CREATED, "Categories successfully added.")
     @api.doc("add_category")
-    @api.marshal_with(CategorySchema.responseCategory)
-    @api.expect(CategorySchema.requestCategory, validate=True)
+    @api.marshal_with(CategorySchema.category)
+    @api.expect(CategorySchema.createCategory, validate=True)
     @jwt_required()
     def post(self):
         """Add a new Category"""
@@ -34,7 +34,7 @@ class ListCreateCategoryController(Resource):
 class RetrieveUpdateDeleteCategoryController(Resource):
     @api.response(status.HTTP_200_OK, "category successfully retrieve.")
     @api.doc("retrieve_category")
-    @api.marshal_with(CategorySchema.responseCategory)
+    @api.marshal_with(CategorySchema.category)
     @jwt_required()
     def get(self, publicId: str):
         """Retrieve a category"""
@@ -42,8 +42,8 @@ class RetrieveUpdateDeleteCategoryController(Resource):
 
     @api.response(status.HTTP_200_OK, "category successfully updated.")
     @api.doc("update_category")
-    @api.marshal_with(CategorySchema.responseCategory)
-    @api.expect(CategorySchema.requestCategory, validate=True)
+    @api.marshal_with(CategorySchema.category)
+    @api.expect(CategorySchema.createCategory, validate=True)
     @jwt_required()
     def patch(self, publicId: str):
         """Update a category"""

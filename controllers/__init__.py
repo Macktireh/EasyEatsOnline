@@ -5,8 +5,8 @@ from controllers.authCotroller import api as authApi
 from controllers.userController import api as userApi
 from controllers.categoryController import api as categoryApi
 from controllers.productController import api as productApi
-# from controllers.cart_routes import api as cart_api
-# from controllers.order_routes import api as order_api
+from controllers.cartController import api as cartApi
+from controllers.orderController import api as orderApi
 
 
 apiRoute = Blueprint("api", __name__, url_prefix="/api")
@@ -22,5 +22,5 @@ api.add_namespace(authApi, path="/auth/user")
 api.add_namespace(userApi, path="/users")
 api.add_namespace(categoryApi, path="/categories")
 api.add_namespace(productApi, path="/products")
-# api.add_namespace(cart_api, path="/carts")
-# api.add_namespace(order_api, path="/orders")
+api.add_namespace(cartApi, path="/cart")
+api.add_namespace(orderApi, path="/orders")

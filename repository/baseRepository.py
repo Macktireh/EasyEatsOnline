@@ -12,7 +12,7 @@ class BaseRepository:
     """A base repository class for handling database operations."""
 
     def __init__(self, model: Model) -> None:
-        self.model = model
+        self.__model = model
 
     def save(self, _model: Model, update: bool = True) -> Model:
         """
@@ -40,7 +40,7 @@ class BaseRepository:
         Returns:
             Model: The newly created model instance.
         """
-        _model = self.model(
+        _model = self.__model(
             *args,
             **kwargs,
             publicId=str(uuid4()),
@@ -56,7 +56,7 @@ class BaseRepository:
         Returns all the elements in the model.
         :return: List of elements in the model.
         """
-        return self.model.query.all()
+        return self.__model.query.all()
 
     def getById(self, id: int) -> Model | None:
         """
@@ -68,7 +68,7 @@ class BaseRepository:
         Returns:
             Model | None: The retrieved entity if found, or None if not found.
         """
-        return self.model.query.get(id)
+        return self.__model.query.get(id)
 
     def getByPublicId(self, publicId: str) -> Model | None:
         """
@@ -80,9 +80,24 @@ class BaseRepository:
         Returns:
             Model | None: The instance of type `Model` if found, or `None` if not found.
         """
-        return self.model.query.filter_by(publicId=publicId).first()
+        return self.__model.query.filter_by(publicId=publicId).first()
 
-    def filter(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> List[Model]:
+    def filter(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> Model | None:
+        """
+        Find a record in the database based on the provided arguments.
+
+        Args:
+            *args (Tuple[Any, ...]): Positional arguments to filter the query.
+            **kwargs (Dict[str, Any]): Keyword arguments to filter the query.
+
+        Returns:
+            Model | None: The first record that matches the filter, or None if no record is found.
+        """
+        return self.__model.query.filter_by(*args, **kwargs).first()
+
+    def filterAll(
+        self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]
+    ) -> List[Model]:
         """
         Filters the model based on the provided arguments and keyword arguments.
 
@@ -93,9 +108,11 @@ class BaseRepository:
         Returns:
             List[Model]: A list of objects that match the filter criteria.
         """
-        return self.model.query.filter_by(*args, **kwargs).all()
+        return self.__model.query.filter_by(*args, **kwargs).all()
 
-    def getOrCreate(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> Tuple[Model, bool]:
+    def getOrCreate(
+        self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]
+    ) -> Tuple[Model, bool]:
         """
         Get or create a new instance of the model.
 
@@ -106,7 +123,7 @@ class BaseRepository:
         Returns:
             Tuple[Model, bool]: A tuple containing the model instance and a boolean indicating if it was created or not.
         """
-        if model := self.model.query.filter_by(*args, **kwargs).first():
+        if model := self.__model.query.filter_by(*args, **kwargs).first():
             return model, False
         return self.create(*args, **kwargs), True
 

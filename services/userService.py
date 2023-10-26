@@ -1,8 +1,8 @@
 from typing import List
 
-from flask_restx import abort
-from dto import RequestUserUpdateDTO
+from werkzeug import exceptions
 
+from dto import RequestUserUpdateDTO
 from models.user import User
 from repository.userRepository import userRepository
 from utils import status
@@ -17,14 +17,14 @@ class UserService:
     def getUser(publicId: str) -> User:
         user: User | None = userRepository.getByPublicId(publicId)
         if not user:
-            abort(status.HTTP_404_NOT_FOUND, message="User not found")
+            raise exceptions.NotFound("User not found")
         return user
 
     @staticmethod
     def updateUser(publicId: str, data: RequestUserUpdateDTO) -> User:
         user = userRepository.getByPublicId(publicId)
         if not user:
-            abort(status.HTTP_404_NOT_FOUND, message="User not found")
+            raise exceptions.NotFound("User not found")
 
         user.firstName = data.get("firstName", user.firstName)
         user.lastName = data.get("lastName", user.lastName)

@@ -15,15 +15,15 @@ api = ProductSchema.api
 class ListCreateProduct(Resource):
     @api.response(status.HTTP_200_OK, "List of products successfully.")
     @api.doc("list_products")
-    @api.marshal_with(ProductSchema.responseProduct, envelope="data")
+    @api.marshal_with(ProductSchema.product, envelope="data")
     def get(self):
         """List Products"""
         return ProductService.getAllProducts()
 
     @api.response(status.HTTP_201_CREATED, "Products successfully added.")
     @api.doc("add_product")
-    @api.marshal_with(ProductSchema.responseProduct)
-    @api.expect(ProductSchema.requestCreateProduct, validate=True)
+    @api.marshal_with(ProductSchema.product)
+    @api.expect(ProductSchema.createProduct, validate=True)
     @jwt_required()
     @staff_required
     def post(self):
@@ -35,15 +35,15 @@ class ListCreateProduct(Resource):
 class RetrieveUpdateDeleteProduct(Resource):
     @api.response(status.HTTP_200_OK, "product successfully retrieve.")
     @api.doc("retrieve_product")
-    @api.marshal_with(ProductSchema.responseProduct)
+    @api.marshal_with(ProductSchema.product)
     def get(self, publicId: str):
         """Retrieve a product"""
         return ProductService.getProduct(publicId)
 
     @api.response(status.HTTP_200_OK, "product successfully updated.")
     @api.doc("update_product")
-    @api.marshal_with(ProductSchema.responseProduct)
-    @api.expect(ProductSchema.requestUpdateProduct, validate=True)
+    @api.marshal_with(ProductSchema.product)
+    @api.expect(ProductSchema.updateProduct, validate=True)
     @jwt_required()
     @staff_required
     def patch(self, publicId: str):

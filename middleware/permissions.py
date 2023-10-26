@@ -3,7 +3,6 @@ from werkzeug import exceptions
 from flask_jwt_extended import get_jwt_identity
 
 from services.userService import UserService
-from utils import status
 
 
 def admin_required(f):
@@ -12,7 +11,7 @@ def admin_required(f):
         identity = get_jwt_identity()
         user = UserService.getUser(identity["publicId"])
 
-        if not user.isAdmin and not user.isStaff:
+        if not user.isAdmin or not user.isStaff:
             raise exceptions.Forbidden("You're not allowed to access this resource!")
 
         return f(*args, **kwargs)

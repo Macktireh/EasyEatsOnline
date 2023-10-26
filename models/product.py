@@ -23,13 +23,6 @@ class Product(BaseModel):
     available = db.Column(db.Boolean, nullable=False, default=True)
     type = db.Column(db.Enum(TypeEnum), nullable=False)
     categoryId = db.Column(db.Integer, db.ForeignKey("category.id"), nullable=True)
-    category = db.relationship("Category")
-    order = db.relationship(
-        "Order",
-        backref="product",
-        cascade="all, delete, delete-orphan",
-        single_parent=True,
-    )
 
     def __init__(self, *args, **kwargs) -> None:
         if "slug" not in kwargs:
