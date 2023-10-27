@@ -9,9 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load = load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 
-def getEnvVar(
-    varName: str, default: str | None = None, required: bool = True
-) -> str | None:
+def getEnvVar(varName: str, default: str | None = None, required: bool = True) -> str | None:
     value = os.environ.get(varName, default)
     if required and not value:
         raise Exception(f"Environment variable {varName} is required")
@@ -22,18 +20,18 @@ class GlobalConfig:
     DEBUG = False
     FLASK_DEBUG = False
     FLASK_ENV = getEnvVar("FLASK_ENV", "development")
-    SECRET_KEY = getEnvVar("SECRET_KEY")
-    JWT_SECRET_KEY = getEnvVar("JWT_SECRET_KEY")
+    SECRET_KEY = getEnvVar("SECRET_KEY", "f0ji6t2hiltv5mUcgFOJIm1baDsGx3ye6Gj0NGo_Xuw")
+    JWT_SECRET_KEY = getEnvVar("JWT_SECRET_KEY", "OaWUwNfHpgoVk_0ykn-EV54El1M4FBEd0HpbjcVGCOI")
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=60)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=1)
-    SECURITY_PASSWORD_SALT = getEnvVar("SECURITY_PASSWORD_SALT")
+    SECURITY_PASSWORD_SALT = getEnvVar("SECURITY_PASSWORD_SALT", "O6yfbOoAzei3kt5x4i9q9YELoAtPw3ZbKeZpUStbkso")
     SQLALCHEMY_ECHO = True
 
-    MAIL_SERVER = getEnvVar("APP_MAIL_SERVER")
-    MAIL_PORT = getEnvVar("APP_MAIL_PORT")
-    MAIL_USERNAME = getEnvVar("APP_MAIL_USERNAME")
-    MAIL_PASSWORD = getEnvVar("APP_MAIL_PASSWORD")
-    MAIL_DEFAULT_SENDER = getEnvVar("APP_MAIL_USERNAME")
+    MAIL_SERVER = getEnvVar("APP_MAIL_SERVER", required=False)
+    MAIL_PORT = getEnvVar("APP_MAIL_PORT", required=False)
+    MAIL_USERNAME = getEnvVar("APP_MAIL_USERNAME", required=False)
+    MAIL_PASSWORD = getEnvVar("APP_MAIL_PASSWORD", required=False)
+    MAIL_DEFAULT_SENDER = getEnvVar("APP_MAIL_USERNAME", required=False)
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
     MAIL_DEBUG = False

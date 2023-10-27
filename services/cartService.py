@@ -28,7 +28,6 @@ class CartService:
     @staticmethod
     def retrieveCart(userPublicId: str) -> Cart:
         user = UserService.getUser(userPublicId)
-        print("-" * 50)
         cart, _ = cartRepository.getOrCreate(userId=user.id)
         return cart
 

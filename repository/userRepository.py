@@ -19,7 +19,7 @@ class UserRepository(BaseRepository):
         Returns:
             User: The created super user.
         """
-        super().create(isActive=True, isStaff=True, isAdmin=True, *args, **kwargs)
+        self.create(isActive=True, isStaff=True, isAdmin=True, *args, **kwargs)
 
     def getByEmail(self, email: str) -> User | None:
         """
@@ -32,7 +32,7 @@ class UserRepository(BaseRepository):
             User | None: The user with the specified email address, if found.
             None if no user with the email address exists.
         """
-        return self.model.query.filter_by(email=email).first()
+        return self.filter(email=email)
 
 
 userRepository = UserRepository(User)
