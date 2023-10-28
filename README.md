@@ -11,7 +11,7 @@ Dans un terminal et exécuter les commandes suivantes:
 Si vous avez `Git` sur votre ordinateur utiliser les commandes ci-dessous sinon télécharger simplement le projet.
 
 ```bash
-git clone https://github.com/Macktireh/ecommerce-backend-flask.git ecommerce-backend
+git clone https://github.com/Macktireh/ecommerce-backend-flask.git ecommerce-backend-flask
 ```
 
 ```bash
