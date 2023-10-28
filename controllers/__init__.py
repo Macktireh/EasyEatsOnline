@@ -16,6 +16,7 @@ api = Api(
     version="1.0",
     title="Tech Shoping REST APIs",
     description="a boilerplate for flask restplus web service",
+    doc="/docs",
 )
 
 api.add_namespace(authApi, path="/auth/user")

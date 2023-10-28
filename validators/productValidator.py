@@ -27,6 +27,8 @@ class ProductValidator:
 
         if not isinstance(kwargs.get("price"), Number):
             errors["price"] = "Price must be a number"
+        elif kwargs.get("price") < 1:
+            errors["price"] = "Price must be greater than 1"
 
         values = [item.value.upper() for item in TypeEnum]
         if kwargs.get("type") not in values:

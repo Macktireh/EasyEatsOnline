@@ -1,5 +1,3 @@
-from typing import Type
-
 from models.user import User
 from repository.baseRepository import BaseRepository
 
@@ -19,7 +17,7 @@ class UserRepository(BaseRepository):
         Returns:
             User: The created super user.
         """
-        self.create(isActive=True, isStaff=True, isAdmin=True, *args, **kwargs)
+        return self.create(isActive=True, isStaff=True, isAdmin=True, *args, **kwargs)
 
     def getByEmail(self, email: str) -> User | None:
         """

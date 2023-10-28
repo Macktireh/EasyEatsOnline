@@ -29,8 +29,9 @@ class RequestCategoryCreateOrUpdateDTO(TypedDict):
 
 
 class RequestProductCreateOrUpdateDTO(RequestCategoryCreateOrUpdateDTO):
-    categoryPublicId: str
     price: float
+    type: str
+    categoryPublicId: Optional[str]
     description: Optional[str]
     image: Optional[str]
 

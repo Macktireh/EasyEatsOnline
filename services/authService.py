@@ -20,7 +20,7 @@ class AuthService:
     """Handles authentication."""
 
     @staticmethod
-    def register(data: RequestSignupDTO) -> Dict[str, str]:
+    def register(data: RequestSignupDTO, withEmail: bool = True) -> Dict[str, str]:
         user = userRepository.getByEmail(data["email"])
         if user:
             raise exceptions.Conflict("User already exists")
@@ -36,18 +36,18 @@ class AuthService:
         data.pop("passwordConfirm", None)
         new_user = userRepository.create(**data)
 
-        body = render_template(
-            "mail/activate.html",
-            user=new_user,
-            domain=app.config["DOMAIN_FRONTEND"],
-            token=TokenService.generate(new_user),
-        )
-        EmailService.sendEmail(recipients=[new_user.email], subject="Please confirm your email", body=body)
-
+        if withEmail:
+            body = render_template(
+                "mail/activate.html",
+                user=new_user,
+                domain=app.config["DOMAIN_FRONTEND"],
+                token=TokenService.generate(new_user),
+            )
+            EmailService.sendEmail(recipients=[new_user.email], subject="Please confirm your email", body=body)
         return dict(message="You have registered successfully.")
 
     @staticmethod
-    def activation(data: RequestActivateDTO) -> Dict[str, str]:
+    def activation(data: RequestActivateDTO, withEmail: bool = True) -> Dict[str, str]:
         user = TokenService.verify(data["token"])
         if not user:
             raise exceptions.UnprocessableEntity("Invalid token")
@@ -57,11 +57,15 @@ class AuthService:
             user.updated = datetime.now()
             userRepository.save(user)
 
-            body = render_template("mail/activate_success.html", user=user)
-            EmailService.sendEmail(recipients=[user.email], subject="Your account is confirmed successfully", body=body)
+            if withEmail:
+                body = render_template("mail/activate_success.html", user=user)
+                EmailService.sendEmail(
+                    recipients=[user.email],
+                    subject="Your account is confirmed successfully",
+                    body=body
+                )
 
             return dict(message="Account confirmed successfully")
-
         raise exceptions.Gone("Account already confirmed. Please login.")
 
     @classmethod

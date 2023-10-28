@@ -5,7 +5,6 @@ from werkzeug import exceptions
 from dto import RequestCategoryCreateOrUpdateDTO
 from models.category import Category
 from repository.categoryRepository import categoryRepository
-from utils import status
 
 
 class CategoryService:

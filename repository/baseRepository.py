@@ -48,8 +48,7 @@ class BaseRepository:
             updatedAt=datetime.now(),
         )
         db.session.add(_model)
-        self.save(_model, False)
-        return _model
+        return self.save(_model, False)
 
     def getAll(self) -> List[Model]:
         """
@@ -95,9 +94,7 @@ class BaseRepository:
         """
         return self.__model.query.filter_by(*args, **kwargs).first()
 
-    def filterAll(
-        self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]
-    ) -> List[Model]:
+    def filterAll(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> List[Model]:
         """
         Filters the model based on the provided arguments and keyword arguments.
 
@@ -110,9 +107,7 @@ class BaseRepository:
         """
         return self.__model.query.filter_by(*args, **kwargs).all()
 
-    def getOrCreate(
-        self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]
-    ) -> Tuple[Model, bool]:
+    def getOrCreate(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> Tuple[Model, bool]:
         """
         Get or create a new instance of the model.
 

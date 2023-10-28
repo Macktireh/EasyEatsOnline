@@ -5,7 +5,6 @@ from werkzeug import exceptions
 from dto import RequestUserUpdateDTO
 from models.user import User
 from repository.userRepository import userRepository
-from utils import status
 
 
 class UserService:

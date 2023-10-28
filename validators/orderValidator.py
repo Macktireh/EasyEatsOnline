@@ -25,8 +25,7 @@ class OrderValidator:
 
         if not isinstance(kwargs.get("quantity"), Number):
             errors["quantity"] = "Quantity must be a number"
-
-        if kwargs.get("quantity") < 1:
-            errors["quantity"] = "Quantity must be greater than 0"
+        elif kwargs.get("quantity") < 1 or kwargs.get("quantity") > 20:
+            errors["quantity"] = "Quantity must be between 1 and 20"
 
         return errors if errors else True

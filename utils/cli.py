@@ -18,7 +18,7 @@ def printRed(text: str) -> None:
 
 def createSuperUserCli() -> None:
     while True:
-        email = input("Enter email address: ")
+        email = input("Enter email address [admin@example.com]: ") or "admin@example.com"
         if email == "":
             printRed("Email is required.")
             continue
@@ -29,8 +29,8 @@ def createSuperUserCli() -> None:
             printRed("A user with this e-mail address already exists.")
             continue
 
-        firstName = input("Enter first name: ")
-        lastName = input("Enter last name: ")
+        firstName = input("Enter first name [John]: ")
+        lastName = input("Enter last name [Doe]: ") or "Doe"
 
         while True:
             password = getpass("Enter password: ")
@@ -60,7 +60,7 @@ def createSuperUserCli() -> None:
 
 
 def testCli() -> Literal[0, 1]:
-    tests: TestSuite = unittest.TestLoader().discover("test", pattern="test*.py")
+    tests: TestSuite = unittest.TestLoader().discover("tests", pattern="test*.py")
     result: TestResult = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0

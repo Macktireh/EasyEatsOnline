@@ -1,5 +1,3 @@
-from typing import List
-
 from models.product import Product
 from repository.baseRepository import BaseRepository
 

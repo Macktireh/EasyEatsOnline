@@ -25,7 +25,7 @@ class GlobalConfig:
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=60)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=1)
     SECURITY_PASSWORD_SALT = getEnvVar("SECURITY_PASSWORD_SALT", "O6yfbOoAzei3kt5x4i9q9YELoAtPw3ZbKeZpUStbkso")
-    SQLALCHEMY_ECHO = True
+    SQLALCHEMY_ECHO = False
 
     MAIL_SERVER = getEnvVar("APP_MAIL_SERVER", required=False)
     MAIL_PORT = getEnvVar("APP_MAIL_PORT", required=False)
@@ -49,6 +49,7 @@ class DevelopmentConfig(GlobalConfig):
     DEBUG = True
     FLASK_DEBUG = True
     MAIL_DEBUG = True
+    SQLALCHEMY_ECHO = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
@@ -58,6 +59,7 @@ class TestingConfig(GlobalConfig):
     MAIL_DEBUG = True
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(BASE_DIR, "db_test.sqlite3")
 
 
 class ProductionConfig(GlobalConfig):
