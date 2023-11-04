@@ -11,7 +11,7 @@ def productFields(api, required: bool = True):
             "price": fields.Float(required=required, description="Product price", example=11.5),
             "description": fields.String(required=False, description="Product description", example="Pepsi Cola 500ml"),
             "image": fields.String(required=False, description="the URL of the product image"),
-            "type": fields.String(required=required, description="Product type", example="drink"),
+            "type": fields.String(required=required, description="Product type", example="DRINK"),
         },
     )
 

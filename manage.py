@@ -3,7 +3,7 @@ import click
 from typing import Any, Dict, Literal, Tuple, Union
 from werkzeug.exceptions import NotFound, Forbidden, BadRequest
 
-from flask import render_template
+from flask import redirect, render_template, url_for
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask.cli import with_appcontext
@@ -13,14 +13,10 @@ from app import createApp, db
 from config.settings import getEnvVar
 from repository.userRepository import userRepository
 from utils import status
-from utils.cli import createSuperUserCli, testCli
+from utils.cli import createSuperUserCli, runTests
 
 # models
 from models.user import User
-from models.product import Product
-from models.category import Category
-from models.order import Order
-from models.cart import Cart
 
 # routes
 from controllers import apiRoute
@@ -28,23 +24,23 @@ from controllers.adminAuthController import adminLogin
 
 
 # create app flask
-flask_app, admin = createApp(getEnvVar("FLASK_ENV", "development"))
+app = createApp(getEnvVar("FLASK_ENV", "development"))
 
-migrate = Migrate(flask_app, db)
-registerAdmin(admin, db)
+migrate = Migrate(app, db)
+registerAdmin(app, db)
 
 # register api routes
-flask_app.register_blueprint(apiRoute)
-flask_app.register_blueprint(adminLogin)
+app.register_blueprint(apiRoute)
+app.register_blueprint(adminLogin)
 
-# flask login configuration
 login_manager = LoginManager()
-login_manager.init_app(flask_app)
+login_manager.init_app(app)
 login_manager.login_view = "admin.login"
 
 
-@flask_app.route("/")
+@app.route("/")
 def home() -> Any:
+    return redirect(url_for("api.doc"))
     return render_template("home/home.html")
 
 
@@ -58,7 +54,7 @@ def request_loader(request) -> None:
     return
 
 
-@flask_app.errorhandler(status.HTTP_403_FORBIDDEN)
+@app.errorhandler(status.HTTP_403_FORBIDDEN)
 def forbidden(e: Forbidden) -> Tuple[Dict[str, str], Literal[403]]:
     return {
         "message": "Forbidden",
@@ -66,18 +62,15 @@ def forbidden(e: Forbidden) -> Tuple[Dict[str, str], Literal[403]]:
     }, status.HTTP_403_FORBIDDEN
 
 
-@flask_app.errorhandler(status.HTTP_404_NOT_FOUND)
+@app.errorhandler(status.HTTP_404_NOT_FOUND)
 def notfound(e: NotFound) -> Tuple[Dict[str, str], Literal[404]]:
-    print()
-    print("manage.py: notfound", e)
-    print()
     return {
         "message": "Endpoint Not Found",
         "error": str(e),
     }, status.HTTP_404_NOT_FOUND
 
 
-@flask_app.errorhandler(status.HTTP_400_BAD_REQUEST)
+@app.errorhandler(status.HTTP_400_BAD_REQUEST)
 def badrequest(e: BadRequest) -> Tuple[Dict[str, str], Literal[404]]:
     return {
         "messagess": "Bad Request",
@@ -96,8 +89,8 @@ def createsuperuser() -> None:
 @with_appcontext
 def test() -> None:
     """Runs the unit tests."""
-    testCli()
+    runTests()
 
 
-flask_app.cli.add_command(createsuperuser)
-flask_app.cli.add_command(test)
+app.cli.add_command(createsuperuser)
+app.cli.add_command(test)

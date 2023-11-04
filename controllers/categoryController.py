@@ -1,6 +1,7 @@
 from flask import request
 from flask_restx import Resource
 from flask_jwt_extended import jwt_required
+from middleware.permissions import admin_required, staff_required
 
 from schemas.categorySchema import CategorySchema
 from services.categoryService import CategoryService
@@ -15,7 +16,6 @@ class ListCreateCategoryController(Resource):
     @api.response(status.HTTP_200_OK, "List of categories successfully.")
     @api.doc("list_categories")
     @api.marshal_with(CategorySchema.category, envelope="data")
-    @jwt_required()
     def get(self):
         """List Categories"""
         return CategoryService.getAllCategories()
@@ -23,8 +23,9 @@ class ListCreateCategoryController(Resource):
     @api.response(status.HTTP_201_CREATED, "Categories successfully added.")
     @api.doc("add_category")
     @api.marshal_with(CategorySchema.category)
-    @api.expect(CategorySchema.createCategory, validate=True)
+    @api.expect(CategorySchema.createOrUpdateCategory, validate=True)
     @jwt_required()
+    @staff_required
     def post(self):
         """Add a new Category"""
         return CategoryService.addCategory(request.json), status.HTTP_201_CREATED
@@ -35,7 +36,6 @@ class RetrieveUpdateDeleteCategoryController(Resource):
     @api.response(status.HTTP_200_OK, "category successfully retrieve.")
     @api.doc("retrieve_category")
     @api.marshal_with(CategorySchema.category)
-    @jwt_required()
     def get(self, publicId: str):
         """Retrieve a category"""
         return CategoryService.getCategory(publicId)
@@ -43,8 +43,9 @@ class RetrieveUpdateDeleteCategoryController(Resource):
     @api.response(status.HTTP_200_OK, "category successfully updated.")
     @api.doc("update_category")
     @api.marshal_with(CategorySchema.category)
-    @api.expect(CategorySchema.createCategory, validate=True)
+    @api.expect(CategorySchema.createOrUpdateCategory, validate=True)
     @jwt_required()
+    @staff_required
     def patch(self, publicId: str):
         """Update a category"""
         return CategoryService.updateCategory(publicId=publicId, data=request.json)
@@ -52,6 +53,7 @@ class RetrieveUpdateDeleteCategoryController(Resource):
     @api.response(status.HTTP_204_NO_CONTENT, "category successfully deleted.")
     @api.doc("dalete_category")
     @jwt_required()
+    @admin_required
     def delete(self, publicId: str):
         """Delete a category"""
         return CategoryService.deleteCategory(publicId), status.HTTP_204_NO_CONTENT

@@ -1,7 +1,7 @@
 from flask_restx import Api
 from flask import Blueprint
 
-from controllers.authCotroller import api as authApi
+from controllers.authController import api as authApi
 from controllers.userController import api as userApi
 from controllers.categoryController import api as categoryApi
 from controllers.productController import api as productApi

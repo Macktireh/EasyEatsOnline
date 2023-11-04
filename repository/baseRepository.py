@@ -50,37 +50,6 @@ class BaseRepository:
         db.session.add(_model)
         return self.save(_model, False)
 
-    def getAll(self) -> List[Model]:
-        """
-        Returns all the elements in the model.
-        :return: List of elements in the model.
-        """
-        return self.__model.query.all()
-
-    def getById(self, id: int) -> Model | None:
-        """
-        Retrieves an entity from the database by its ID.
-
-        Parameters:
-            id (int): The ID of the entity to retrieve.
-
-        Returns:
-            Model | None: The retrieved entity if found, or None if not found.
-        """
-        return self.__model.query.get(id)
-
-    def getByPublicId(self, publicId: str) -> Model | None:
-        """
-        Retrieve an instance of type `Model` from the database using the provided public ID.
-
-        Args:
-            publicId (str): The public ID of the instance to retrieve.
-
-        Returns:
-            Model | None: The instance of type `Model` if found, or `None` if not found.
-        """
-        return self.__model.query.filter_by(publicId=publicId).first()
-
     def filter(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> Model | None:
         """
         Find a record in the database based on the provided arguments.
@@ -106,6 +75,37 @@ class BaseRepository:
             List[Model]: A list of objects that match the filter criteria.
         """
         return self.__model.query.filter_by(*args, **kwargs).all()
+
+    def getAll(self) -> List[Model]:
+        """
+        Returns all the elements in the model.
+        :return: List of elements in the model.
+        """
+        return self.__model.query.all()
+
+    def getById(self, id: int) -> Model | None:
+        """
+        Retrieves an entity from the database by its ID.
+
+        Parameters:
+            id (int): The ID of the entity to retrieve.
+
+        Returns:
+            Model | None: The retrieved entity if found, or None if not found.
+        """
+        return self.filter(id=id)
+
+    def getByPublicId(self, publicId: str) -> Model | None:
+        """
+        Retrieve an instance of type `Model` from the database using the provided public ID.
+
+        Args:
+            publicId (str): The public ID of the instance to retrieve.
+
+        Returns:
+            Model | None: The instance of type `Model` if found, or `None` if not found.
+        """
+        return self.filter(publicId=publicId)
 
     def getOrCreate(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> Tuple[Model, bool]:
         """

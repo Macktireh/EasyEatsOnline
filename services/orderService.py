@@ -3,7 +3,7 @@ from typing import List
 from werkzeug import exceptions
 from flask_restx import abort
 
-from dto import RequestCreateOrUpdateOrder
+from dto import RequestCreateOrUpdateOrderDTO
 from models.order import Order
 from repository.orderRepository import orderRepository
 from utils import status
@@ -16,10 +16,14 @@ class OrderService:
         return orderRepository.getAll()
 
     @staticmethod
-    def updateQuantity(data: RequestCreateOrUpdateOrder) -> Order:
+    def updateQuantity(data: RequestCreateOrUpdateOrderDTO) -> Order:
         validate = OrderValidator.validate(**data)
         if validate is not True:
-            abort(status.HTTP_400_BAD_REQUEST, message="The information provided is not valid", errors=validate)
+            abort(
+                status.HTTP_400_BAD_REQUEST,
+                message="The information provided is not valid",
+                errors=validate,
+            )
 
         order = orderRepository.getByPublicId(data["publicId"])
         if not order:

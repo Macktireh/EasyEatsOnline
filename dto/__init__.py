@@ -36,6 +36,6 @@ class RequestProductCreateOrUpdateDTO(RequestCategoryCreateOrUpdateDTO):
     image: Optional[str]
 
 
-class RequestCreateOrUpdateOrder(TypedDict):
+class RequestCreateOrUpdateOrderDTO(TypedDict):
     publicId: int
     quantity: int

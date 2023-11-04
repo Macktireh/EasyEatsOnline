@@ -17,7 +17,7 @@ class UserRepository(BaseRepository):
         Returns:
             User: The created super user.
         """
-        return self.create(isActive=True, isStaff=True, isAdmin=True, *args, **kwargs)
+        return self.create(*args, **kwargs, isActive=True, isStaff=True, isAdmin=True)
 
     def getByEmail(self, email: str) -> User | None:
         """

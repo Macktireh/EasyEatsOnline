@@ -36,7 +36,7 @@ class AuthService:
         data.pop("passwordConfirm", None)
         new_user = userRepository.create(**data)
 
-        if withEmail:
+        if not app.config["TESTING"]:
             body = render_template(
                 "mail/activate.html",
                 user=new_user,
@@ -57,7 +57,7 @@ class AuthService:
             user.updated = datetime.now()
             userRepository.save(user)
 
-            if withEmail:
+            if not app.config["TESTING"]:
                 body = render_template("mail/activate_success.html", user=user)
                 EmailService.sendEmail(
                     recipients=[user.email],

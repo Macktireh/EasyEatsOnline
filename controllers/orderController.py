@@ -28,6 +28,6 @@ class UpdateQuantityOrder(Resource):
     @api.marshal_list_with(OrderSchema.order)
     @api.expect(OrderSchema.updateQuantityOrder, validate=True)
     @jwt_required()
-    def post(self):
+    def patch(self):
         """update quantity of order"""
         return OrderService.updateQuantity(request.json)

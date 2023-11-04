@@ -10,7 +10,7 @@ api = CartSchema.api
 
 
 @api.route("")
-class RetrieveCart(Resource):
+class RetrieveOrDeleteAllFromCart(Resource):
     @api.response(status.HTTP_200_OK, "cart successfully retrieve.")
     @api.doc("retrieve_cart")
     @api.marshal_with(CartSchema.cart)

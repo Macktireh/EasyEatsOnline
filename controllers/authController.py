@@ -11,7 +11,7 @@ api = AuthSchema.api
 
 
 @api.route("/signup")
-class SignupContrller(Resource):
+class SignupController(Resource):
     @api.response(status.HTTP_201_CREATED, "User successfully created.")
     @api.doc("create a new user")
     @api.expect(AuthSchema.signup, validate=True)
@@ -21,7 +21,7 @@ class SignupContrller(Resource):
 
 
 @api.route("/activation")
-class ActivationContrller(Resource):
+class ActivationController(Resource):
     @api.response(status.HTTP_200_OK, "Account Activation successfully.")
     @api.doc("Account Activation")
     @api.expect(AuthSchema.token, validate=True)
@@ -31,7 +31,7 @@ class ActivationContrller(Resource):
 
 
 @api.route("/login")
-class LoginContrller(Resource):
+class LoginController(Resource):
     @api.response(status.HTTP_200_OK, "User successfully login.")
     @api.doc("user login")
     @api.expect(AuthSchema.login, validate=True)
@@ -41,7 +41,7 @@ class LoginContrller(Resource):
 
 
 @api.route("/token/refresh")
-class RefreshTokenContrller(Resource):
+class RefreshTokenController(Resource):
     @api.response(status.HTTP_200_OK, "Refresh Token JWT")
     @api.doc("Refresh Token JWT")
     @jwt_required(refresh=True)

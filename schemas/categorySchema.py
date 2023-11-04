@@ -4,7 +4,7 @@ from flask_restx import Namespace, fields
 class CategorySchema:
     api = Namespace("Category", description="category related operations")
 
-    createCategory = api.model(
+    createOrUpdateCategory = api.model(
         "createCategory",
         {
             "name": fields.String(required=True, description="Category Name"),
@@ -13,7 +13,7 @@ class CategorySchema:
 
     category = api.clone(
         "category",
-        createCategory,
+        createOrUpdateCategory,
         {
             "publicId": fields.String(readonly=True, description="category Identifier"),
             "createdAt": fields.DateTime(

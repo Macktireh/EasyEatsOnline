@@ -5,7 +5,7 @@ from schemas.userSchema import UserSchema
 
 
 class OrderSchema:
-    api = Namespace("Oerder", description="Order related operations")
+    api = Namespace("Order", description="Order related operations")
 
     order = api.model(
         "order",
