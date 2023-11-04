@@ -9,8 +9,7 @@ from config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
 
 class TestDevelopmentConfig(TestCase):
     def create_app(self) -> Flask:
-        # Utilisez ici votre application Flask avec la configuration de test
-        app, _ = createApp("development")
+        app = createApp("development")
         return app
 
     def test_app_is_development(self) -> None:
@@ -22,7 +21,7 @@ class TestDevelopmentConfig(TestCase):
 class TestTestingConfig(TestCase):
     def create_app(self) -> Flask:
         # Utilisez ici votre application Flask avec la configuration de test
-        self.app, _ = createApp("testing")
+        self.app = createApp("testing")
         return self.app
 
     def test_app_is_testing(self) -> None:
@@ -35,7 +34,7 @@ class TestTestingConfig(TestCase):
 class TestProductionConfig(TestCase):
     def create_app(self) -> Flask:
         # Utilisez ici votre application Flask avec la configuration de test
-        app, _ = createApp("production")
+        app = createApp("production")
         return app
 
     def test_app_is_production(self) -> None:

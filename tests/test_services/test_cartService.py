@@ -11,7 +11,7 @@ from tests.fixture import Fixture
 
 class CartServiceTestCase(TestCase):
     def create_app(self) -> Flask:
-        app, _ = createApp("testing")
+        app = createApp("testing")
         return app
 
     def setUp(self) -> None:
@@ -23,7 +23,7 @@ class CartServiceTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
-    def test_addToCart(self) -> None:
+    def test_service_cart_addToCart(self) -> None:
         cart = CartService.addToCart(self.user1.publicId, self.product1.publicId)
         self.assertEqual(len(cart.orders), 1)
         self.assertEqual(cart.orders[0].quantity, 1)
@@ -31,14 +31,14 @@ class CartServiceTestCase(TestCase):
         self.assertEqual(len(cart.orders), 1)
         self.assertEqual(cart.orders[0].quantity, 2)
 
-    def test_retrieveCart(self) -> None:
+    def test_service_cart_retrieveCart(self) -> None:
         for i in range(3):
             CartService.addToCart(self.user1.publicId, self.product1.publicId)
         cart = CartService.retrieveCart(self.user1.publicId)
         self.assertEqual(len(cart.orders), 1)
         self.assertEqual(cart.orders[0].quantity, 3)
 
-    def test_deleteFromCart(self) -> None:
+    def test_service_cart_deleteFromCart(self) -> None:
         CartService.addToCart(self.user1.publicId, self.product1.publicId)
         cart = CartService.deleteFromCart(self.user1.publicId, self.product1.publicId)
         self.assertEqual(len(cart.orders), 0)
@@ -46,7 +46,7 @@ class CartServiceTestCase(TestCase):
         with self.assertRaises(exceptions.NotFound):
             CartService.deleteFromCart(self.user2.publicId, self.product1.publicId)
 
-    def test_deleteAllFromCart(self) -> None:
+    def test_service_cart_deleteAllFromCart(self) -> None:
         for i in range(3):
             CartService.addToCart(self.user1.publicId, self.product1.publicId)
         CartService.deleteAllFromCart(self.user1.publicId)

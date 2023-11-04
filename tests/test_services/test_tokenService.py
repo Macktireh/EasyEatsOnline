@@ -10,7 +10,7 @@ from tests.fixture import Fixture
 
 class TokenServiceTestCase(TestCase):
     def create_app(self) -> Flask:
-        app, _ = createApp("testing")
+        app = createApp("testing")
         return app
 
     def setUp(self) -> None:
@@ -22,27 +22,27 @@ class TokenServiceTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
-    def test_generate(self) -> None:
+    def test_service_token_generate(self) -> None:
         token = TokenService.generate(self.user)
         self.assertIsNotNone(token)
 
-    def test_generate_error(self) -> None:
+    def test_service_token_generate_error(self) -> None:
         with self.assertRaises(Exception):
             TokenService.generate(None)
 
-    def test_verify(self) -> None:
+    def test_service_token_verify(self) -> None:
         token = TokenService.generate(self.user)
         user = TokenService.verify(token)
         self.assertIsNotNone(user)
         self.assertEqual(user.id, self.user.id)
 
-    def test_verify_invalid(self) -> None:
+    def test_service_token_verify_invalid(self) -> None:
         token = TokenService.generate(self.user)
         token = token[:-1]
         user = TokenService.verify(token)
         self.assertIsNone(user)
 
-    def test_getPayload(self) -> None:
+    def test_service_token_getPayload(self) -> None:
         token = TokenService.generate(self.user)
         payload = TokenService.getPayload(token)
         self.assertIsNotNone(payload)

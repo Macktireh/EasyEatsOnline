@@ -12,7 +12,7 @@ from tests.fixture import Fixture
 
 class ProductServiceTestCase(TestCase):
     def create_app(self) -> Flask:
-        app, _ = createApp("testing")
+        app = createApp("testing")
         return app
 
     def setUp(self) -> None:
@@ -28,11 +28,11 @@ class ProductServiceTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
-    def test_getAllProducts(self) -> None:
+    def test_service_product_getAllProducts(self) -> None:
         products = ProductService.getAllProducts()
         self.assertEqual(len(products), 2)
 
-    def test_addProduct(self) -> None:
+    def test_service_product_addProduct(self) -> None:
         product = ProductService.addProduct(self.data)
         self.assertEqual(product.name, self.data["name"])
         self.assertEqual(product.price, self.data["price"])
@@ -46,14 +46,14 @@ class ProductServiceTestCase(TestCase):
         with self.assertRaises(exceptions.BadRequest):
             ProductService.addProduct({"name": ""})
 
-    def test_getProduct(self) -> None:
+    def test_service_product_getProduct(self) -> None:
         product = ProductService.getProduct(self.product1.publicId)
         self.assertEqual(product.name, self.product1.name)
 
         with self.assertRaises(exceptions.NotFound):
             ProductService.getProduct("invalid")
 
-    def test_updateProduct(self) -> None:
+    def test_service_product_updateProduct(self) -> None:
         product = ProductService.updateProduct(self.product1.publicId, self.data)
         self.assertEqual(product.name, self.data["name"])
         self.assertEqual(product.price, self.data["price"])
@@ -62,7 +62,7 @@ class ProductServiceTestCase(TestCase):
         with self.assertRaises(exceptions.NotFound):
             ProductService.updateProduct("invalid", self.data)
 
-    def test_deleteProduct(self) -> None:
+    def test_service_product_deleteProduct(self) -> None:
         ProductService.deleteProduct(self.product1.publicId)
         self.assertEqual(len(ProductService.getAllProducts()), 1)
         with self.assertRaises(exceptions.NotFound):

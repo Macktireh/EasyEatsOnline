@@ -11,7 +11,7 @@ from tests.fixture import Fixture
 
 class OrderServiceTestCase(TestCase):
     def create_app(self) -> Flask:
-        app, _ = createApp("testing")
+        app = createApp("testing")
         return app
 
     def setUp(self) -> None:
@@ -26,11 +26,11 @@ class OrderServiceTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
-    def test_getAllOrders(self) -> None:
+    def test_service_order_getAllOrders(self) -> None:
         orders = OrderService.getAllOrders()
         self.assertEqual(len(orders), 1)
 
-    def test_updateQuantity(self) -> None:
+    def test_service_order_updateQuantity(self) -> None:
         order = OrderService.updateQuantity(self.data)
         self.assertEqual(order.quantity, self.data["quantity"])
 

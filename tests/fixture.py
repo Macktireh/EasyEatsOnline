@@ -24,6 +24,8 @@ class Fixture:
                 email=fake.email(),
                 password="password",
                 isActive=True if i % 2 > 0 else False,
+                isStaff=True if i % 2 > 0 else False,
+                isAdmin=True if i % 2 > 0 else False,
             ) for i in range(n)
         ]
 

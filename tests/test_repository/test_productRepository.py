@@ -11,7 +11,7 @@ from repository.productRepository import productRepository
 class ProductRepositoryTestCase(TestCase):
 
     def create_app(self) -> Flask:
-        app, _ = createApp("testing")
+        app = createApp("testing")
         return app
 
     def setUp(self) -> None:
@@ -26,14 +26,14 @@ class ProductRepositoryTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
-    def test_create_product(self) -> None:
+    def test_repository_product_create_product(self) -> None:
         product = productRepository.create(**self.data)
         self.assertIsNotNone(product.id)
         self.assertEqual(product.name, self.data["name"])
         self.assertEqual(product.price, self.data["price"])
         self.assertEqual(product.type, self.data["type"])
 
-    def test_get_all_products(self) -> None:
+    def test_repository_product_get_all_products(self) -> None:
         product1 = productRepository.create(**self.data)
         product2 = productRepository.create(
             name="Another Product",
@@ -43,7 +43,7 @@ class ProductRepositoryTestCase(TestCase):
         products = productRepository.getAll()
         self.assertEqual(len(products), 2)
 
-    def test_get_product_by_id(self) -> None:
+    def test_repository_product_get_product_by_id(self) -> None:
         product = productRepository.create(**self.data)
         retrieved_product = productRepository.getById(product.id)
         self.assertIsNotNone(retrieved_product)
@@ -51,7 +51,7 @@ class ProductRepositoryTestCase(TestCase):
         self.assertEqual(retrieved_product.name, self.data["name"])
         self.assertEqual(retrieved_product.price, self.data["price"])
 
-    def test_get_product_by_public_id(self) -> None:
+    def test_repository_product_get_product_by_public_id(self) -> None:
         product = productRepository.create(**self.data)
         retrieved_product = productRepository.getByPublicId(product.publicId)
         self.assertIsNotNone(retrieved_product)
@@ -59,7 +59,7 @@ class ProductRepositoryTestCase(TestCase):
         self.assertEqual(retrieved_product.name, self.data["name"])
         self.assertEqual(retrieved_product.price, self.data["price"])
 
-    def test_filter_products(self) -> None:
+    def test_repository_product_filter_products(self) -> None:
         product1 = productRepository.create(**self.data)
         product2 = productRepository.create(
             name="Another Product",
@@ -72,7 +72,7 @@ class ProductRepositoryTestCase(TestCase):
         self.assertEqual(filtered_product.name, self.data["name"])
         self.assertEqual(filtered_product.price, self.data["price"])
 
-    def test_filter_all_products(self) -> None:
+    def test_repository_product_filter_all_products(self) -> None:
         product1 = productRepository.create(**self.data)
         product2 = productRepository.create(
             name="Another Product",
@@ -82,14 +82,14 @@ class ProductRepositoryTestCase(TestCase):
         filtered_products = productRepository.filterAll(type=TypeEnum.APPETIZER)
         self.assertEqual(len(filtered_products), 1)
 
-    def test_get_or_create_product(self) -> None:
+    def test_repository_product_get_or_create_product(self) -> None:
         product, created = productRepository.getOrCreate(**self.data)
         self.assertTrue(created)
         product2, created2 = productRepository.getOrCreate(name=self.data["name"])
         self.assertFalse(created2)
         self.assertEqual(product.id, product2.id)
 
-    def test_delete_product(self) -> None:
+    def test_repository_product_delete_product(self) -> None:
         product = productRepository.create(**self.data)
         self.assertIsNotNone(product)
         productRepository.delete(product)

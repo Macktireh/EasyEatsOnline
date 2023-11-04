@@ -11,7 +11,7 @@ from tests.fixture import Fixture
 
 class CategoryServiceTestCase(TestCase):
     def create_app(self) -> Flask:
-        app, _ = createApp("testing")
+        app = createApp("testing")
         return app
 
     def setUp(self) -> None:
@@ -23,11 +23,11 @@ class CategoryServiceTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
-    def test_getAllCategories(self) -> None:
+    def test_service_category_getAllCategories(self) -> None:
         categories = CategoryService.getAllCategories()
         self.assertEqual(len(categories), 2)
 
-    def test_addCategory(self) -> None:
+    def test_service_category_addCategory(self) -> None:
         category = CategoryService.addCategory(self.data)
         self.assertEqual(category.name, self.data["name"])
         self.assertEqual(len(CategoryService.getAllCategories()), 3)
@@ -40,15 +40,15 @@ class CategoryServiceTestCase(TestCase):
         with self.assertRaises(exceptions.BadRequest):
             CategoryService.addCategory({"name": ""})
 
-    def test_getCategory(self) -> None:
+    def test_service_category_getCategory(self) -> None:
         category = CategoryService.getCategory(self.category1.publicId)
         self.assertEqual(category.name, self.category1.name)
 
-    def test_updateCategory(self) -> None:
+    def test_service_category_updateCategory(self) -> None:
         category = CategoryService.updateCategory(self.category1.publicId, self.data)
         self.assertEqual(category.name, self.data["name"])
 
-    def test_deleteCategory(self) -> None:
+    def test_service_category_deleteCategory(self) -> None:
         CategoryService.deleteCategory(self.category1.publicId)
         self.assertEqual(len(CategoryService.getAllCategories()), 1)
         with self.assertRaises(exceptions.NotFound):

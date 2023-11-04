@@ -1,27 +1,27 @@
-.PHONY: runserver m mm mmm sm shell test superuser loaddata dumpdata i18n
+.PHONY: run m u mu sm shell test superuser black isort ruff clean
 
-.DEFAULT_GOAL := runserver
+.DEFAULT_GOAL := run
 
-runserver:
-	poetry run python manage.py runserver
+run:
+	poetry run flask run
 
 # migrate
 m:
-	poetry run python manage.py migrate
+	poetry run python flask migrate
 
 # makemigrations
-mm:
-	poetry run python manage.py makemigrations
+u:
+	poetry run flask upgrade
 
-# makemigrations + migrate
-mmm: mm m
+# migrate + upgrade
+mu: m u
 
 # showmigrations
 sm:
-	poetry run python manage.py showmigrations
+	poetry run flask show
 
 shell:
-	poetry run python manage.py shell_plus
+	poetry run flask shell
 
 testc:
 	coverage run -m unittest discover tests/ -v
@@ -33,16 +33,7 @@ coverage:
 test: testc coverage
 
 superuser:
-	poetry run python manage.py createsuperuser --email=admin@gmail.com --name=Admin --phone_number=77123456
-
-loaddata:
-	poetry run python manage.py load_data
-
-dumpdata:
-	poetry run python manage.py dumpdata > db.json
-
-i18n:
-	poetry run django-admin makemessages --all --ignore=env
+	poetry run flask createsuperuser
 
 black:
 	poetry run python -m black .
