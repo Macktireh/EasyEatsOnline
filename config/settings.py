@@ -1,8 +1,8 @@
 import os
+import secrets
 from datetime import timedelta
 from enum import Enum
 from pathlib import Path
-import secrets
 
 from dotenv import load_dotenv
 
