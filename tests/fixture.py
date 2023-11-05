@@ -20,7 +20,7 @@ class Fixture:
             userRepository.create(
                 firstName=fake.first_name(),
                 lastName=fake.last_name(),
-                email=fake.email(),
+                email=fake.unique.email(),
                 password="password",
                 isActive=i % 2 > 0,
                 isStaff=i % 2 > 0,
@@ -31,7 +31,7 @@ class Fixture:
 
     @classmethod
     def createCategories(cls, n: int = 5) -> List:
-        return [categoryRepository.create(name=fake.word()) for _ in range(n)]
+        return [categoryRepository.create(name=fake.unique.word()) for _ in range(n)]
 
     @classmethod
     def createProducts(cls, n: int = 10, nCategories: int = 5) -> List:
@@ -40,7 +40,7 @@ class Fixture:
         for _ in range(n):
             products.append(
                 productRepository.create(
-                    name=fake.word(),
+                    name=fake.unique.word(),
                     price=fake.random_int(5, 1000) / 2,
                     image=fake.image_url(),
                     description=fake.text(),

@@ -1,14 +1,6 @@
 from typing import Union
 
-from flask import (
-    Blueprint,
-    Response,
-    flash,
-    redirect,
-    render_template,
-    request,
-    url_for,
-)
+from flask import Blueprint, Response, flash, redirect, render_template, request, url_for
 from flask_login import login_user, logout_user
 
 from services.authService import AuthService

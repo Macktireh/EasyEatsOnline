@@ -2,6 +2,7 @@ import os
 from datetime import timedelta
 from enum import Enum
 from pathlib import Path
+import secrets
 
 from dotenv import load_dotenv
 
@@ -20,11 +21,11 @@ class GlobalConfig:
     DEBUG = False
     FLASK_DEBUG = False
     FLASK_ENV = getEnvVar("FLASK_ENV", "development")
-    SECRET_KEY = getEnvVar("SECRET_KEY", "f0ji6t2hiltv5mUcgFOJIm1baDsGx3ye6Gj0NGo_Xuw")
-    JWT_SECRET_KEY = getEnvVar("JWT_SECRET_KEY", "OaWUwNfHpgoVk_0ykn-EV54El1M4FBEd0HpbjcVGCOI")
+    SECRET_KEY = getEnvVar("SECRET_KEY", secrets.token_hex(32))
+    JWT_SECRET_KEY = getEnvVar("JWT_SECRET_KEY", secrets.token_hex(32))
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=60)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=1)
-    SECURITY_PASSWORD_SALT = getEnvVar("SECURITY_PASSWORD_SALT", "O6yfbOoAzei3kt5x4i9q9YELoAtPw3ZbKeZpUStbkso")
+    SECURITY_PASSWORD_SALT = getEnvVar("SECURITY_PASSWORD_SALT", secrets.token_hex(32))
     SQLALCHEMY_ECHO = False
 
     MAIL_SERVER = getEnvVar("APP_MAIL_SERVER", required=False)
