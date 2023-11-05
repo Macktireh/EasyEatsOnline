@@ -1,6 +1,7 @@
 from functools import wraps
-from werkzeug import exceptions
+
 from flask_jwt_extended import get_jwt_identity
+from werkzeug import exceptions
 
 from services.userService import UserService
 

@@ -1,7 +1,7 @@
 from typing import List
 
-from werkzeug import exceptions
 from flask_restx import abort
+from werkzeug import exceptions
 
 from dto import RequestCreateOrUpdateOrderDTO
 from models.order import Order

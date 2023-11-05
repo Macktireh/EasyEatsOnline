@@ -21,5 +21,5 @@ class UserSchema:
             "isActive": fields.Boolean(required=False, description="user is active"),
             "isStaff": fields.Boolean(required=False, description="user is staff"),
             "isAdmin": fields.Boolean(required=False, description="user is admin"),
-        }
+        },
     )

@@ -1,20 +1,19 @@
 from random import choice
 from typing import List
+
 from faker import Faker
 
 from models.product import TypeEnum
-from repository.userRepository import userRepository
-from repository.categoryRepository import categoryRepository
-from repository.productRepository import productRepository
-from repository.orderRepository import orderRepository
 from repository.cartRepository import cartRepository
-
+from repository.categoryRepository import categoryRepository
+from repository.orderRepository import orderRepository
+from repository.productRepository import productRepository
+from repository.userRepository import userRepository
 
 fake = Faker()
 
 
 class Fixture:
-
     @classmethod
     def createUsers(cls, n: int = 5) -> List:
         return [
@@ -23,10 +22,11 @@ class Fixture:
                 lastName=fake.last_name(),
                 email=fake.email(),
                 password="password",
-                isActive=True if i % 2 > 0 else False,
-                isStaff=True if i % 2 > 0 else False,
-                isAdmin=True if i % 2 > 0 else False,
-            ) for i in range(n)
+                isActive=i % 2 > 0,
+                isStaff=i % 2 > 0,
+                isAdmin=i % 2 > 0,
+            )
+            for i in range(n)
         ]
 
     @classmethod
@@ -37,7 +37,7 @@ class Fixture:
     def createProducts(cls, n: int = 10, nCategories: int = 5) -> List:
         categories = cls.createCategories(nCategories)
         products = []
-        for i in range(n):
+        for _ in range(n):
             products.append(
                 productRepository.create(
                     name=fake.word(),
@@ -56,10 +56,7 @@ class Fixture:
         products = cls.createProducts(nProducts, nCategories)
         orders = []
         for user in users:
-            order, created = orderRepository.getOrCreate(
-                userId=user.id,
-                productId=choice(products).id
-            )
+            order, created = orderRepository.getOrCreate(userId=user.id, productId=choice(products).id)
             if created:
                 orders.append(order)
         return orders

@@ -1,8 +1,7 @@
 import unittest
-
+from getpass import getpass
 from typing import Literal
 from unittest import TestResult, TestSuite
-from getpass import getpass
 
 from repository.userRepository import userRepository
 from validators.authValidator import AuthValidator
@@ -18,9 +17,7 @@ def printRed(text: str) -> None:
 
 def createSuperUserCli() -> None:
     while True:
-        email = (
-            input("Enter email address [admin@example.com]: ") or "admin@example.com"
-        )
+        email = input("Enter email address [admin@example.com]: ") or "admin@example.com"
         if email == "":
             printRed("Email is required.")
             continue

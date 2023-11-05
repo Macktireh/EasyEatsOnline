@@ -1,11 +1,8 @@
 import re
 from typing import Any, Dict, Literal
 
-
 REGEX_EMAIL_VALIDATION = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
-REGEX_PASSWORD_VALIDATION = (
-    r"\b^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,20}$\b"
-)
+REGEX_PASSWORD_VALIDATION = r"\b^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,20}$\b"
 MESSAGE_PASSWORD_INVALID = "Password is invalid, Should be atleast 8 characters with upper and lower case letters, numbers and special characters"  # noqa
 
 
@@ -26,7 +23,7 @@ class AuthValidator:
         Returns:
             bool: True if the field matches the pattern, False otherwise.
         """
-        return True if re.match(regex, field) else False
+        return bool(re.match(regex, field))
 
     @classmethod
     def validatePassword(cls, password: str) -> bool:

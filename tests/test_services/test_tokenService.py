@@ -27,7 +27,7 @@ class TokenServiceTestCase(TestCase):
         self.assertIsNotNone(token)
 
     def test_service_token_generate_error(self) -> None:
-        with self.assertRaises(Exception):
+        with self.assertRaises(Exception):  # noqa: B017
             TokenService.generate(None)
 
     def test_service_token_verify(self) -> None:

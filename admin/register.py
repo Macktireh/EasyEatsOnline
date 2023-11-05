@@ -11,7 +11,6 @@ from admin.categoryAdmin import CategoryAdmin
 from admin.orderAdmin import OrderAdmin
 from admin.productAdmin import ProductAdmin
 from admin.userAdmin import UserAdmin
-
 from models.cart import Cart
 from models.category import Category
 from models.order import Order

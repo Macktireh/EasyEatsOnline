@@ -1,18 +1,15 @@
-from enum import Enum
 import os
-
 from datetime import timedelta
+from enum import Enum
 from pathlib import Path
-from dotenv import load_dotenv
 
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load = load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 
-def getEnvVar(
-    varName: str, default: str | None = None, required: bool = True
-) -> str | None:
+def getEnvVar(varName: str, default: str | None = None, required: bool = True) -> str | None:
     value = os.environ.get(varName, default)
     if required and not value:
         raise Exception(f"Environment variable {varName} is required")
@@ -24,14 +21,10 @@ class GlobalConfig:
     FLASK_DEBUG = False
     FLASK_ENV = getEnvVar("FLASK_ENV", "development")
     SECRET_KEY = getEnvVar("SECRET_KEY", "f0ji6t2hiltv5mUcgFOJIm1baDsGx3ye6Gj0NGo_Xuw")
-    JWT_SECRET_KEY = getEnvVar(
-        "JWT_SECRET_KEY", "OaWUwNfHpgoVk_0ykn-EV54El1M4FBEd0HpbjcVGCOI"
-    )
+    JWT_SECRET_KEY = getEnvVar("JWT_SECRET_KEY", "OaWUwNfHpgoVk_0ykn-EV54El1M4FBEd0HpbjcVGCOI")
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=60)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=1)
-    SECURITY_PASSWORD_SALT = getEnvVar(
-        "SECURITY_PASSWORD_SALT", "O6yfbOoAzei3kt5x4i9q9YELoAtPw3ZbKeZpUStbkso"
-    )
+    SECURITY_PASSWORD_SALT = getEnvVar("SECURITY_PASSWORD_SALT", "O6yfbOoAzei3kt5x4i9q9YELoAtPw3ZbKeZpUStbkso")
     SQLALCHEMY_ECHO = False
 
     MAIL_SERVER = getEnvVar("APP_MAIL_SERVER", required=False)
@@ -80,6 +73,4 @@ class ConfigName(Enum):
     PRODUCTION = "production"
 
 
-configByName = dict(
-    development=DevelopmentConfig, testing=TestingConfig, production=ProductionConfig
-)
+configByName = dict(development=DevelopmentConfig, testing=TestingConfig, production=ProductionConfig)

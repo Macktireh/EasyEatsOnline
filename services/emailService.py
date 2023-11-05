@@ -2,8 +2,7 @@ from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
-from smtplib import SMTP
-from smtplib import SMTPException
+from smtplib import SMTP, SMTPException
 from ssl import create_default_context
 from threading import Thread
 from typing import List, Optional
@@ -65,15 +64,8 @@ class EmailService:
         self._msg.set_type("multipart/alternative")
 
     def __repr__(self) -> str:
-        attachments = "\n".join(
-            [f"{file} - {status}" for file, status in self._attachments]
-        )
-        return (
-            f"<Class: EmailService>"
-            f"\n{self._msg}\n"
-            "Files set for attachment:\n"
-            f"{attachments}"
-        )
+        attachments = "\n".join([f"{file} - {status}" for file, status in self._attachments])
+        return f"<Class: EmailService>" f"\n{self._msg}\n" "Files set for attachment:\n" f"{attachments}"
 
     def subject(
         self,
@@ -135,17 +127,11 @@ class EmailService:
             else:
                 filepath: Path = Path(file)
 
-            self._attachments.update(
-                [(filepath, "Exists" if filepath.exists() else "Missing")]
-            )
+            self._attachments.update([(filepath, "Exists" if filepath.exists() else "Missing")])
 
             if filepath.exists():
-                contents = MIMEApplication(
-                    filepath.read_bytes(), _subtype=filepath.suffix
-                )
-                contents.add_header(
-                    "Content-Disposition", "attachment", filename=filepath.name
-                )
+                contents = MIMEApplication(filepath.read_bytes(), _subtype=filepath.suffix)
+                contents.add_header("Content-Disposition", "attachment", filename=filepath.name)
                 self._msg.attach(contents)
 
         return self
@@ -221,5 +207,45 @@ class EmailService:
 def sendAsyncEmail(email: EmailService) -> None:
     try:
         email.send()
-    except ConnectionRefusedError:
-        raise ValueError("[MAIL SERVER] not working")
+    except ConnectionRefusedError as error:
+        raise ValueError("[MAIL SERVER] not working") from error
+
+
+"""
+with Flask-Mail
+
+from threading import Thread
+from typing import Union
+
+from flask import Flask, current_app, render_template
+from flask_mail import Mail, Message
+
+from models.user import User
+
+app = current_app._get_current_object()
+mail = Mail(app)
+
+
+def send_async_email(app: Flask, msg: Message) -> None:
+    with app.app_context():
+        try:
+            mail.send(msg)
+        except ConnectionRefusedError:
+            raise ValueError("[MAIL SERVER] not working")
+
+
+def send_email(
+    user: User,
+    subject: str,
+    template: str,
+    domain: Union[str, None] = None,
+    token: Union[str, None] = None,
+) -> None:
+    msg = Message(
+        subject,
+        recipients=[user.email],
+        html=render_template(template, user=user, domain=domain, token=token),
+        sender=app.config["MAIL_DEFAULT_SENDER"],
+    )
+    Thread(target=send_async_email, args=(app, msg)).start()
+"""

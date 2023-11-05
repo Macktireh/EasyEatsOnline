@@ -1,9 +1,9 @@
 from typing import List
-from slugify import slugify
 
 from flask_admin.helpers import get_form_data
-from admin import ModelView
+from slugify import slugify
 
+from admin import ModelView
 from models.product import Product
 from repository.productRepository import productRepository
 
@@ -67,12 +67,12 @@ class ProductAdmin(ModelView):
                 categoryId = None
             data = {
                 "name": form_data.get("name"),
-                # "categoryId": categoryId,
+                "categoryId": categoryId,
                 "price": float(form_data.get("price")),
                 "image": form_data.get("image"),
                 "description": form_data.get("description"),
-                "available": True if form_data.get("available") else False,
+                "available": bool(form_data.get("available")),
             }
             return productRepository.create(**data)
-        except Exception:
-            raise NotImplementedError()
+        except Exception as e:
+            raise NotImplementedError from e

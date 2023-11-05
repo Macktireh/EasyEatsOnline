@@ -1,12 +1,11 @@
 from flask import request
-from flask_restx import Resource
 from flask_jwt_extended import jwt_required
-from middleware.permissions import admin_required, staff_required
+from flask_restx import Resource
 
+from middleware.permissions import admin_required, staff_required
 from schemas.categorySchema import CategorySchema
 from services.categoryService import CategoryService
 from utils import status
-
 
 api = CategorySchema.api
 

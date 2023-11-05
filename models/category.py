@@ -9,4 +9,4 @@ class Category(BaseModel):
     product = db.relationship("Product", backref="category", uselist=True, lazy="joined")
 
     def __repr__(self) -> str:
-        return "<Category '{}'>".format(self.name)
+        return f"<Category '{self.name}'>"

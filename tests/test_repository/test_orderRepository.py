@@ -9,7 +9,6 @@ from tests.fixture import Fixture
 
 
 class OrderRepositoryTestCase(TestCase):
-
     def create_app(self) -> Flask:
         app = createApp("testing")
         return app
@@ -38,8 +37,8 @@ class OrderRepositoryTestCase(TestCase):
         self.assertFalse(order.ordered)
 
     def test_repository_order_get_all_orders(self) -> None:
-        order1 = orderRepository.create(**self.data)
-        order2 = orderRepository.create(
+        orderRepository.create(**self.data)
+        orderRepository.create(
             userId=self.user2.id,
             productId=self.product.id,
             quantity=3,
@@ -62,7 +61,7 @@ class OrderRepositoryTestCase(TestCase):
 
     def test_repository_order_filter_orders(self) -> None:
         order1 = orderRepository.create(**self.data)
-        order2 = orderRepository.create(
+        orderRepository.create(
             userId=self.user2.id,
             productId=self.product.id,
             quantity=3,
@@ -73,8 +72,8 @@ class OrderRepositoryTestCase(TestCase):
         self.assertEqual(filtered_order.id, order1.id)
 
     def test_repository_order_filter_all_orders(self) -> None:
-        order1 = orderRepository.create(**self.data)
-        order2 = orderRepository.create(
+        orderRepository.create(**self.data)
+        orderRepository.create(
             userId=self.user2.id,
             productId=self.product.id,
             quantity=4,

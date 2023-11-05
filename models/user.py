@@ -19,7 +19,7 @@ class User(UserMixin, BaseModel):
 
     @property
     def name(self) -> str:
-        return "{} {}".format(self.firstName, self.lastName)
+        return f"{self.firstName} {self.lastName}"
 
     @property
     def password(self) -> NoReturn:
@@ -33,4 +33,4 @@ class User(UserMixin, BaseModel):
         return flask_bcrypt.check_password_hash(self.passwordHash, password)
 
     def __repr__(self) -> str:
-        return "<User '{}'>".format(self.email)
+        return f"<User '{self.email}'>"

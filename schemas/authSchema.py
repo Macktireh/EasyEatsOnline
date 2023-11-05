@@ -18,9 +18,7 @@ class AuthSchema:
         {
             "firstName": fields.String(required=True, description="user firstname"),
             "lastName": fields.String(required=True, description="user lastname"),
-            "passwordConfirm": fields.String(
-                required=True, description="user password confirm"
-            ),
+            "passwordConfirm": fields.String(required=True, description="user password confirm"),
         },
     )
 

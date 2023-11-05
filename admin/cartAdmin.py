@@ -31,5 +31,5 @@ class CartAdmin(ModelView):
             except ValueError:
                 userId = None
             return cartRepository.create(userId)
-        except Exception:
-            raise NotImplementedError()
+        except Exception as e:
+            raise NotImplementedError from e

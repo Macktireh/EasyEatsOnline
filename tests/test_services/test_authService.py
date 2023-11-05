@@ -62,14 +62,10 @@ class AuthServiceTestCase(TestCase):
 
         # test already activated
         with self.assertRaises(exceptions.Gone):
-            AuthService.activation(
-                {"token": TokenService.generate(self.user1)}, withEmail=False
-            )
+            AuthService.activation({"token": TokenService.generate(self.user1)}, withEmail=False)
 
     def test_service_auth_login(self) -> None:
-        response = AuthService.login(
-            {"email": self.user2.email, "password": "password"}
-        )
+        response = AuthService.login({"email": self.user2.email, "password": "password"})
         self.assertEqual(response["message"], "Successfully logged in.")
 
         # test user exists but password is wrong

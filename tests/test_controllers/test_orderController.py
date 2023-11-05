@@ -4,7 +4,6 @@ from flask import Flask, url_for
 from flask_testing import TestCase
 
 from app import createApp, db
-
 from controllers import apiRoute
 from repository.userRepository import userRepository
 from tests.fixture import Fixture
@@ -49,7 +48,7 @@ class OrderControllerTestCase(TestCase):
         res = self.client.patch(
             url_for("api.Order_update_quantity_order"),
             json={"publicId": self.order.publicId, "quantity": 2},
-            headers=self.headersActive
+            headers=self.headersActive,
         )
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
@@ -58,7 +57,7 @@ class OrderControllerTestCase(TestCase):
         res = self.client.patch(
             url_for("api.Order_update_quantity_order", publicId="publicId"),
             json={"publicId": "wrongpublicId", "quantity": 2},
-            headers=self.headersActive
+            headers=self.headersActive,
         )
         self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -66,7 +65,7 @@ class OrderControllerTestCase(TestCase):
         res = self.client.patch(
             url_for("api.Order_update_quantity_order"),
             json={"publicId": self.order.publicId, "quantity": 21},
-            headers=self.headersActive
+            headers=self.headersActive,
         )
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -74,7 +73,7 @@ class OrderControllerTestCase(TestCase):
         res = self.client.patch(
             url_for("api.Order_update_quantity_order"),
             json={"publicId": self.order.publicId, "quantity": 0},
-            headers=self.headersActive
+            headers=self.headersActive,
         )
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 

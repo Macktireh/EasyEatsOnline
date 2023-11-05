@@ -11,7 +11,6 @@ from tests.fixture import Fixture
 
 
 class CartRepositoryTestCase(TestCase):
-
     def create_app(self) -> Flask:
         app = createApp("testing")
         return app
@@ -39,8 +38,8 @@ class CartRepositoryTestCase(TestCase):
         self.assertEqual(len(cart.orders), len(self.data["orders"]))
 
     def test_repository_cart_get_all_carts(self) -> None:
-        cart1 = cartRepository.create(**self.data)
-        cart2 = cartRepository.create(userId=self.user2.id)
+        cartRepository.create(**self.data)
+        cartRepository.create(userId=self.user2.id)
         carts = cartRepository.getAll()
         self.assertEqual(len(carts), 2)
 
@@ -58,14 +57,14 @@ class CartRepositoryTestCase(TestCase):
 
     def test_repository_cart_filter_carts(self) -> None:
         cart1 = cartRepository.create(**self.data)
-        cart2 = cartRepository.create(userId=self.user2.id)
+        cartRepository.create(userId=self.user2.id)
         filtered_cart = cartRepository.filter(userId=self.data["userId"])
         self.assertIsNotNone(filtered_cart)
         self.assertEqual(filtered_cart.id, cart1.id)
 
     def test_repository_cart_filter_all_carts(self) -> None:
-        cart1 = cartRepository.create(**self.data)
-        cart2 = cartRepository.create(userId=self.user2.id)
+        cartRepository.create(**self.data)
+        cartRepository.create(userId=self.user2.id)
         filtered_carts = cartRepository.filterAll(userId=self.data["userId"])
         self.assertEqual(len(filtered_carts), 1)
 

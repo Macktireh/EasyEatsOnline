@@ -2,7 +2,6 @@ from app import db
 from models import BaseModel
 from models.order import Order
 
-
 cartOrder = db.Table(
     "cartOrder",
     db.Column("cartId", db.Integer, db.ForeignKey("cart.id")),
@@ -25,4 +24,4 @@ class Cart(BaseModel):
     )
 
     def __repr__(self) -> str:
-        return "<Cart '{}'>".format(self.user.email)
+        return f"<Cart '{self.user.email}'>"

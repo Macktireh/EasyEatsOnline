@@ -1,10 +1,9 @@
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from flask_restx import Resource
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from schemas.cartSchema import CartSchema
 from services.cartService import CartService
 from utils import status
-
 
 api = CartSchema.api
 

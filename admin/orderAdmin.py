@@ -47,5 +47,5 @@ class OrderAdmin(ModelView):
                 "quantity": int(form_data.get("quantity")) if form_data.get("quantity") else 1,
             }
             return orderRepository.create(**data)
-        except Exception:
-            raise NotImplementedError()
+        except Exception as e:
+            raise NotImplementedError from e

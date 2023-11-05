@@ -1,33 +1,26 @@
-import click
-
 from typing import Any, Dict, Literal, Tuple, Union
-from werkzeug.exceptions import NotFound, Forbidden, BadRequest
 
+import click
 from flask import redirect, render_template, url_for
-from flask_migrate import Migrate
-from flask_login import LoginManager
 from flask.cli import with_appcontext
-from admin.register import registerAdmin
+from flask_login import LoginManager
+from flask_migrate import Migrate
+from werkzeug.exceptions import BadRequest, Forbidden, NotFound
 
+# from admin.register import registerAdmin
 from app import createApp, db
 from config.settings import getEnvVar
+from controllers import apiRoute
+from controllers.adminAuthController import adminLogin
+from models.user import User
 from repository.userRepository import userRepository
 from utils import status
 from utils.cli import createSuperUserCli, runTests
 
-# models
-from models.user import User
-
-# routes
-from controllers import apiRoute
-from controllers.adminAuthController import adminLogin
-
-
-# create app flask
 app = createApp(getEnvVar("FLASK_ENV", "development"))
 
 migrate = Migrate(app, db)
-registerAdmin(app, db)
+# registerAdmin(app, db)
 
 # register api routes
 app.register_blueprint(apiRoute)

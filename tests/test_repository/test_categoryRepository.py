@@ -8,7 +8,6 @@ from repository.categoryRepository import categoryRepository
 
 
 class CategoryRepositoryTestCase(TestCase):
-
     def create_app(self) -> Flask:
         app = createApp("testing")
         return app
@@ -29,8 +28,8 @@ class CategoryRepositoryTestCase(TestCase):
         self.assertEqual(category.name, self.data["name"])
 
     def test_repository_category_get_all_categories(self) -> None:
-        category1 = categoryRepository.create(**self.data)
-        category2 = categoryRepository.create(name="Category 2")
+        categoryRepository.create(**self.data)
+        categoryRepository.create(name="Category 2")
         categories = categoryRepository.getAll()
         self.assertEqual(len(categories), 2)
 
@@ -50,15 +49,15 @@ class CategoryRepositoryTestCase(TestCase):
 
     def test_repository_category_filter_categories(self) -> None:
         category1 = categoryRepository.create(**self.data)
-        category2 = categoryRepository.create(name="Category 2")
+        categoryRepository.create(name="Category 2")
         filtered_category = categoryRepository.filter(name=self.data["name"])
         self.assertIsNotNone(filtered_category)
         self.assertEqual(filtered_category.id, category1.id)
         self.assertEqual(filtered_category.name, self.data["name"])
 
     def test_repository_category_filter_all_categories(self) -> None:
-        category1 = categoryRepository.create(**self.data)
-        category2 = categoryRepository.create(name="Category 2")
+        categoryRepository.create(**self.data)
+        categoryRepository.create(name="Category 2")
         filtered_categories = categoryRepository.filterAll(name=self.data["name"])
         self.assertEqual(len(filtered_categories), 1)
 

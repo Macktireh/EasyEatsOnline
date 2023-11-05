@@ -32,7 +32,7 @@ class CartServiceTestCase(TestCase):
         self.assertEqual(cart.orders[0].quantity, 2)
 
     def test_service_cart_retrieveCart(self) -> None:
-        for i in range(3):
+        for _ in range(3):
             CartService.addToCart(self.user1.publicId, self.product1.publicId)
         cart = CartService.retrieveCart(self.user1.publicId)
         self.assertEqual(len(cart.orders), 1)
@@ -47,7 +47,7 @@ class CartServiceTestCase(TestCase):
             CartService.deleteFromCart(self.user2.publicId, self.product1.publicId)
 
     def test_service_cart_deleteAllFromCart(self) -> None:
-        for i in range(3):
+        for _ in range(3):
             CartService.addToCart(self.user1.publicId, self.product1.publicId)
         CartService.deleteAllFromCart(self.user1.publicId)
         cart = CartService.retrieveCart(self.user1.publicId)

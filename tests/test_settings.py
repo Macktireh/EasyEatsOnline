@@ -15,7 +15,10 @@ class TestDevelopmentConfig(TestCase):
     def test_app_is_development(self) -> None:
         self.assertNotEqual(self.app.config["SECRET_KEY"], "my_precious")
         self.assertTrue(self.app.config["DEBUG"])
-        self.assertEqual(self.app.config["SQLALCHEMY_DATABASE_URI"], DevelopmentConfig.SQLALCHEMY_DATABASE_URI,)
+        self.assertEqual(
+            self.app.config["SQLALCHEMY_DATABASE_URI"],
+            DevelopmentConfig.SQLALCHEMY_DATABASE_URI,
+        )
 
 
 class TestTestingConfig(TestCase):
@@ -28,7 +31,10 @@ class TestTestingConfig(TestCase):
         self.assertNotEqual(self.app.config["SECRET_KEY"], "my_precious")
         self.assertTrue(self.app.config["DEBUG"])
         self.assertTrue(self.app.config["TESTING"])
-        self.assertEqual(self.app.config["SQLALCHEMY_DATABASE_URI"], TestingConfig.SQLALCHEMY_DATABASE_URI,)
+        self.assertEqual(
+            self.app.config["SQLALCHEMY_DATABASE_URI"],
+            TestingConfig.SQLALCHEMY_DATABASE_URI,
+        )
 
 
 class TestProductionConfig(TestCase):
@@ -39,7 +45,10 @@ class TestProductionConfig(TestCase):
 
     def test_app_is_production(self) -> None:
         self.assertFalse(self.app.config["DEBUG"])
-        self.assertEqual(self.app.config["SQLALCHEMY_DATABASE_URI"], ProductionConfig.SQLALCHEMY_DATABASE_URI,)
+        self.assertEqual(
+            self.app.config["SQLALCHEMY_DATABASE_URI"],
+            ProductionConfig.SQLALCHEMY_DATABASE_URI,
+        )
 
 
 if __name__ == "__main__":

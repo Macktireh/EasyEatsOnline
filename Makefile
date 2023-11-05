@@ -1,48 +1,45 @@
-.PHONY: run m u mu sm shell test superuser black isort ruff clean
+.PHONY: run m u mu sm shell test superuser rufffix ruffformat ruff clean
 
 .DEFAULT_GOAL := run
 
 run:
 	poetry run flask run
 
-# migrate
 m:
-	poetry run python flask migrate
+	poetry run python flask db migrate
 
-# makemigrations
 u:
-	poetry run flask upgrade
+	poetry run flask db upgrade
 
 # migrate + upgrade
 mu: m u
 
 # showmigrations
 sm:
-	poetry run flask show
+	poetry run flask db show
 
 shell:
 	poetry run flask shell
 
 testc:
-	coverage run -m unittest discover tests/ -v
+	poetry run coverage run -m unittest discover tests/ -v
 
 coverage:
-	coverage report -m
-	coverage html
+	poetry run coverage report -m
+	poetry run coverage html
 
 test: testc coverage
 
 superuser:
 	poetry run flask createsuperuser
 
-black:
-	poetry run python -m black .
+rufffix:
+	poetry run ruff --fix --exit-zero .
 
-isort:
-	poetry run python -m isort --profile black .
+ruffformat:
+	poetry run ruff format .
 
 ruff:
 	poetry run ruff check .
 
-# clean
-clean: black isort ruff
+clean: rufffix ruffformat ruff

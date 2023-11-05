@@ -1,13 +1,12 @@
-from flask_restx import Api
 from flask import Blueprint
+from flask_restx import Api
 
 from controllers.authController import api as authApi
-from controllers.userController import api as userApi
-from controllers.categoryController import api as categoryApi
-from controllers.productController import api as productApi
 from controllers.cartController import api as cartApi
+from controllers.categoryController import api as categoryApi
 from controllers.orderController import api as orderApi
-
+from controllers.productController import api as productApi
+from controllers.userController import api as userApi
 
 apiRoute = Blueprint("api", __name__, url_prefix="/api")
 

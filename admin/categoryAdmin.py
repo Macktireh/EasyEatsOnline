@@ -24,5 +24,5 @@ class CategoryAdmin(ModelView):
         try:
             name = get_form_data().get("name")
             return categoryRepository.create(name=name)
-        except Exception:
-            raise NotImplementedError()
+        except Exception as e:
+            raise NotImplementedError from e

@@ -1,8 +1,7 @@
 from typing import Dict, List
 
-from wtforms import PasswordField, validators
-
 from flask_admin.helpers import get_form_data
+from wtforms import PasswordField, validators
 
 from admin import ModelView
 from models.user import User
@@ -51,9 +50,7 @@ class UserAdmin(ModelView):
             "Password",
             [
                 validators.DataRequired(),
-                validators.Regexp(
-                    REGEX_PASSWORD_VALIDATION, message=MESSAGE_PASSWORD_INVALID
-                ),
+                validators.Regexp(REGEX_PASSWORD_VALIDATION, message=MESSAGE_PASSWORD_INVALID),
             ],
         ),
         "passwordConfirm": PasswordField(
@@ -75,5 +72,5 @@ class UserAdmin(ModelView):
                 "password": form_data.get("password"),
             }
             return userRepository.create(**data)
-        except Exception:
-            raise NotImplementedError()
+        except Exception as e:
+            raise NotImplementedError from e

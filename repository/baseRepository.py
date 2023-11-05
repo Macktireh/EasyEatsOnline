@@ -4,7 +4,6 @@ from uuid import uuid4
 
 from app import db
 
-
 Model = TypeVar("Model")
 
 

@@ -1,6 +1,6 @@
 from flask_restx import Namespace, fields
-from schemas.productSchema import ProductSchema
 
+from schemas.productSchema import ProductSchema
 from schemas.userSchema import UserSchema
 
 

@@ -9,7 +9,6 @@ from repository.productRepository import productRepository
 
 
 class ProductRepositoryTestCase(TestCase):
-
     def create_app(self) -> Flask:
         app = createApp("testing")
         return app
@@ -34,8 +33,8 @@ class ProductRepositoryTestCase(TestCase):
         self.assertEqual(product.type, self.data["type"])
 
     def test_repository_product_get_all_products(self) -> None:
-        product1 = productRepository.create(**self.data)
-        product2 = productRepository.create(
+        productRepository.create(**self.data)
+        productRepository.create(
             name="Another Product",
             price=9.99,
             type=TypeEnum.APPETIZER,
@@ -61,7 +60,7 @@ class ProductRepositoryTestCase(TestCase):
 
     def test_repository_product_filter_products(self) -> None:
         product1 = productRepository.create(**self.data)
-        product2 = productRepository.create(
+        productRepository.create(
             name="Another Product",
             price=9.99,
             type=TypeEnum.APPETIZER,
@@ -73,8 +72,8 @@ class ProductRepositoryTestCase(TestCase):
         self.assertEqual(filtered_product.price, self.data["price"])
 
     def test_repository_product_filter_all_products(self) -> None:
-        product1 = productRepository.create(**self.data)
-        product2 = productRepository.create(
+        productRepository.create(**self.data)
+        productRepository.create(
             name="Another Product",
             price=9.99,
             type=TypeEnum.APPETIZER,

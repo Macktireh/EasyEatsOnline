@@ -4,7 +4,6 @@ from flask import Flask, url_for
 from flask_testing import TestCase
 
 from app import createApp, db
-
 from controllers import apiRoute
 from services.tokenService import TokenService
 from tests.fixture import Fixture
@@ -64,9 +63,7 @@ class AuthControllerTestCase(TestCase):
 
     def test_controller_auth_login_ok(self) -> None:
         credentials = {"email": self.user2.email, "password": "password"}
-        response = self.client.post(
-            url_for("api.Auth_login_controller"), json=credentials
-        )
+        response = self.client.post(url_for("api.Auth_login_controller"), json=credentials)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_controller_auth_login_fail(self) -> None:

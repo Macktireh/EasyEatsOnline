@@ -14,4 +14,4 @@ class Order(BaseModel):
     product = db.relationship("Product", backref="order", uselist=True, lazy="joined")
 
     def __repr__(self) -> str:
-        return "<Order '{} ({})'>".format(self.product.name, self.quantity)
+        return f"<Order '{self.product.name} ({self.quantity})'>"

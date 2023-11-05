@@ -1,8 +1,8 @@
 from werkzeug import exceptions
 
 from models.cart import Cart
-from repository.orderRepository import orderRepository
 from repository.cartRepository import cartRepository
+from repository.orderRepository import orderRepository
 from services.productService import ProductService
 from services.userService import UserService
 
@@ -13,9 +13,7 @@ class CartService:
         user = UserService.getUser(userPublicId)
         product = ProductService.getProduct(productPublicId)
         cart, _ = cartRepository.getOrCreate(userId=user.id)
-        order, created = orderRepository.getOrCreate(
-            userId=user.id, productId=product.id, ordered=False
-        )
+        order, created = orderRepository.getOrCreate(userId=user.id, productId=product.id, ordered=False)
 
         if created or order not in cart.orders:
             cart.orders.append(order)

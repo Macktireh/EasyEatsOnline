@@ -1,8 +1,8 @@
+from datetime import datetime
 from typing import Dict
 
-from datetime import datetime
-
-from flask import current_app as app, render_template
+from flask import current_app as app
+from flask import render_template
 from flask_jwt_extended import create_access_token, create_refresh_token
 from flask_restx import abort
 from werkzeug import exceptions
@@ -60,9 +60,7 @@ class AuthService:
             if not app.config["TESTING"]:
                 body = render_template("mail/activate_success.html", user=user)
                 EmailService.sendEmail(
-                    recipients=[user.email],
-                    subject="Your account is confirmed successfully",
-                    body=body
+                    recipients=[user.email], subject="Your account is confirmed successfully", body=body
                 )
 
             return dict(message="Account confirmed successfully")
@@ -94,7 +92,7 @@ class AuthService:
                 tokens={"access": access, "refresh": refresh},
             )
         except Exception as e:
-            raise exceptions.InternalServerError("Something went wrong")
+            raise exceptions.InternalServerError("Something went wrong") from e
 
     @staticmethod
     def refreshToken(identity: TokenPayload) -> Dict[str, str]:

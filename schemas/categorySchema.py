@@ -16,11 +16,7 @@ class CategorySchema:
         createOrUpdateCategory,
         {
             "publicId": fields.String(readonly=True, description="category Identifier"),
-            "createdAt": fields.DateTime(
-                readonly=True, description="Category created at"
-            ),
-            "updatedAt": fields.DateTime(
-                readonly=True, description="Category updated at"
-            ),
+            "createdAt": fields.DateTime(readonly=True, description="Category created at"),
+            "updatedAt": fields.DateTime(readonly=True, description="Category updated at"),
         },
     )

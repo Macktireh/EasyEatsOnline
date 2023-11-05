@@ -1,11 +1,10 @@
 from flask import request
-from flask_restx import Resource
 from flask_jwt_extended import jwt_required
+from flask_restx import Resource
 
 from schemas.orderSchema import OrderSchema
 from services.orderService import OrderService
 from utils import status
-
 
 api = OrderSchema.api
 

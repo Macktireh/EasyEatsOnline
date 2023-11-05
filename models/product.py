@@ -1,4 +1,5 @@
 from enum import Enum
+
 from slugify import slugify
 
 from app import db
@@ -30,4 +31,4 @@ class Product(BaseModel):
         super().__init__(*args, **kwargs)
 
     def __repr__(self) -> str:
-        return "<Product '{}'>".format(self.name)
+        return f"<Product '{self.name}'>"

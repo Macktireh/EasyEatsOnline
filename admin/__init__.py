@@ -13,7 +13,6 @@ class HomeAdminModelView(AdminIndexView):
 
 
 class ModelView(BaseModelView):
-
     def is_accessible(self) -> bool:
         return current_user.is_authenticated and current_user.isActive and current_user.isStaff and current_user.isAdmin
 

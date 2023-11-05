@@ -8,7 +8,6 @@ from repository.userRepository import userRepository
 
 
 class UserRepositoryTestCase(TestCase):
-
     def create_app(self) -> Flask:
         app = createApp("testing")
         return app
@@ -43,8 +42,8 @@ class UserRepositoryTestCase(TestCase):
         self.assertTrue(super_user.isStaff)
 
     def test_repository_user_get_all_users(self) -> None:
-        user1 = userRepository.create(**self.data)
-        user2 = userRepository.create(
+        userRepository.create(**self.data)
+        userRepository.create(
             email="user2@example.com",
             firstName="User",
             lastName="Two",
@@ -78,8 +77,8 @@ class UserRepositoryTestCase(TestCase):
         self.assertEqual(retrieved_user.id, user.id)
 
     def test_repository_user_filter_all_users(self) -> None:
-        user1 = userRepository.create(**self.data)
-        user2 = userRepository.create(
+        userRepository.create(**self.data)
+        userRepository.create(
             email="user2@example.com",
             firstName="User",
             lastName="Two",

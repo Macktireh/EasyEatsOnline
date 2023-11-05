@@ -7,12 +7,10 @@ from flask import Flask
 from flask_testing import TestCase
 
 from app import createApp
-
 from services.emailService import EmailService, EmailServiceSettings
 
 
 class EmailServiceTestCase(TestCase):
-
     def create_app(self) -> Flask:
         app = createApp("testing")
         return app
