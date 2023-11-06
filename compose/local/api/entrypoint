@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Configuration des flags d'erreurs pour bash
+set -o errexit
+set -o pipefail
+set -o nounset
+
+
+# Tries to connect to the Postgresql database. Returns 0 if it
+# succeeds and 255 (-1) if it does not.
+postgres_ready() {
+python << END_PYTHON
+import sys
+import os
+import psycopg2
+from dotenv import load_dotenv
+load = load_dotenv('.env')
+try:       
+    if os.getenv('TYPE_DATABASE') == 'postgresql':
+        print("Connecting to databas postgresql ...")
+        psycopg2.connect(
+            dbname="${POSTGRES_DB}",
+            user="${POSTGRES_USER}",
+            password="${POSTGRES_PASSWORD}",
+            host="${POSTGRES_HOST}",
+            port="${POSTGRES_PORT}",
+        )
+    else:
+        print("Connecting to databas sqlite ...")
+        sys.exit(0)
+except psycopg2.OperationalError:
+    sys.exit(-1)
+sys.exit(0)
+END_PYTHON
+}
+
+# We wait until the database is ready and the postgres_ready function
+# returns the value 0 (synonymous with success)
+until postgres_ready; do
+  >&2 echo 'Waiting for PostgreSQL to become available...'
+  sleep 1
+done
+
+>&2 echo 'PostgreSQL is ready !'
+
+# Execution of the /start file received in parameter
+exec "$@"

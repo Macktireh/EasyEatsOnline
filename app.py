@@ -1,33 +1,22 @@
-# import werkzeug 
-# werkzeug.cached_property = werkzeug.utils.cached_property
-import collections
-collections.MutableMapping = collections.abc.MutableMapping
-from typing import Tuple
-
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
-from flask_admin import Admin
+from flask_jwt_extended import JWTManager
+from flask_sqlalchemy import SQLAlchemy
 
-from config.settings import config_by_name
-from admin import HomeAdminModelView
-
+from config.settings import ConfigName, configByName
 
 db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 
-def create_app(config_name: str) -> Tuple[Flask, Admin]:
+
+def createApp(configName: ConfigName) -> Flask:
     app = Flask(__name__)
     try:
-        app.config.from_object(config_by_name[config_name])
-    except KeyError:
-        raise Exception('Unknown configuration')
+        app.config.from_object(configByName[configName])
+    except KeyError as e:
+        raise Exception("Unknown configuration") from e
     db.init_app(app)
     JWTManager(app)
-    LoginManager(app)
-    admin = Admin(app, index_view=HomeAdminModelView(name='Overview'), name="Control Panel")
     flask_bcrypt.init_app(app)
 
-    return app, admin
+    return app

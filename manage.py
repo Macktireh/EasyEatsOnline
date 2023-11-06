@@ -1,102 +1,89 @@
-import click
-import warnings
-
 from typing import Any, Dict, Literal, Tuple, Union
-from werkzeug.exceptions import NotFound, Forbidden
 
-from flask import render_template
-from flask_migrate import Migrate
-from flask_login import LoginManager
+import click
+from flask import redirect, render_template, url_for
 from flask.cli import with_appcontext
-from flask_admin.menu import MenuLink
+from flask_login import LoginManager
+from flask_migrate import Migrate
+from werkzeug.exceptions import BadRequest, Forbidden, NotFound
 
-from app import create_app, db
-from utils import status
-from utils.cli import createsuperuserCli, testCli
-
-# models
+# from admin.register import registerAdmin
+from app import createApp, db
+from config.settings import getEnvVar
+from controllers import apiRoute
+from controllers.adminAuthController import adminLogin
 from models.user import User
-from models.product import Product
-from models.category import Category
-from models.order import Order
-from models.cart import Cart
+from repository.userRepository import userRepository
+from utils import status
+from utils.cli import createSuperUserCli, runTests
 
-# Admin
-from admin.user import UserAdmin
-from admin.product import ProductAdmin
-from admin.category import CategoryAdmin
-from admin.cart import CartAdmin
-from admin.order import OrderAdmin
+app = createApp(getEnvVar("FLASK_ENV", "development"))
 
-# routes
-from admin.auth.login import admin_login
-from routes import blueprint as blueprint_api
-
-# create app flask
-flask_app, admin = create_app('development')
-migrate = Migrate(flask_app, db)
-
-# save models in the admin panel
-with warnings.catch_warnings():
-    warnings.filterwarnings('ignore', 'Fields missing from ruleset', UserWarning)
-    admin.add_view(UserAdmin(User, db.session))
-admin.add_view(ProductAdmin(Product, db.session))
-admin.add_view(CategoryAdmin(Category, db.session))
-admin.add_view(CartAdmin(Cart, db.session))
-admin.add_view(OrderAdmin(Order, db.session))
-
-# add menu items in the admin panel
-admin.add_link(MenuLink(name='API Docs', category='', url="/api"))
-admin.add_link(MenuLink(name='Logout', category='', url="/admin/user/logout"))
+migrate = Migrate(app, db)
+# registerAdmin(app, db)
 
 # register api routes
-flask_app.register_blueprint(blueprint_api)
-flask_app.register_blueprint(admin_login)
+app.register_blueprint(apiRoute)
+app.register_blueprint(adminLogin)
 
-# flask login configuration
 login_manager = LoginManager()
-login_manager.init_app(flask_app)
-login_manager.login_view = 'admin.login'
+login_manager.init_app(app)
+login_manager.login_view = "admin.login"
+
+
+@app.route("/")
+def home() -> Any:
+    return redirect(url_for("api.doc"))
+    return render_template("home/home.html")
 
 
 @login_manager.user_loader
 def user_loader(id: Union[str, int]) -> User:
-    return User.getById(int(id))
+    return userRepository.getById(int(id))
+
 
 @login_manager.request_loader
 def request_loader(request) -> None:
     return
 
-@flask_app.route('/')
-def home() -> Any:
-    return render_template('home/home.html') 
 
-@flask_app.errorhandler(status.HTTP_403_FORBIDDEN)
+@app.errorhandler(status.HTTP_403_FORBIDDEN)
 def forbidden(e: Forbidden) -> Tuple[Dict[str, str], Literal[403]]:
     return {
         "message": "Forbidden",
         "error": str(e),
     }, status.HTTP_403_FORBIDDEN
 
-@flask_app.errorhandler(status.HTTP_404_NOT_FOUND)
-def forbidden(e: NotFound) -> Tuple[Dict[str, str], Literal[404]]:
+
+@app.errorhandler(status.HTTP_404_NOT_FOUND)
+def notfound(e: NotFound) -> Tuple[Dict[str, str], Literal[404]]:
     return {
         "message": "Endpoint Not Found",
         "error": str(e),
     }, status.HTTP_404_NOT_FOUND
 
 
-@click.command(name='createsuperuser')
+@app.errorhandler(status.HTTP_400_BAD_REQUEST)
+def badrequest(e: BadRequest) -> Tuple[Dict[str, str], Literal[404]]:
+    return {
+        "messagess": "Bad Request",
+        "error": str(e),
+    }, status.HTTP_400_BAD_REQUEST
+
+
+@click.command(name="createsuperuser")
 @with_appcontext
 def createsuperuser() -> None:
     """Create a super user"""
-    createsuperuserCli()
+    createSuperUserCli()
 
-@click.command(name='test')
+
+@click.command(name="test")
 @with_appcontext
 def test() -> None:
     """Runs the unit tests."""
-    testCli()
+    runTests()
 
-flask_app.cli.add_command(createsuperuser)
-flask_app.cli.add_command(test)
+
+app.cli.add_command(createsuperuser)
+app.cli.add_command(test)

@@ -1,0 +1,13 @@
+[run]
+source = .
+omit = 
+    venv/*
+    tests/*
+    migrations/*
+    admin/*
+    templates/*
+    static/*
+    schemas/*
+    some_other_folder/*
+    app.py
+    manage.py
