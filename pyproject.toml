@@ -1,0 +1,84 @@
+[tool.poetry]
+name = "easyeatsonline"
+version = "0.1.0"
+description = "EasyEatsOnline is an online food service project based on Flask and Flask-RESTx, providing a user-friendly and simplified culinary experience. The project is designed with an architecture inspired by Spring Boot, ensuring a robust and modular structure for development. PostgreSQL is used as the database to store essential information. Key technical features of EasyEatsOnline include efficient RESTful APIs for managing menus, orders, and users, a robust PostgreSQL database for data storage, secure authentication, a user-friendly interface, and advanced features for searching restaurants and menus. This project aims to streamline the online meal ordering process, offering users a quick and convenient solution to satisfy their culinary cravings."
+authors = ["Macktireh <mack.abdisoubaneh@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask-bcrypt = "^1.0.1"
+flask-jwt-extended = "^4.5.3"
+flask-login = "^0.6.3"
+flask-migrate = "^4.0.5"
+flask-restx = "^1.2.0"
+flask-sqlalchemy = "^3.1.1"
+psycopg2-binary = "^2.9.9"
+python-dotenv = "^1.0.0"
+python-slugify = "^8.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+coverage = "^7.3.2"
+faker = "^19.13.0"
+flask-testing = "^0.8.1"
+pre-commit = "^3.5.0"
+ruff = "^0.1.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+select = ["E", "F"]
+ignore = []
+
+line-length = 120
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W", "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT", "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"]
+unfixable = []
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+[tool.ruff.lint]
+select = [
+  # pycodestyle
+  "E",
+  # Pyflakes
+  "F",
+  # pyupgrade
+  "UP",
+  # flake8-bugbear
+  "B",
+  # flake8-simplify
+  "SIM",
+  # isort
+  "I",
+]

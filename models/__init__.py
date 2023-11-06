@@ -1,14 +1,10 @@
-from typing import Optional, TypedDict
+from app import db
 
 
-class ProductType(TypedDict): 
-    name: str 
-    categoryId: Optional[int]
-    price: float
-    description: Optional[str]
-    image: Optional[str]
-    available: bool
+class BaseModel(db.Model):
+    __abstract__ = True
 
-
-class CategoryType(TypedDict): 
-    name: str 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    publicId = db.Column(db.Text, unique=True, nullable=False)
+    createdAt = db.Column(db.DateTime, nullable=False)
+    updatedAt = db.Column(db.DateTime, nullable=False)
