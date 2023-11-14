@@ -3,7 +3,7 @@ import unittest
 from flask import Flask, url_for
 from flask_testing import TestCase
 
-from app import createApp, db
+from config.app import createApp, db
 from controllers import apiRoute
 from repository.userRepository import userRepository
 from tests.fixture import Fixture
@@ -25,7 +25,8 @@ class OrderControllerTestCase(TestCase):
         userRepository.save(self.userActive)
 
         res = self.client.post(
-            url_for("api.Auth_login_controller"), json={"email": self.userActive.email, "password": "password"}
+            url_for("api.Auth_login_controller"),
+            json={"email": self.userActive.email, "password": "password"},
         )
         self.headersActive = {
             "Content-Type": "application/json",

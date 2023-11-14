@@ -13,14 +13,14 @@ api = CategorySchema.api
 @api.route("")
 class ListCreateCategoryController(Resource):
     @api.response(status.HTTP_200_OK, "List of categories successfully.")
-    @api.doc("list_categories")
+    @api.doc("List categories")
     @api.marshal_with(CategorySchema.category, envelope="data")
     def get(self):
         """List Categories"""
         return CategoryService.getAllCategories()
 
     @api.response(status.HTTP_201_CREATED, "Categories successfully added.")
-    @api.doc("add_category")
+    @api.doc("Add category")
     @api.marshal_with(CategorySchema.category)
     @api.expect(CategorySchema.createOrUpdateCategory, validate=True)
     @jwt_required()
@@ -33,14 +33,14 @@ class ListCreateCategoryController(Resource):
 @api.route("/<string:publicId>")
 class RetrieveUpdateDeleteCategoryController(Resource):
     @api.response(status.HTTP_200_OK, "category successfully retrieve.")
-    @api.doc("retrieve_category")
+    @api.doc("Retrieve category")
     @api.marshal_with(CategorySchema.category)
     def get(self, publicId: str):
         """Retrieve a category"""
         return CategoryService.getCategory(publicId)
 
     @api.response(status.HTTP_200_OK, "category successfully updated.")
-    @api.doc("update_category")
+    @api.doc("Update category")
     @api.marshal_with(CategorySchema.category)
     @api.expect(CategorySchema.createOrUpdateCategory, validate=True)
     @jwt_required()
@@ -50,7 +50,7 @@ class RetrieveUpdateDeleteCategoryController(Resource):
         return CategoryService.updateCategory(publicId=publicId, data=request.json)
 
     @api.response(status.HTTP_204_NO_CONTENT, "category successfully deleted.")
-    @api.doc("dalete_category")
+    @api.doc("Delete category")
     @jwt_required()
     @admin_required
     def delete(self, publicId: str):

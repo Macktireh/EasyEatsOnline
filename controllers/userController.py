@@ -10,7 +10,7 @@ api = UserSchema.api
 
 @api.route("/me")
 class RetrieveUpdateCurrentUserController(Resource):
-    @api.doc("get_current_user")
+    @api.doc("Get Current User")
     @api.marshal_list_with(UserSchema.user, envelope="data")
     @jwt_required()
     def get(self):
@@ -18,7 +18,7 @@ class RetrieveUpdateCurrentUserController(Resource):
         identity = get_jwt_identity()
         return UserService.getUser(identity["publicId"])
 
-    @api.doc("update_current_user")
+    @api.doc("Update Current User")
     @api.marshal_list_with(UserSchema.user, envelope="data")
     @jwt_required()
     def patch(self):
@@ -29,7 +29,7 @@ class RetrieveUpdateCurrentUserController(Resource):
 
 @api.route("")
 class ListUserController(Resource):
-    @api.doc("list_of_registered_users")
+    @api.doc("List all registered users")
     @api.marshal_list_with(UserSchema.user, envelope="data")
     @jwt_required()
     def get(self):

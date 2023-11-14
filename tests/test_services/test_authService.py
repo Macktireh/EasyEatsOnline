@@ -4,7 +4,7 @@ from flask import Flask
 from flask_testing import TestCase
 from werkzeug import exceptions
 
-from app import createApp, db
+from config.app import createApp, db
 from services.authService import AuthService
 from services.tokenService import TokenService
 from tests.fixture import Fixture
@@ -31,38 +31,38 @@ class AuthServiceTestCase(TestCase):
         db.drop_all()
 
     def test_service_auth_register(self) -> None:
-        response = AuthService.register(self.data, withEmail=False)
+        response = AuthService.register(self.data)
         self.assertEqual(response["message"], "You have registered successfully.")
         with self.assertRaises(exceptions.Conflict):
-            AuthService.register(self.data, withEmail=False)
+            AuthService.register(self.data)
 
     def test_service_auth_register_invalid_email(self) -> None:
         self.data["email"] = "test.user"
         with self.assertRaises(exceptions.BadRequest):
-            AuthService.register(self.data, withEmail=False)
+            AuthService.register(self.data)
 
     def test_service_auth_register_invalid_password(self) -> None:
         self.data["password"] = "Test"
         with self.assertRaises(exceptions.BadRequest):
-            AuthService.register(self.data, withEmail=False)
+            AuthService.register(self.data)
 
     def test_service_auth_register_invalid_password_confirm(self) -> None:
         self.data["passwordConfirm"] = "Test"
         with self.assertRaises(exceptions.BadRequest):
-            AuthService.register(self.data, withEmail=False)
+            AuthService.register(self.data)
 
     def test_service_auth_activation(self) -> None:
         token = TokenService.generate(self.user1)
-        response = AuthService.activation({"token": token}, withEmail=False)
+        response = AuthService.activation({"token": token})
         self.assertEqual(response["message"], "Account confirmed successfully")
 
         # test invalid token
         with self.assertRaises(exceptions.UnprocessableEntity):
-            AuthService.activation({"token": "token"}, withEmail=False)
+            AuthService.activation({"token": "token"})
 
         # test already activated
         with self.assertRaises(exceptions.Gone):
-            AuthService.activation({"token": TokenService.generate(self.user1)}, withEmail=False)
+            AuthService.activation({"token": TokenService.generate(self.user1)})
 
     def test_service_auth_login(self) -> None:
         response = AuthService.login({"email": self.user2.email, "password": "password"})

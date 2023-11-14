@@ -20,7 +20,7 @@ class AuthService:
     """Handles authentication."""
 
     @staticmethod
-    def register(data: RequestSignupDTO, withEmail: bool = True) -> Dict[str, str]:
+    def register(data: RequestSignupDTO) -> Dict[str, str]:
         user = userRepository.getByEmail(data["email"])
         if user:
             raise exceptions.Conflict("User already exists")
@@ -47,7 +47,7 @@ class AuthService:
         return dict(message="You have registered successfully.")
 
     @staticmethod
-    def activation(data: RequestActivateDTO, withEmail: bool = True) -> Dict[str, str]:
+    def activation(data: RequestActivateDTO) -> Dict[str, str]:
         user = TokenService.verify(data["token"])
         if not user:
             raise exceptions.UnprocessableEntity("Invalid token")
