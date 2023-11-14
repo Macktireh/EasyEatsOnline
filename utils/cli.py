@@ -1,3 +1,4 @@
+import json
 import unittest
 from getpass import getpass
 from typing import Literal
@@ -58,9 +59,22 @@ def createSuperUserCli() -> None:
         break
 
 
-def runTests() -> Literal[0, 1]:
-    tests: TestSuite = unittest.TestLoader().discover("tests", pattern="test*.py")
-    result: TestResult = unittest.TextTestRunner(verbosity=2).run(tests)
+def runTests(dir: str = "tests", pattern: str = "test*.py", verbosity: int = 2) -> Literal[0, 1]:
+    tests: TestSuite = unittest.TestLoader().discover(start_dir=dir, pattern=pattern)
+    result: TestResult = unittest.TextTestRunner(verbosity=verbosity).run(tests)
     if result.wasSuccessful():
         return 0
     return 1
+
+
+def exportPostmanCollection(data: dict, export: bool = False) -> None:
+    if export:
+        with open("postmanCollection.json", "w") as f:
+            f.write(json.dumps(data))
+            print()
+            printGreen("Postman collection exported to 'postmanCollection.json'")
+            print()
+        return
+    print()
+    print(json.dumps(data))
+    print()

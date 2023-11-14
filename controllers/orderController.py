@@ -12,7 +12,7 @@ api = OrderSchema.api
 @api.route("")
 class ListOrder(Resource):
     @api.response(status.HTTP_200_OK, "List of orders successfully.")
-    @api.doc("list_of_order")
+    @api.doc("List orders")
     @api.marshal_list_with(OrderSchema.order, envelope="data")
     @jwt_required()
     def get(self):
@@ -23,7 +23,7 @@ class ListOrder(Resource):
 @api.route("/update-quantity")
 class UpdateQuantityOrder(Resource):
     @api.response(status.HTTP_200_OK, "update quantity of order successfully.")
-    @api.doc("update_quantity_of_order")
+    @api.doc("Update quantity of order")
     @api.marshal_list_with(OrderSchema.order)
     @api.expect(OrderSchema.updateQuantityOrder, validate=True)
     @jwt_required()

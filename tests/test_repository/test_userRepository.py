@@ -3,7 +3,7 @@ import unittest
 from flask import Flask
 from flask_testing import TestCase
 
-from app import createApp, db
+from config.app import createApp, db
 from repository.userRepository import userRepository
 
 

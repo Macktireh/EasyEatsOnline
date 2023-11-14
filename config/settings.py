@@ -22,6 +22,8 @@ class GlobalConfig:
     FLASK_DEBUG = False
     FLASK_ENV = getEnvVar("FLASK_ENV", "development")
     SECRET_KEY = getEnvVar("SECRET_KEY", secrets.token_hex(32))
+    SERVER_NAME = getEnvVar("SERVER_NAME", "localhost")
+    APPLICATION_ROOT = getEnvVar("APPLICATION_ROOT", "/")
     JWT_SECRET_KEY = getEnvVar("JWT_SECRET_KEY", secrets.token_hex(32))
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=60)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=1)
@@ -52,6 +54,7 @@ class DevelopmentConfig(GlobalConfig):
     MAIL_DEBUG = True
     # SQLALCHEMY_ECHO = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    PREFERRED_URL_SCHEME = "http"
 
 
 class TestingConfig(GlobalConfig):
@@ -61,6 +64,7 @@ class TestingConfig(GlobalConfig):
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(BASE_DIR, "db_test.sqlite3")
+    PREFERRED_URL_SCHEME = "http"
 
 
 class ProductionConfig(GlobalConfig):

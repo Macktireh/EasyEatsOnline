@@ -6,7 +6,7 @@ from pathlib import Path
 from flask import Flask
 from flask_testing import TestCase
 
-from app import createApp
+from config.app import createApp
 from services.emailService import EmailService, EmailServiceSettings
 
 

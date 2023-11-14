@@ -13,8 +13,8 @@ apiRoute = Blueprint("api", __name__, url_prefix="/api")
 api = Api(
     apiRoute,
     version="1.0",
-    title="Tech Shoping REST APIs",
-    description="a boilerplate for flask restplus web service",
+    title="EasyEatsOnline REST API",
+    description="EasyEatsOnline API documentation for developers to use it.",
     doc="/docs",
 )
 
@@ -24,3 +24,7 @@ api.add_namespace(categoryApi, path="/categories")
 api.add_namespace(productApi, path="/products")
 api.add_namespace(cartApi, path="/cart")
 api.add_namespace(orderApi, path="/orders")
+
+
+def postmanCollection() -> dict:
+    return api.as_postman(urlvars=False, swagger=True)

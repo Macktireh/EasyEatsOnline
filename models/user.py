@@ -2,7 +2,7 @@ from typing import NoReturn
 
 from flask_login import UserMixin
 
-from app import db, flask_bcrypt
+from config.app import db, flask_bcrypt
 from models import BaseModel
 
 

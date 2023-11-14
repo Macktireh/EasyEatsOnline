@@ -12,7 +12,7 @@ api = AuthSchema.api
 @api.route("/signup")
 class SignupController(Resource):
     @api.response(status.HTTP_201_CREATED, "User successfully created.")
-    @api.doc("create a new user")
+    @api.doc("user signup")
     @api.expect(AuthSchema.signup, validate=True)
     def post(self):
         """Creates a new User"""
@@ -41,8 +41,8 @@ class LoginController(Resource):
 
 @api.route("/token/refresh")
 class RefreshTokenController(Resource):
-    @api.response(status.HTTP_200_OK, "Refresh Token JWT")
-    @api.doc("Refresh Token JWT")
+    @api.response(status.HTTP_200_OK, "Refresh JWT token successfully.")
+    @api.doc("Refresh JWT token")
     @jwt_required(refresh=True)
     def post(self):
         """Refresh JWT token"""

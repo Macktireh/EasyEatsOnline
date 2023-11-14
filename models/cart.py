@@ -1,6 +1,5 @@
-from app import db
+from config.app import db
 from models import BaseModel
-from models.order import Order
 
 cartOrder = db.Table(
     "cartOrder",
@@ -15,7 +14,7 @@ class Cart(BaseModel):
     userId = db.Column(db.Integer, db.ForeignKey("user.id"))
     user = db.relationship("User", backref="cart", lazy="joined", uselist=False)
     orders = db.relationship(
-        Order,
+        "Order",
         secondary=cartOrder,
         backref="cart",
         lazy="joined",
