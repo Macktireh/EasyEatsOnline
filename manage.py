@@ -9,15 +9,15 @@ from werkzeug.exceptions import BadRequest, Forbidden, NotFound
 
 # from admin.register import registerAdmin
 from config.app import createApp, db
-from config.settings import getEnvVar
-from controllers import apiRoute, postmanCollection
+from config.settings import ConfigName, getEnvVar
+from controllers import apiRoute
 from controllers.adminAuthController import adminLogin
 from models.user import User
 from repository.userRepository import userRepository
 from utils import status
 from utils.cli import createSuperUserCli, exportPostmanCollection, runTests
 
-app = createApp(getEnvVar("FLASK_ENV", "development"))
+app = createApp(getEnvVar("FLASK_ENV", ConfigName.DEVELOPEMENT.value))
 
 migrate = Migrate(app, db)
 # registerAdmin(app, db)
@@ -107,7 +107,6 @@ def test(dir: str, pattern: str, verbosity: int) -> None:
 
 @app.cli.command(name="postman")
 @click.option("--export", type=click.BOOL, default=False, help="Export Postman collection")
-@with_appcontext
 def postman(export: bool) -> None:
     """
     Generate the Postman collection for the application.
@@ -119,8 +118,8 @@ def postman(export: bool) -> None:
         (printed collection): poetry run flask postman\n
         (exported collection to json): poetry run flask postman --export=True
     """
-    data = postmanCollection()
-    exportPostmanCollection(data, export)
+    # data = postmanCollection()
+    exportPostmanCollection(export)
 
 
 app.cli.add_command(createsuperuser)
