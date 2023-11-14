@@ -8,14 +8,14 @@ from flask_migrate import Migrate
 from werkzeug.exceptions import BadRequest, Forbidden, NotFound
 
 # from admin.register import registerAdmin
-from app import createApp, db
+from config.app import createApp, db
 from config.settings import getEnvVar
-from controllers import apiRoute
+from controllers import apiRoute, postmanCollection
 from controllers.adminAuthController import adminLogin
 from models.user import User
 from repository.userRepository import userRepository
 from utils import status
-from utils.cli import createSuperUserCli, runTests
+from utils.cli import createSuperUserCli, exportPostmanCollection, runTests
 
 app = createApp(getEnvVar("FLASK_ENV", "development"))
 
@@ -74,15 +74,53 @@ def badrequest(e: BadRequest) -> Tuple[Dict[str, str], Literal[404]]:
 @click.command(name="createsuperuser")
 @with_appcontext
 def createsuperuser() -> None:
-    """Create a super user"""
+    """
+    Create a super user.
+
+    Usage:\n
+        (create super user): flask createsuperuser
+    """
     createSuperUserCli()
 
 
 @click.command(name="test")
+@click.option("--dir", type=click.STRING, default="tests", help="Test directory")
+@click.option("--pattern", type=click.STRING, default="test*.py", help="Test pattern")
+@click.option("--verbosity", type=click.INT, default=2, help="Test verbosity")
 @with_appcontext
-def test() -> None:
-    """Runs the unit tests."""
-    runTests()
+def test(dir: str, pattern: str, verbosity: int) -> None:
+    """
+    Run tests.
+
+    Args:\n
+        dir (str): Test directory.\n
+        pattern (str): Test pattern.\n
+        verbosity (int): Test verbosity.
+
+    Usage:\n
+        (run tests): flask test\n
+        (run tests with directory and pattern): flask test --dir=tests/test_api --pattern=test*.py\n
+        (run tests with verbose output): flask test --verbosity=2
+    """
+    runTests(dir, pattern, verbosity)
+
+
+@app.cli.command(name="postman")
+@click.option("--export", type=click.BOOL, default=False, help="Export Postman collection")
+@with_appcontext
+def postman(export: bool) -> None:
+    """
+    Generate the Postman collection for the application.
+
+    Args:\n
+        export (bool): A flag indicating whether to export the Postman collection.
+
+    Usage:\n
+        (printed collection): poetry run flask postman\n
+        (exported collection to json): poetry run flask postman --export=True
+    """
+    data = postmanCollection()
+    exportPostmanCollection(data, export)
 
 
 app.cli.add_command(createsuperuser)

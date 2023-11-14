@@ -3,7 +3,7 @@ import unittest
 from flask import Flask, url_for
 from flask_testing import TestCase
 
-from app import createApp, db
+from config.app import createApp, db
 from controllers import apiRoute
 from services.tokenService import TokenService
 from tests.fixture import Fixture

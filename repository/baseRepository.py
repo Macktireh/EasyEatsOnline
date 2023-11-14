@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Any, Dict, List, Tuple, TypeVar
 from uuid import uuid4
 
-from app import db
+from config.app import db
 
 Model = TypeVar("Model")
 

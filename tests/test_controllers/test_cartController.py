@@ -3,7 +3,7 @@ import unittest
 from flask import Flask, url_for
 from flask_testing import TestCase
 
-from app import createApp, db
+from config.app import createApp, db
 from controllers import apiRoute
 from repository.userRepository import userRepository
 from tests.fixture import Fixture
@@ -25,7 +25,8 @@ class CartControllerTestCase(TestCase):
         userRepository.save(self.userActive)
 
         res = self.client.post(
-            url_for("api.Auth_login_controller"), json={"email": self.userActive.email, "password": "password"}
+            url_for("api.Auth_login_controller"),
+            json={"email": self.userActive.email, "password": "password"},
         )
         self.headersActive = {
             "Content-Type": "application/json",
@@ -37,7 +38,10 @@ class CartControllerTestCase(TestCase):
         db.drop_all()
 
     def test_controller_cart_retrieve_cart(self) -> None:
-        res = self.client.get(url_for("api.Cart_retrieve_or_delete_all_from_cart"), headers=self.headersActive)
+        res = self.client.get(
+            url_for("api.Cart_retrieve_or_delete_all_from_cart"),
+            headers=self.headersActive,
+        )
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
     def test_controller_cart_retrieve_cart_fail(self) -> None:
@@ -45,8 +49,14 @@ class CartControllerTestCase(TestCase):
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_controller_cart_delete_all_orders_in_cart_ok(self) -> None:
-        self.client.get(url_for("api.Cart_retrieve_or_delete_all_from_cart"), headers=self.headersActive)
-        res = self.client.delete(url_for("api.Cart_retrieve_or_delete_all_from_cart"), headers=self.headersActive)
+        self.client.get(
+            url_for("api.Cart_retrieve_or_delete_all_from_cart"),
+            headers=self.headersActive,
+        )
+        res = self.client.delete(
+            url_for("api.Cart_retrieve_or_delete_all_from_cart"),
+            headers=self.headersActive,
+        )
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_controller_cart_delete_all_orders_in_cart_fail(self) -> None:
@@ -55,14 +65,16 @@ class CartControllerTestCase(TestCase):
 
     def test_controller_cart_add_product_to_cart_ok(self) -> None:
         res = self.client.post(
-            url_for("api.Cart_add_to_cart", productPublicId=self.product.publicId), headers=self.headersActive
+            url_for("api.Cart_add_to_cart", productPublicId=self.product.publicId),
+            headers=self.headersActive,
         )
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
     def test_controller_cart_add_product_to_cart_fail(self) -> None:
         # test product not found
         res = self.client.post(
-            url_for("api.Cart_add_to_cart", productPublicId="wrongpublicId"), headers=self.headersActive
+            url_for("api.Cart_add_to_cart", productPublicId="wrongpublicId"),
+            headers=self.headersActive,
         )
         self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -71,16 +83,21 @@ class CartControllerTestCase(TestCase):
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_controller_cart_delete_product_from_cart_ok(self) -> None:
-        self.client.get(url_for("api.Cart_retrieve_or_delete_all_from_cart"), headers=self.headersActive)
+        self.client.get(
+            url_for("api.Cart_retrieve_or_delete_all_from_cart"),
+            headers=self.headersActive,
+        )
         res = self.client.delete(
-            url_for("api.Cart_delete_from_cart", productPublicId=self.product.publicId), headers=self.headersActive
+            url_for("api.Cart_delete_from_cart", productPublicId=self.product.publicId),
+            headers=self.headersActive,
         )
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_controller_cart_delete_product_from_cart_fail(self) -> None:
         # test product not found
         res = self.client.delete(
-            url_for("api.Cart_delete_from_cart", productPublicId="wrongpublicId"), headers=self.headersActive
+            url_for("api.Cart_delete_from_cart", productPublicId="wrongpublicId"),
+            headers=self.headersActive,
         )
         self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
 

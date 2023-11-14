@@ -13,14 +13,14 @@ api = ProductSchema.api
 @api.route("")
 class ListCreateProduct(Resource):
     @api.response(status.HTTP_200_OK, "List of products successfully.")
-    @api.doc("list_products")
+    @api.doc("List products")
     @api.marshal_with(ProductSchema.product, envelope="data")
     def get(self):
         """List Products"""
         return ProductService.getAllProducts()
 
     @api.response(status.HTTP_201_CREATED, "Products successfully added.")
-    @api.doc("add_product")
+    @api.doc("Add product")
     @api.marshal_with(ProductSchema.product)
     @api.expect(ProductSchema.createProduct, validate=True)
     @jwt_required()
@@ -33,14 +33,14 @@ class ListCreateProduct(Resource):
 @api.route("/<string:publicId>")
 class RetrieveUpdateDeleteProduct(Resource):
     @api.response(status.HTTP_200_OK, "product successfully retrieve.")
-    @api.doc("retrieve_product")
+    @api.doc("Retrieve product")
     @api.marshal_with(ProductSchema.product)
     def get(self, publicId: str):
         """Retrieve a product"""
         return ProductService.getProduct(publicId)
 
     @api.response(status.HTTP_200_OK, "product successfully updated.")
-    @api.doc("update_product")
+    @api.doc("Update product")
     @api.marshal_with(ProductSchema.product)
     @api.expect(ProductSchema.updateProduct, validate=True)
     @jwt_required()
@@ -50,7 +50,7 @@ class RetrieveUpdateDeleteProduct(Resource):
         return ProductService.updateProduct(publicId, request.json)
 
     @api.response(status.HTTP_204_NO_CONTENT, "product successfully deleted.")
-    @api.doc("dalete_product")
+    @api.doc("Delete product")
     @jwt_required()
     @admin_required
     def delete(self, publicId: str):

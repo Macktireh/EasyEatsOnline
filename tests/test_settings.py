@@ -3,7 +3,7 @@ import unittest
 from flask import Flask
 from flask_testing import TestCase
 
-from app import createApp
+from config.app import createApp
 from config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
 
 

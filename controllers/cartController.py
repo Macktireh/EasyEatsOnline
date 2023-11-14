@@ -11,7 +11,7 @@ api = CartSchema.api
 @api.route("")
 class RetrieveOrDeleteAllFromCart(Resource):
     @api.response(status.HTTP_200_OK, "cart successfully retrieve.")
-    @api.doc("retrieve_cart")
+    @api.doc("Retrieve cart the current user")
     @api.marshal_with(CartSchema.cart)
     @jwt_required()
     def get(self):
@@ -20,7 +20,7 @@ class RetrieveOrDeleteAllFromCart(Resource):
         return CartService.retrieveCart(identity["publicId"])
 
     @api.response(status.HTTP_204_NO_CONTENT, "cart successfully deleted.")
-    @api.doc("delete_all_from_cart")
+    @api.doc("Delete all orders to cart the current user")
     @jwt_required()
     def delete(self):
         """delete all orders to cart"""
@@ -31,7 +31,7 @@ class RetrieveOrDeleteAllFromCart(Resource):
 @api.route("/add-to-cart/<string:productPublicId>")
 class AddToCart(Resource):
     @api.response(status.HTTP_201_CREATED, "product has been successfully added to the cart.")
-    @api.doc("add_product_to_cart")
+    @api.doc("Add product to cart")
     @api.marshal_with(CartSchema.cart)
     @jwt_required()
     def post(self, productPublicId: str):
@@ -43,7 +43,7 @@ class AddToCart(Resource):
 @api.route("/delete-to-cart/<string:productPublicId>")
 class DeleteFromCart(Resource):
     @api.response(status.HTTP_204_NO_CONTENT, "product has been successfully deleted from the cart.")
-    @api.doc("add_product_to_cart")
+    @api.doc("Delete product to cart")
     @api.marshal_with(CartSchema.cart)
     @jwt_required()
     def delete(self, productPublicId: str):

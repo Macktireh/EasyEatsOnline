@@ -4,7 +4,7 @@ from flask import Flask
 from flask_testing import TestCase
 from werkzeug import exceptions
 
-from app import createApp, db
+from config.app import createApp, db
 from services.userService import UserService
 from tests.fixture import Fixture
 
