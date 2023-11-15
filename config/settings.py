@@ -22,8 +22,6 @@ class GlobalConfig:
     FLASK_DEBUG = False
     FLASK_ENV = getEnvVar("FLASK_ENV", "development")
     SECRET_KEY = getEnvVar("SECRET_KEY", secrets.token_hex(32))
-    SERVER_NAME = getEnvVar("SERVER_NAME", "localhost")
-    APPLICATION_ROOT = getEnvVar("APPLICATION_ROOT", "/")
     JWT_SECRET_KEY = getEnvVar("JWT_SECRET_KEY", secrets.token_hex(32))
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=60)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=1)
@@ -72,10 +70,19 @@ class ProductionConfig(GlobalConfig):
     # SQLALCHEMY_DATABASE_URI = f"postgresql://{getEnvVar('POSTGRES_USER')}:{getEnvVar('POSTGRES_PASSWORD')}@{getEnvVar('POSTGRES_HOST')}:{getEnvVar('POSTGRES_PORT')}/{getEnvVar('POSTGRES_DB')}"  # noqa
 
 
+class PostmanConfig(DevelopmentConfig):
+    SERVER_NAME = getEnvVar("SERVER_NAME", "localhost")
+    APPLICATION_ROOT = getEnvVar("APPLICATION_ROOT", "/")
+    PREFERRED_URL_SCHEME = "http"
+
+
 class ConfigName(Enum):
     DEVELOPEMENT = "development"
     TESTING = "testing"
     PRODUCTION = "production"
+    POSTMAN = "postman"
 
 
-configByName = dict(development=DevelopmentConfig, testing=TestingConfig, production=ProductionConfig)
+configByName = dict(
+    development=DevelopmentConfig, testing=TestingConfig, production=ProductionConfig, postman=PostmanConfig
+)
