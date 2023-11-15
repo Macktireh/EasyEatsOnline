@@ -67,7 +67,21 @@ def runTests(dir: str = "tests", pattern: str = "test*.py", verbosity: int = 2) 
     return 1
 
 
-def exportPostmanCollection(data: dict, export: bool = False) -> None:
+def postmanCollection(api) -> dict:
+    return api.as_postman(urlvars=False, swagger=True)
+
+
+def exportPostmanCollection(export: bool = False) -> None:
+    from config.app import createApp
+    from config.settings import ConfigName
+    from controllers import api, apiRoute
+
+    app = createApp(ConfigName.POSTMAN.value)
+    app.register_blueprint(apiRoute)
+
+    with app.app_context():
+        data = postmanCollection(api)
+
     if export:
         with open("postmanCollection.json", "w") as f:
             f.write(json.dumps(data))
