@@ -1,4 +1,4 @@
-# API Ecommerce en Flask
+# API Rest Ecommerce en Flask
 
 Il s'agit de l'API backend d'un site de commerce électronique construit avec Flask.
 
@@ -11,9 +11,8 @@ Dans un terminal et exécuter les commandes suivantes:
 Si vous avez `Git` sur votre ordinateur utiliser les commandes ci-dessous sinon télécharger simplement le projet.
 
 ```bash
-git clone https://github.com/Macktireh/ecommerce-backend-flask.git ecommerce-backend
+git clone https://github.com/Macktireh/ecommerce-backend-flask.git
 ```
-
 ```bash
 cd ecommerce-backend
 ```
@@ -65,7 +64,7 @@ Renommer le fichier `.env.example` en `.env` et renseigner vos informations.
 flask db upgrade
 ```
 
-#### 3.6 Lancer le server de développement :
+#### 3.6 Démarer le server de développement :
 
 ```bash
 flask run
