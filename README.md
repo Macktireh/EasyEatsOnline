@@ -1,4 +1,3 @@
-
 # API Rest Ecommerce en Flask
 
 Il s'agit de l'API backend d'un site de commerce électronique construit avec Flask.
