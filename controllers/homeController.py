@@ -1,6 +1,4 @@
-from pprint import pprint
-
-from flask import Blueprint, current_app, render_template
+from flask import Blueprint, render_template
 from flask.views import View
 
 router = Blueprint("home", __name__, template_folder="../templates", static_folder="../../static")
@@ -8,9 +6,6 @@ router = Blueprint("home", __name__, template_folder="../templates", static_fold
 
 class Home(View):
     def dispatch_request(self) -> str:
-        print()
-        pprint(current_app.config)
-        print()
         return render_template("home/home.html")
 
 
