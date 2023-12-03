@@ -63,6 +63,7 @@ Ensure you have the following installed:
 ```bash
 git clone https://github.com/Macktireh/EasyEatsOnlineApi.git
 ```
+
 ```bash
 cd EasyEatsOnlineApi
 ```
