@@ -30,6 +30,7 @@ class UserAdmin(ModelView):
         "email",
         "password",
         "passwordConfirm",
+        "isActive",
     ]
     form_edit_rules: List[str] = [
         "firstName",
@@ -70,6 +71,7 @@ class UserAdmin(ModelView):
                 "firstName": form_data.get("firstName"),
                 "lastName": form_data.get("lastName"),
                 "password": form_data.get("password"),
+                "isActive": bool(form_data.get("isActive")),
             }
             return userRepository.create(**data)
         except Exception as e:

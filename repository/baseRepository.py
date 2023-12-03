@@ -11,7 +11,7 @@ class BaseRepository:
     """A base repository class for handling database operations."""
 
     def __init__(self, model: Model) -> None:
-        self.__model = model
+        self.model = model
 
     def save(self, _model: Model, update: bool = True) -> Model:
         """
@@ -39,7 +39,7 @@ class BaseRepository:
         Returns:
             Model: The newly created model instance.
         """
-        _model = self.__model(
+        _model = self.model(
             *args,
             **kwargs,
             publicId=str(uuid4()),
@@ -60,7 +60,7 @@ class BaseRepository:
         Returns:
             Model | None: The first record that matches the filter, or None if no record is found.
         """
-        return self.__model.query.filter_by(*args, **kwargs).first()
+        return self.model.query.filter_by(*args, **kwargs).first()
 
     def filterAll(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> List[Model]:
         """
@@ -73,14 +73,27 @@ class BaseRepository:
         Returns:
             List[Model]: A list of objects that match the filter criteria.
         """
-        return self.__model.query.filter_by(*args, **kwargs).all()
+        return self.model.query.filter_by(*args, **kwargs).all()
+
+    def filterAllByExpression(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> List[Model]:
+        """
+        Filters the model based on the provided arguments and keyword arguments.
+
+        Args:
+            *args (Tuple[Any, ...]): Positional arguments to be passed to the filter method.
+            **kwargs (Dict[str, Any]): Keyword arguments to be passed to the filter method.
+
+        Returns:
+            List[Model]: A list of objects that match the filter criteria.
+        """
+        return self.model.query.filter(*args, **kwargs).all()
 
     def getAll(self) -> List[Model]:
         """
         Returns all the elements in the model.
         :return: List of elements in the model.
         """
-        return self.__model.query.all()
+        return self.model.query.all()
 
     def getById(self, id: int) -> Model | None:
         """
@@ -117,7 +130,7 @@ class BaseRepository:
         Returns:
             Tuple[Model, bool]: A tuple containing the model instance and a boolean indicating if it was created or not.
         """
-        if model := self.__model.query.filter_by(*args, **kwargs).first():
+        if model := self.model.query.filter_by(*args, **kwargs).first():
             return model, False
         return self.create(*args, **kwargs), True
 
