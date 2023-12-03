@@ -16,7 +16,8 @@ class CategoryServiceTestCase(TestCase):
 
     def setUp(self) -> None:
         db.create_all()
-        self.category1, self.category2 = Fixture.createCategories(2)
+        self.nCategories = 2
+        self.category1, self.category2 = Fixture.createCategories(self.nCategories)
         self.data = {"name": "Test"}
 
     def tearDown(self) -> None:
@@ -25,12 +26,12 @@ class CategoryServiceTestCase(TestCase):
 
     def test_service_category_getAllCategories(self) -> None:
         categories = CategoryService.getAllCategories()
-        self.assertEqual(len(categories), 2)
+        self.assertEqual(len(categories), self.nCategories)
 
     def test_service_category_addCategory(self) -> None:
         category = CategoryService.addCategory(self.data)
         self.assertEqual(category.name, self.data["name"])
-        self.assertEqual(len(CategoryService.getAllCategories()), 3)
+        self.assertEqual(len(CategoryService.getAllCategories()), self.nCategories + 1)
 
         # We check that the category exists in the database
         with self.assertRaises(exceptions.Conflict):
@@ -50,7 +51,7 @@ class CategoryServiceTestCase(TestCase):
 
     def test_service_category_deleteCategory(self) -> None:
         CategoryService.deleteCategory(self.category1.publicId)
-        self.assertEqual(len(CategoryService.getAllCategories()), 1)
+        self.assertEqual(len(CategoryService.getAllCategories()), self.nCategories - 1)
         with self.assertRaises(exceptions.NotFound):
             CategoryService.getCategory(self.category1.publicId)
 

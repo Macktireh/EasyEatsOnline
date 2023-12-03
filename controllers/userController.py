@@ -34,4 +34,5 @@ class ListUserController(Resource):
     @jwt_required()
     def get(self):
         """List all registered users"""
-        return UserService.getAllUser()
+        identity = get_jwt_identity()
+        return UserService.getAllUsers(identity["publicId"])

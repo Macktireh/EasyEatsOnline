@@ -9,8 +9,8 @@ from repository.userRepository import userRepository
 
 class UserService:
     @staticmethod
-    def getAllUser() -> List[User]:
-        return userRepository.getAll()
+    def getAllUsers(currentUserPublicId: str) -> List[User]:
+        return userRepository.getAllUsersExceptCurrent(currentUserPublicId)
 
     @staticmethod
     def getUser(publicId: str) -> User:
