@@ -5,10 +5,10 @@ from flask_login import login_user, logout_user
 
 from services.authService import AuthService
 
-adminLogin = Blueprint("adminLogin", __name__)
+router = Blueprint("adminLogin", __name__)
 
 
-@adminLogin.route("/admin/auth/login", methods=["GET", "POST"])
+@router.route("/admin/auth/login", methods=["GET", "POST"])
 def login() -> Union[Response, str]:
     if request.method == "POST":
         email = request.form.get("email")
@@ -22,7 +22,7 @@ def login() -> Union[Response, str]:
     return render_template("admin/login.html")
 
 
-@adminLogin.route("/admin/auth/logout")
+@router.route("/admin/auth/logout")
 def logout() -> Response:
     logout_user()
-    return redirect(url_for("home"))
+    return redirect(url_for("web.home.home"))

@@ -1,6 +1,6 @@
 version: '3'
 
-name: ecommerce
+name: EasyEatsOnline
 
 services:
 
@@ -8,8 +8,8 @@ services:
     build: 
       context: .
       dockerfile: ./compose/local/api/Dockerfile
-    image: ecommerce-api
-    container_name: ecommerce-api-cnt
+    image: EasyEatsOnlineApi
+    container_name: api
     volumes:
       - .:/app
     env_file:
@@ -40,11 +40,11 @@ services:
   #   volumes:
   #     - ./data:/var/lib/pgadmin/storage
 
-  smtp4dev:
-    image: rnwood/smtp4dev:v3
-    restart: always
-    ports:
-      - '5001:80'
+  # smtp4dev:
+  #   image: rnwood/smtp4dev:v3
+  #   restart: always
+  #   ports:
+  #     - '5001:80'
 
 
 # volumes:

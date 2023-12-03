@@ -33,12 +33,14 @@ class ProductAdmin(ModelView):
         "description",
         "available",
         "type",
+        "category",
     ]
     form_create_rules: List[str] = [
         "name",
         "price",
         "image",
         "description",
+        "category",
         "available",
         "type",
     ]
@@ -59,20 +61,18 @@ class ProductAdmin(ModelView):
                 model.slug = slugify(model.name)
 
     def create_model(self, form) -> Product:
+        form_data = get_form_data()
         try:
-            form_data = get_form_data()
-            try:
-                categoryId = int(form_data.get("category"))
-            except TypeError:
-                categoryId = None
-            data = {
-                "name": form_data.get("name"),
-                "categoryId": categoryId,
-                "price": float(form_data.get("price")),
-                "image": form_data.get("image"),
-                "description": form_data.get("description"),
-                "available": bool(form_data.get("available")),
-            }
-            return productRepository.create(**data)
-        except Exception as e:
-            raise NotImplementedError from e
+            categoryId = int(form_data.get("category"))
+        except TypeError:
+            categoryId = None
+        data = {
+            "name": form_data.get("name"),
+            "categoryId": categoryId,
+            "price": float(form_data.get("price")),
+            "image": form_data.get("image"),
+            "description": form_data.get("description"),
+            "available": bool(form_data.get("available")),
+            "type": form_data.get("type"),
+        }
+        return productRepository.create(**data)

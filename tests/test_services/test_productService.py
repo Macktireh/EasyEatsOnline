@@ -17,7 +17,8 @@ class ProductServiceTestCase(TestCase):
 
     def setUp(self) -> None:
         db.create_all()
-        self.product1, self.product2 = Fixture.createProducts(n=2, nCategories=2)
+        self.nProducts = 2
+        self.product1, self.product2 = Fixture.createProducts(n=self.nProducts, nCategories=2)
         self.data = {
             "name": "Test",
             "price": 14.99,
@@ -30,7 +31,7 @@ class ProductServiceTestCase(TestCase):
 
     def test_service_product_getAllProducts(self) -> None:
         products = ProductService.getAllProducts()
-        self.assertEqual(len(products), 2)
+        self.assertEqual(len(products), self.nProducts)
 
     def test_service_product_addProduct(self) -> None:
         product = ProductService.addProduct(self.data)
@@ -64,7 +65,7 @@ class ProductServiceTestCase(TestCase):
 
     def test_service_product_deleteProduct(self) -> None:
         ProductService.deleteProduct(self.product1.publicId)
-        self.assertEqual(len(ProductService.getAllProducts()), 1)
+        self.assertEqual(len(ProductService.getAllProducts()), self.nProducts - 1)
         with self.assertRaises(exceptions.NotFound):
             ProductService.getProduct(self.product1.publicId)
 

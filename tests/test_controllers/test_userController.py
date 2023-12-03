@@ -4,15 +4,15 @@ from flask import Flask, url_for
 from flask_testing import TestCase
 
 from config.app import createApp, db
-from controllers import apiRoute
 from tests.fixture import Fixture
+from urls.api import router
 from utils import status
 
 
 class UserControllerTestCase(TestCase):
     def create_app(self) -> Flask:
         app = createApp("testing")
-        app.register_blueprint(apiRoute)
+        app.register_blueprint(router)
         return app
 
     def setUp(self) -> None:

@@ -16,15 +16,16 @@ class UserServiceTestCase(TestCase):
 
     def setUp(self) -> None:
         db.create_all()
-        self.user = Fixture.createUsers(5)[0]
+        self.nUsers = 5
+        self.user = Fixture.createUsers(self.nUsers)[0]
 
     def tearDown(self) -> None:
         db.session.remove()
         db.drop_all()
 
     def test_service_user_get_all_users(self) -> None:
-        users = UserService.getAllUser()
-        self.assertEqual(len(users), 5)
+        users = UserService.getAllUsers(self.user.publicId)
+        self.assertEqual(len(users), self.nUsers - 1)
 
     def test_service_user_get_user(self) -> None:
         user = UserService.getUser(self.user.publicId)

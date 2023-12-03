@@ -1,40 +1,34 @@
-from typing import Any, Dict, Literal, Tuple, Union
+from typing import Dict, Literal, Tuple, Union
 
 import click
-from flask import redirect, render_template, url_for
 from flask.cli import with_appcontext
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from werkzeug.exceptions import BadRequest, Forbidden, NotFound
 
-# from admin.register import registerAdmin
+from admin.register import registerAdmin
 from config.app import createApp, db
 from config.settings import ConfigName, getEnvVar
-from controllers import apiRoute
-from controllers.adminAuthController import adminLogin
 from models.user import User
 from repository.userRepository import userRepository
+from urls.api import router as routerApi
+from urls.web import router as routerWeb
 from utils import status
 from utils.cli import createSuperUserCli, exportPostmanCollection, runTests
 
 app = createApp(getEnvVar("FLASK_ENV", ConfigName.DEVELOPEMENT.value))
 
 migrate = Migrate(app, db)
-# registerAdmin(app, db)
+registerAdmin(app, db)
 
-# register api routes
-app.register_blueprint(apiRoute)
-app.register_blueprint(adminLogin)
+# routes registration
+app.register_blueprint(routerApi)
+app.register_blueprint(routerWeb)
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "admin.login"
-
-
-@app.route("/")
-def home() -> Any:
-    return redirect(url_for("api.doc"))
-    return render_template("home/home.html")
 
 
 @login_manager.user_loader
@@ -118,7 +112,6 @@ def postman(export: bool) -> None:
         (printed collection): poetry run flask postman\n
         (exported collection to json): poetry run flask postman --export=True
     """
-    # data = postmanCollection()
     exportPostmanCollection(export)
 
 

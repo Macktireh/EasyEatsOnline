@@ -23,8 +23,8 @@ class GlobalConfig:
     FLASK_ENV = getEnvVar("FLASK_ENV", "development")
     SECRET_KEY = getEnvVar("SECRET_KEY", secrets.token_hex(32))
     JWT_SECRET_KEY = getEnvVar("JWT_SECRET_KEY", secrets.token_hex(32))
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=60)
-    JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=1)
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=20)
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
     SECURITY_PASSWORD_SALT = getEnvVar("SECURITY_PASSWORD_SALT", secrets.token_hex(32))
     SQLALCHEMY_ECHO = False
 
@@ -43,6 +43,9 @@ class GlobalConfig:
         SQLALCHEMY_DATABASE_URI = f"postgresql://{getEnvVar('POSTGRES_USER')}:{getEnvVar('POSTGRES_PASSWORD')}@{getEnvVar('POSTGRES_HOST')}:{getEnvVar('POSTGRES_PORT')}/{getEnvVar('POSTGRES_DB')}"  # noqa
     else:
         SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI_SQLITE
+    SWAGGER_UI_DOC_EXPANSION = "list"
+    SWAGGER_UI_OPERATION_ID = True
+    SWAGGER_UI_REQUEST_DURATION = True
 
 
 class DevelopmentConfig(GlobalConfig):
@@ -50,7 +53,7 @@ class DevelopmentConfig(GlobalConfig):
     DEBUG = True
     FLASK_DEBUG = True
     MAIL_DEBUG = True
-    # SQLALCHEMY_ECHO = True
+    SQLALCHEMY_ECHO = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PREFERRED_URL_SCHEME = "http"
 
@@ -71,7 +74,7 @@ class ProductionConfig(GlobalConfig):
 
 
 class PostmanConfig(DevelopmentConfig):
-    SERVER_NAME = getEnvVar("SERVER_NAME", "localhost")
+    SERVER_NAME = getEnvVar("SERVER_NAME", "localhost:5000")
     APPLICATION_ROOT = getEnvVar("APPLICATION_ROOT", "/")
     PREFERRED_URL_SCHEME = "http"
 

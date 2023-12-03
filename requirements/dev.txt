@@ -1,6 +1,5 @@
 coverage
 Faker
-Flask
 Flask-Admin
 Flask-Bcrypt
 Flask-JWT-Extended
@@ -10,7 +9,6 @@ Flask-Migrate
 flask-restx
 Flask-SQLAlchemy
 Flask-Testing
-isort
 pre-commit
 psycopg2-binary
 python-dotenv

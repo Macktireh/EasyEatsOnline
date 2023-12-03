@@ -16,7 +16,8 @@ class OrderServiceTestCase(TestCase):
 
     def setUp(self) -> None:
         db.create_all()
-        self.order = Fixture.createOrders(n=1, nUsers=1, nCategories=1, nProducts=1)[0]
+        self.nOrders = 1
+        self.order = Fixture.createOrders(n=self.nOrders, nUsers=1, nCategories=1, nProducts=1)[0]
         self.data = {
             "publicId": self.order.publicId,
             "quantity": 10,
@@ -28,7 +29,7 @@ class OrderServiceTestCase(TestCase):
 
     def test_service_order_getAllOrders(self) -> None:
         orders = OrderService.getAllOrders()
-        self.assertEqual(len(orders), 1)
+        self.assertEqual(len(orders), self.nOrders)
 
     def test_service_order_updateQuantity(self) -> None:
         order = OrderService.updateQuantity(self.data)
