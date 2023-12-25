@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 from flask import current_app as app
 from itsdangerous import URLSafeTimedSerializer
 
@@ -8,14 +10,13 @@ from repository.userRepository import userRepository
 
 class TokenService:
     @staticmethod
-    def generate(user: User) -> str:
+    def generate(payload: Dict[str, Any]) -> str:
         serializer = URLSafeTimedSerializer(app.config["SECRET_KEY"])
-        payload = TokenPayload(publicId=user.publicId, isActive=user.isActive)
         token = serializer.dumps(payload, salt=app.config["SECURITY_PASSWORD_SALT"])
         return token
 
     @staticmethod
-    def getPayload(token: str, expiration: int = 60 * 60 * 24) -> TokenPayload | None:
+    def getPayload(token: str, expiration: int) -> TokenPayload | None:
         try:
             serializer = URLSafeTimedSerializer(app.config["SECRET_KEY"])
             payload = serializer.loads(token, salt=app.config["SECURITY_PASSWORD_SALT"], max_age=expiration)
@@ -24,9 +25,9 @@ class TokenService:
             return None
 
     @classmethod
-    def verify(cls, token: str) -> User | None:
+    def verify(cls, token: str, expiration: int = 60 * 60 * 24) -> User | None:
         try:
-            payload: TokenPayload = cls.getPayload(token)
+            payload = cls.getPayload(token, expiration)
             if not payload:
                 raise Exception
             user = userRepository.getByPublicId(payload["publicId"])

@@ -23,28 +23,28 @@ class TokenServiceTestCase(TestCase):
         db.drop_all()
 
     def test_service_token_generate(self) -> None:
-        token = TokenService.generate(self.user)
+        _payload = {"publicId": self.user.publicId, "isActive": self.user.isActive}
+        token = TokenService.generate(_payload)
         self.assertIsNotNone(token)
 
-    def test_service_token_generate_error(self) -> None:
-        with self.assertRaises(Exception):  # noqa: B017
-            TokenService.generate(None)
-
     def test_service_token_verify(self) -> None:
-        token = TokenService.generate(self.user)
+        _payload = {"publicId": self.user.publicId, "isActive": self.user.isActive}
+        token = TokenService.generate(_payload)
         user = TokenService.verify(token)
         self.assertIsNotNone(user)
         self.assertEqual(user.id, self.user.id)
 
     def test_service_token_verify_invalid(self) -> None:
-        token = TokenService.generate(self.user)
+        _payload = {"publicId": self.user.publicId, "isActive": self.user.isActive}
+        token = TokenService.generate(_payload)
         token = token[:-1]
         user = TokenService.verify(token)
         self.assertIsNone(user)
 
     def test_service_token_getPayload(self) -> None:
-        token = TokenService.generate(self.user)
-        payload = TokenService.getPayload(token)
+        _payload = {"publicId": self.user.publicId, "isActive": self.user.isActive}
+        token = TokenService.generate(_payload)
+        payload = TokenService.getPayload(token, 60 * 60 * 24)
         self.assertIsNotNone(payload)
         self.assertEqual(payload["publicId"], self.user.publicId)
 

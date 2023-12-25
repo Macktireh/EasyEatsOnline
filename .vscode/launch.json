@@ -13,7 +13,7 @@
         "FLASK_APP": "manage.py",
         "FLASK_DEBUG": "1"
       },
-      "args": ["run", "--debugger", "--reload"],
+      "args": ["run", "-h", "localhost", "--debugger", "--reload"],
       "jinja": true,
       "justMyCode": true
     },

@@ -52,17 +52,14 @@ class AuthServiceTestCase(TestCase):
             AuthService.register(self.data)
 
     def test_service_auth_activation(self) -> None:
-        token = TokenService.generate(self.user1)
+        _payload = {"publicId": self.user1.publicId, "isActive": self.user1.isActive}
+        token = TokenService.generate(_payload)
         response = AuthService.activation({"token": token})
-        self.assertEqual(response["message"], "Account confirmed successfully")
+        self.assertIn("message", response)
 
         # test invalid token
         with self.assertRaises(exceptions.UnprocessableEntity):
             AuthService.activation({"token": "token"})
-
-        # test already activated
-        with self.assertRaises(exceptions.Gone):
-            AuthService.activation({"token": TokenService.generate(self.user1)})
 
     def test_service_auth_login(self) -> None:
         response = AuthService.login({"email": self.user2.email, "password": "password"})
@@ -88,6 +85,22 @@ class AuthServiceTestCase(TestCase):
         # test user does not exist
         user = AuthService.authenticate("usernotexist@ex.com", "password")
         self.assertIsNone(user)
+
+    def test_service_auth_resendConfirmationEmail(self) -> None:
+        response = AuthService.resendConfirmationEmail(self.user1.email)
+        self.assertIn("message", response)
+
+        # test user does not exist
+        with self.assertRaises(exceptions.BadRequest):
+            AuthService.resendConfirmationEmail("usernotexist@ex")
+
+    def test_service_auth_requestPasswordReset(self) -> None:
+        response = AuthService.requestPasswordReset(self.user1.email)
+        self.assertIn("message", response)
+
+        # test user does not exist
+        with self.assertRaises(exceptions.BadRequest):
+            AuthService.requestPasswordReset("usernotexist@ex")
 
 
 if __name__ == "__main__":

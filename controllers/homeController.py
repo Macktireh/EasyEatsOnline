@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from flask.views import View
 
-router = Blueprint("home", __name__, template_folder="../templates", static_folder="../../static")
+router = Blueprint("home", __name__)
 
 
 class Home(View):
