@@ -1,124 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clone Twitter Template email</title>
+  <title>Account Activation - EasyEatsOnline</title>
 </head>
 
-<body style="
-  width: 100%;
-  padding: 2rem;
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 18px;
-  background-color: #CCCCCC;
-  color: #15202b;
-  display: flex;
-  justify-content: center;
-  align-items: center;">
+<body style="font-family: Arial, sans-serif; line-height: 1.6;">
 
-  <div style="
-    width: 90%;
-    margin: auto;
-    background-color: #f1f1f1;
-    border: 1px solid #f1f1f1;
-    box-shadow: 0 0 2px #15202b;
-    border-radius: 5px;">
+  <table cellspacing="0" cellpadding="0" border="0" align="center" width="600"
+    style="margin: 28px auto; padding: 20px; background-color: #F1F1F1; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+    <tr>
+      <td>
+        <h2 style="color: #333333;">Dear, {{ user.name }}!</h2>
+        <p style="margin-bottom: 20px;">To complete your registration on EasyEatsOnline, please activate your
+          account by clicking the confirmation link below:</p>
+        <a href="{{CLIENT_BASE_URL}}/auth/user/account/activation/{{token}}"
+          style="display: inline-block; margin: 10px auto; padding: 10px 20px; background-color: #299AE6; text-decoration: none; border-radius: 5px; transition: all 0.2s ease; color: #ffffff;">Activate
+          my account</a>
+        <p style="margin-bottom: 20px;">Or copy and paste the following link in your browser:</p>
+        <a href="{{CLIENT_BASE_URL}}/auth/user/account/activation/{{token}}"
+          style="color: #299AE6;">{{CLIENT_BASE_URL}}/auth/user/account/activation/{{token}}</a>
+        <p style="margin-bottom: 20px;">Please note that the link is valid for 24 hours. It is used to verify
+          your identity and protect the security of your account.</p>
+        <p style="margin-bottom: 20px;">If you did not create an account on our platform, please ignore this
+          email.</p>
+        <div style="margin-top: 30px; font-size: 14px; color: #666666;">
+          <p>For any additional assistance, feel free to contact us at the following email address:
+            contact@easteatsonline.com</p>
+        </div>
+        <p>Thank you and welcome to EasyEatsOnline!</p>
+        <div style="margin-top: 30px; font-size: 12px; color: #999999;">
+          <p>Best regards,<br>The EasyEatsOnline Team</p>
+          <p><a href="{{CLIENT_BASE_URL}}">EasyEatsOnline</a></p>
+        </div>
+      </td>
+    </tr>
+  </table>
 
-    <div style="
-    width: 50px;
-    height: auto;
-    margin: 8px auto;">
-      <img style="
-      width: 50px;
-      text-align: center;
-      margin: auto;"
-        src="https://media4.giphy.com/media/SMKiEh9WDO6ze/giphy.gif?cid=ecf05e47lqah6q1iam1iazxtvur6jkvduab5ymzlz9q7h7ve&rid=giphy.gif&ct=g"
-        alt="logo Twitter">
-    </div>
-
-    <h2 style="
-      text-align: center;
-      padding: 5px 5px 8px;">Bienvenue sur Clone Twitter</h2>
-
-    <hr style="
-      margin: 8px 0;">
-
-    <h3 style="
-      text-align: center;">{{user.firtName}}</h3>,</h3>
-
-    <p style="
-      text-align: center;
-      padding: 3px 5px;">Félicitations ! Vous êtes presque prêt à commencer à utiliser le clone Twitter. Cliquez
-      simplement sur le bouton
-      ci-dessous pour valider votre adresse e-mail.
-    </p>
-
-    <br>
-
-    <div style="
-    display: flex;
-    justify-content: center;
-    margin: 5px auto;">
-      <a style="
-      padding: 8px 12px;
-      text-align: center;
-      margin: auto;
-      text-decoration: none;
-      background-color: #1d9bf0;
-      color: #f1f1f1;
-      border-radius: 5px;
-      " href="http://{{domain}}/auth/user/account/activation/{{token}}">
-        Connectez-vous pour valider votre adresse e-mail
-      </a>
-    </div>
-
-    <br>
-
-    <p style="
-      font-size: 16px;
-      text-align: center;
-      padding: 0 5px;">Remarque : Vous devez effectuer cette validation dans les 24 heures qui suivent pour que votre
-      nouveau compte reste
-      activé.
-    </p>
-
-    <p style="
-      font-size: 16px;
-      text-align: center;
-      padding: 0 5px;">Si vous rencontrez un problème, <a style="
-      text-align: center;
-      margin: auto;
-      text-decoration: none;
-      color: #1d9bf0;
-      " href="#">
-        veuillez nous contacter.
-      </a>
-    </p>
-
-    <br>
-
-    <p style="
-      font-size: 15px;
-      text-align: center;
-      padding: 0 5px;">L'équipe du clone Twitter <br> <a style="
-      text-align: center;
-      margin: auto;
-      text-decoration: none;
-      color: #1d9bf0;
-      " href="https://mack-twitter.pages.dev/">
-        https://mack-twitter.pages.dev/.
-      </a>
-    </p>
-
-    <!-- Merci de votre inscription sur Mackdin ! Vous devez suivre ce lien pour activer votre compte :
-
-
-
-    Amusez-vous et n'hésitez pas à nous faire part de vos commentaires :). -->
-  </div>
 </body>
 
 </html>

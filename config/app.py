@@ -3,14 +3,14 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 
-from config.settings import ConfigName, configByName
+from config.settings import STATIC_DIR, TEMPLATE_DIR, ConfigName, configByName
 
 db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 
 
 def createApp(configName: ConfigName) -> Flask:
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
     try:
         app.config.from_object(configByName[configName])
     except KeyError as e:

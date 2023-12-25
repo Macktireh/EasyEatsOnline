@@ -24,11 +24,10 @@ def registerAdmin(app: Flask, db: SQLAlchemy) -> None:
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", "Fields missing from ruleset", UserWarning)
         admin.add_view(UserAdmin(User, db.session))
-
-    admin.add_view(CategoryAdmin(Category, db.session))
-    admin.add_view(ProductAdmin(Product, db.session))
-    admin.add_view(CartAdmin(Cart, db.session))
-    admin.add_view(OrderAdmin(Order, db.session))
+        admin.add_view(CategoryAdmin(Category, db.session))
+        admin.add_view(ProductAdmin(Product, db.session))
+        admin.add_view(CartAdmin(Cart, db.session))
+        admin.add_view(OrderAdmin(Order, db.session))
 
     admin.add_link(MenuLink(name="API Docs", category="", url="/api/docs"))
     admin.add_link(MenuLink(name="Logout", category="", url="/admin/auth/logout"))

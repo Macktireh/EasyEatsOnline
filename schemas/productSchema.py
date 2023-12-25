@@ -53,5 +53,6 @@ class ProductSchema:
             "available": fields.Boolean(required=False, description="Product available"),
             "createdAt": fields.DateTime(readonly=True, description="Product created at"),
             "updatedAt": fields.DateTime(readonly=True, description="Product updated at"),
+            "uri": fields.Url("api.Product_retrieve_update_delete_product", absolute=True),
         },
     )

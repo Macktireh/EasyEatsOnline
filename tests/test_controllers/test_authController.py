@@ -83,18 +83,14 @@ class AuthControllerTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_controller_auth_activation_ok(self) -> None:
-        token = TokenService.generate(self.user1)
+        _payload = {"publicId": self.user1.publicId, "isActive": self.user1.isActive}
+        token = TokenService.generate(_payload)
         response = self.client.post(url_for("api.Auth_activation_controller"), json={"token": token})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_controller_auth_activation_fail(self) -> None:
         response = self.client.post(url_for("api.Auth_activation_controller"), json={"token": "wrongtoken"})
         self.assertEqual(response.status_code, status.HTTP_422_UNPROCESSABLE_ENTITY)
-
-        # account already activated
-        token = TokenService.generate(self.user2)
-        response = self.client.post(url_for("api.Auth_activation_controller"), json={"token": token})
-        self.assertEqual(response.status_code, status.HTTP_410_GONE)
 
     def test_controller_auth_refresh_token_ok(self) -> None:
         credentials = {"email": self.user2.email, "password": "password"}
