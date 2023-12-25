@@ -15,6 +15,11 @@ class RequestSignupDTO(RequestUserUpdateDTO, RequestLoginDTO):
     passwordConfirm: str
 
 
+class RequestResetPasswordDTO(TypedDict):
+    password: str
+    passwordConfirm: str
+
+
 class RequestActivateDTO(TypedDict):
     token: str
 

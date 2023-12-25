@@ -24,6 +24,8 @@ shell:
 postman:
 	poetry run flask postman --export=True
 
+ptest:
+	poetry run flask test
 testc:
 	poetry run coverage run -m unittest discover tests/ -v
 
@@ -35,6 +37,20 @@ test: testc coverage
 
 superuser:
 	poetry run flask createsuperuser
+
+trans-extract:
+	poetry run pybabel extract -F babel.cfg -o translations/messages.pot .
+
+trans-init: trans-extract
+	poetry run pybabel init -i translations/messages.pot -d translations
+
+trans-update: trans-extract
+	poetry run pybabel update -i translations/messages.pot -d translations
+
+trans-compile:
+	poetry run pybabel compile -d translations
+
+trans: trans-extract trans-update trans-compile
 
 rufffix:
 	poetry run ruff --fix --exit-zero .

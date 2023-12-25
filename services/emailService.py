@@ -195,7 +195,7 @@ class EmailService:
             password=app.config["MAIL_PASSWORD"],
             server=app.config["MAIL_SERVER"],
             port=app.config["MAIL_PORT"],
-            dev_mode=app.config["FLASK_ENV"] != "production",
+            dev_mode=app.config["FLASK_ENV"] == "production",
         )
         emailService = EmailService(emailServiceSettings)
         emailService.recipients(recipients)

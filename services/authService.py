@@ -1,49 +1,35 @@
-from datetime import datetime
 from typing import Dict
 
 from flask import current_app as app
 from flask import render_template
 from flask_jwt_extended import create_access_token, create_refresh_token
-from flask_restx import abort
 from werkzeug import exceptions
 
-from dto import RequestActivateDTO, RequestLoginDTO, RequestSignupDTO, TokenPayload
+from dto import RequestActivateDTO, RequestLoginDTO, RequestResetPasswordDTO, RequestSignupDTO, TokenPayload
 from models.user import User
 from repository.userRepository import userRepository
 from services.emailService import EmailService
 from services.tokenService import TokenService
-from utils import status
 from validators.authValidator import AuthValidator
 
 
 class AuthService:
-    """Handles authentication."""
+    TEMPLATE_ACTIVATION = "mail/activate.html"
+    TEMPLATE_ACTIVATION_SUCCESS = "mail/activate_success.html"
+    TEMPLATE_RESET_PASSWORD = "mail/reset_password.html"
+    TEMPLATE_RESET_PASSWORD_SUCCESS = "mail/reset_password_success.html"
 
     @staticmethod
     def register(data: RequestSignupDTO) -> Dict[str, str]:
-        user = userRepository.getByEmail(data["email"])
-        if user:
+        if userRepository.existsByEmail(data["email"]):
             raise exceptions.Conflict("User already exists")
 
-        validated = AuthValidator.validateSignup(**data)
-        if validated is not True:
-            abort(
-                status.HTTP_400_BAD_REQUEST,
-                message="The information provided is not valid",
-                errors=validated,
-            )
+        AuthValidator.validateSignupRaise(**data)
 
         data.pop("passwordConfirm", None)
-        new_user = userRepository.create(**data)
+        user = userRepository.create(**data)
+        AuthService.sendEmail("Please confirm your account", AuthService.TEMPLATE_ACTIVATION, user)
 
-        if not app.config["TESTING"]:
-            body = render_template(
-                "mail/activate.html",
-                user=new_user,
-                domain=app.config["DOMAIN_FRONTEND"],
-                token=TokenService.generate(new_user),
-            )
-            EmailService.sendEmail(recipients=[new_user.email], subject="Please confirm your email", body=body)
         return dict(message="You have registered successfully.")
 
     @staticmethod
@@ -54,45 +40,27 @@ class AuthService:
 
         if not user.isActive:
             user.isActive = True
-            user.updated = datetime.now()
             userRepository.save(user)
 
             if not app.config["TESTING"]:
-                body = render_template("mail/activate_success.html", user=user)
-                EmailService.sendEmail(
-                    recipients=[user.email], subject="Your account is confirmed successfully", body=body
-                )
+                AuthService.sendEmail("Account confirmed successfully", AuthService.TEMPLATE_ACTIVATION_SUCCESS, user)
 
-            return dict(message="Account confirmed successfully")
-        raise exceptions.Gone("Account already confirmed. Please login.")
+        return dict(message="Account confirmed successfully. Please login.")
 
-    @classmethod
-    def login(cls, data: RequestLoginDTO) -> Dict[str, str | Dict[str, str]] | None:
-        validated = AuthValidator.validateLogin(**data)
-        if validated is not True:
-            abort(
-                status.HTTP_400_BAD_REQUEST,
-                message="The information provided is not valid",
-                errors=validated,
-            )
+    @staticmethod
+    def login(data: RequestLoginDTO) -> Dict[str, str | Dict[str, str]] | None:
+        AuthValidator.validateLoginRaise(**data)
 
-        user = cls.authenticate(**data)
+        user = AuthService.authenticate(**data)
         if not user:
             raise exceptions.Unauthorized("Invalid email address or password")
 
         if not user.isActive:
             raise exceptions.Unauthorized("Your account is not active")
 
-        try:
-            identity = {"publicId": user.publicId, "isActive": user.isActive}
-            access = create_access_token(identity=identity)
-            refresh = create_refresh_token(identity=identity)
-            return dict(
-                message="Successfully logged in.",
-                tokens={"access": access, "refresh": refresh},
-            )
-        except Exception as e:
-            raise exceptions.InternalServerError("Something went wrong") from e
+        access = create_access_token(identity={"publicId": user.publicId})
+        refresh = create_refresh_token(identity={"publicId": user.publicId})
+        return dict(message="Successfully logged in.", tokens={"access": access, "refresh": refresh})
 
     @staticmethod
     def refreshToken(identity: TokenPayload) -> Dict[str, str]:
@@ -105,8 +73,54 @@ class AuthService:
         )
 
     @staticmethod
+    def resendConfirmationEmail(email: str) -> None:
+        AuthValidator.validateEmailRaise(email)
+        user = userRepository.getByEmail(email)
+        if user and not user.isActive:
+            AuthService.sendEmail("Please confirm your account", AuthService.TEMPLATE_ACTIVATION, user)
+        return dict(
+            message="If the email exists, you will receive an email with instructions on how to confirm your account."
+        )
+
+    @staticmethod
+    def requestPasswordReset(email: str) -> Dict[str, str]:
+        AuthValidator.validateEmailRaise(email)
+        user = userRepository.getByEmail(email)
+        if user and user.isActive:
+            AuthService.sendEmail("Reset your password", AuthService.TEMPLATE_RESET_PASSWORD, user)
+        return dict(
+            message="If the email exists, you will receive an email with instructions on how to reset your password."
+        )
+
+    @staticmethod
+    def resetPassword(token: str, data: RequestResetPasswordDTO) -> Dict[str, str]:
+        user = TokenService.verify(token, expiration=60 * 30)
+        if not user:
+            raise exceptions.UnprocessableEntity("Invalid token")
+
+        AuthValidator.validateResetPasswordRaise(**data)
+
+        user.password = data["password"]
+        userRepository.save(user)
+        AuthService.sendEmail(
+            "Your password has been reset successfully", AuthService.TEMPLATE_RESET_PASSWORD_SUCCESS, user
+        )
+        return dict(message="Your password has been reset successfully.")
+
+    @staticmethod
     def authenticate(email: str, password: str) -> User | None:
         user = userRepository.getByEmail(email)
         if user and user.checkPassword(password):
             return user
         return None
+
+    @staticmethod
+    def sendEmail(subject: str, template: str, user: User) -> None:
+        if not app.config["TESTING"]:
+            body = render_template(
+                template_name_or_list=template,
+                CLIENT_BASE_URL=app.config["CLIENT_BASE_URL"],
+                token=TokenService.generate({"publicId": user.publicId, "isActive": user.isActive}),
+                user=user,
+            )
+            EmailService.sendEmail(recipients=[user.email], subject=subject, body=body)

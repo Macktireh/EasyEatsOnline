@@ -1,6 +1,6 @@
 from flask import request
 from flask_jwt_extended import get_jwt_identity, jwt_required
-from flask_restx import Resource
+from flask_restx import Resource, reqparse
 
 from schemas.authSchema import AuthSchema
 from services.authService import AuthService
@@ -48,3 +48,37 @@ class RefreshTokenController(Resource):
         """Refresh JWT token"""
         identity = get_jwt_identity()
         return AuthService.refreshToken(identity)
+
+
+@api.route("/request-password-reset")
+class RequestPasswordResetController(Resource):
+    @api.response(status.HTTP_200_OK, "Password reset link successfully sent.")
+    @api.doc("Request Password Reset Link")
+    @api.expect(AuthSchema.email, validate=True)
+    def post(self):
+        """Request Password Reset Link"""
+        return AuthService.requestPasswordReset(request.json["email"])
+
+
+@api.route("/reset-password/")
+@api.param("token", "Password reset token")
+class ResetPasswordController(Resource):
+    @api.response(status.HTTP_200_OK, "Password reset successfully.")
+    @api.doc("Reset Password")
+    @api.expect(AuthSchema.resetPassword, validate=True)
+    def post(self):
+        """Reset Password"""
+        parser = reqparse.RequestParser()
+        parser.add_argument("token", required=True, type=str, help="Password reset token")
+        args = parser.parse_args()
+        return AuthService.resetPassword(token=args["token"], data=request.json)
+
+
+@api.route("/resend-activation-email")
+class ResendActivationEmailController(Resource):
+    @api.response(status.HTTP_200_OK, "Activation email successfully sent.")
+    @api.doc("Resend Activation Email")
+    @api.expect(AuthSchema.email, validate=True)
+    def post(self):
+        """Resend Activation Email"""
+        return AuthService.resendConfirmationEmail(request.json["email"])

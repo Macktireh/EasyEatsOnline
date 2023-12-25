@@ -42,7 +42,7 @@ class BaseRepository:
         _model = self.model(
             *args,
             **kwargs,
-            publicId=str(uuid4()),
+            publicId=str(uuid4().hex),
             createdAt=datetime.now(),
             updatedAt=datetime.now(),
         )
@@ -64,27 +64,27 @@ class BaseRepository:
 
     def filterAll(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> List[Model]:
         """
-        Filters the model based on the provided arguments and keyword arguments.
+        Filter all instances of Model by the given arguments.
 
         Args:
-            *args (Tuple[Any, ...]): Positional arguments to be passed to the filter method.
-            **kwargs (Dict[str, Any]): Keyword arguments to be passed to the filter method.
+            *args: Positional arguments passed to the filter method.
+            **kwargs: Keyword arguments passed to the filter method.
 
         Returns:
-            List[Model]: A list of objects that match the filter criteria.
+            List of instances of Model that match the given arguments.
         """
         return self.model.query.filter_by(*args, **kwargs).all()
 
     def filterAllByExpression(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> List[Model]:
         """
-        Filters the model based on the provided arguments and keyword arguments.
+        Filter all instances of Model by the given expression.
 
         Args:
-            *args (Tuple[Any, ...]): Positional arguments to be passed to the filter method.
-            **kwargs (Dict[str, Any]): Keyword arguments to be passed to the filter method.
+            *args: Positional arguments passed to the filter method.
+            **kwargs: Keyword arguments passed to the filter method.
 
         Returns:
-            List[Model]: A list of objects that match the filter criteria.
+            List of instances of Model that match the given expression.
         """
         return self.model.query.filter(*args, **kwargs).all()
 

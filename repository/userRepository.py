@@ -48,5 +48,20 @@ class UserRepository(BaseRepository):
         # return query.all()
         return self.filterAllByExpression(User.publicId != publicId)
 
+    def existsByEmail(self, email: str) -> bool:
+        """
+        Check if a user with the given email address exists in the database.
+
+        Parameters:
+            email (str): The email address of the user to check.
+
+        Returns:
+            bool: True if a user with the given email address exists, False otherwise.
+        """
+        user = self.filter(email=email)
+        if user:
+            return True
+        return False
+
 
 userRepository = UserRepository(User)
