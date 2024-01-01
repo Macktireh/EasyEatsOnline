@@ -27,7 +27,7 @@ class ProductService:
                 errors=validate,
             )
 
-        if _ := productRepository.filter(slug=slugify(data["name"])):
+        if productRepository.filter(slug=slugify(data["name"])):
             raise exceptions.Conflict("Product already exists")
 
         if data.get("categoryPublicId"):
