@@ -1,1 +1,1 @@
-export FLASK_APP=manage
+export FLASK_APP=main
