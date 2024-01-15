@@ -1,6 +1,6 @@
 from flask_restx import Namespace, fields
 
-from repository.categoryRepository import categoryRepository
+from repositories.categoryRepository import categoryRepository
 
 
 def productFields(api, required: bool = True):

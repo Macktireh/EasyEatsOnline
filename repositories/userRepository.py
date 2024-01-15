@@ -1,7 +1,7 @@
 from typing import List
 
 from models.user import User
-from repository.baseRepository import BaseRepository
+from repositories.baseRepository import BaseRepository
 
 
 class UserRepository(BaseRepository):

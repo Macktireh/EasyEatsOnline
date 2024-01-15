@@ -4,7 +4,7 @@ from getpass import getpass
 from typing import Literal
 from unittest import TestResult, TestSuite
 
-from repository.userRepository import userRepository
+from repositories.userRepository import userRepository
 from validators.authValidator import AuthValidator
 
 

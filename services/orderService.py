@@ -3,10 +3,10 @@ from typing import List
 from flask_restx import abort
 from werkzeug import exceptions
 
-from dto import RequestCreateOrUpdateOrderDTO
 from models.order import Order
-from repository.orderRepository import orderRepository
+from repositories.orderRepository import orderRepository
 from utils import status
+from utils.types import RequestCreateOrUpdateOrderDTO
 from validators.orderValidator import OrderValidator
 
 

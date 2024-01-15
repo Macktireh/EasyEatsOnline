@@ -5,7 +5,7 @@ from wtforms import PasswordField, validators
 
 from admin import ModelView
 from models.user import User
-from repository.userRepository import userRepository
+from repositories.userRepository import userRepository
 from validators.authValidator import MESSAGE_PASSWORD_INVALID, REGEX_PASSWORD_VALIDATION
 
 

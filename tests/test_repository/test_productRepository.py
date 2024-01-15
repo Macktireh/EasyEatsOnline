@@ -5,7 +5,7 @@ from flask_testing import TestCase
 
 from config.app import createApp, db
 from models.product import TypeEnum
-from repository.productRepository import productRepository
+from repositories.productRepository import productRepository
 
 
 class ProductRepositoryTestCase(TestCase):

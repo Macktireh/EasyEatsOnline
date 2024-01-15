@@ -1,5 +1,5 @@
 from models.cart import Cart
-from repository.baseRepository import BaseRepository
+from repositories.baseRepository import BaseRepository
 
 
 class CartRepository(BaseRepository):

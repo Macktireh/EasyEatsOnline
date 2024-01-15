@@ -5,7 +5,7 @@ from slugify import slugify
 
 from admin import ModelView
 from models.product import Product
-from repository.productRepository import productRepository
+from repositories.productRepository import productRepository
 
 
 class ProductAdmin(ModelView):

@@ -5,11 +5,11 @@ from flask import render_template
 from flask_jwt_extended import create_access_token, create_refresh_token
 from werkzeug import exceptions
 
-from dto import RequestActivateDTO, RequestLoginDTO, RequestResetPasswordDTO, RequestSignupDTO, TokenPayload
 from models.user import User
-from repository.userRepository import userRepository
+from repositories.userRepository import userRepository
 from services.emailService import EmailService
 from services.tokenService import TokenService
+from utils.types import RequestActivateDTO, RequestLoginDTO, RequestResetPasswordDTO, RequestSignupDTO, TokenPayload
 from validators.authValidator import AuthValidator
 
 

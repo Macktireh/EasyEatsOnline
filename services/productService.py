@@ -4,11 +4,11 @@ from flask_restx import abort
 from slugify import slugify
 from werkzeug import exceptions
 
-from dto import RequestProductCreateOrUpdateDTO
 from models.product import Product
-from repository.categoryRepository import categoryRepository
-from repository.productRepository import productRepository
+from repositories.categoryRepository import categoryRepository
+from repositories.productRepository import productRepository
 from utils import status
+from utils.types import RequestProductCreateOrUpdateDTO
 from validators.productValidator import ProductValidator
 
 
