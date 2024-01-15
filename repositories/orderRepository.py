@@ -1,5 +1,5 @@
 from models.order import Order
-from repository.baseRepository import BaseRepository
+from repositories.baseRepository import BaseRepository
 
 
 class OrderRepository(BaseRepository):

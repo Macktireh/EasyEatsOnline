@@ -1,8 +1,8 @@
 from werkzeug import exceptions
 
 from models.cart import Cart
-from repository.cartRepository import cartRepository
-from repository.orderRepository import orderRepository
+from repositories.cartRepository import cartRepository
+from repositories.orderRepository import orderRepository
 from services.productService import ProductService
 from services.userService import UserService
 

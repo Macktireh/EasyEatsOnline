@@ -4,7 +4,7 @@ from flask import Flask, url_for
 from flask_testing import TestCase
 
 from config.app import createApp, db
-from repository.userRepository import userRepository
+from repositories.userRepository import userRepository
 from tests.fixture import Fixture
 from urls.api import router
 from utils import status

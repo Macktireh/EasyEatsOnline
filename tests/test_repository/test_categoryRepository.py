@@ -4,7 +4,7 @@ from flask import Flask
 from flask_testing import TestCase
 
 from config.app import createApp, db
-from repository.categoryRepository import categoryRepository
+from repositories.categoryRepository import categoryRepository
 
 
 class CategoryRepositoryTestCase(TestCase):

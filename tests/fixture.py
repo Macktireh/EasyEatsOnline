@@ -4,11 +4,11 @@ from typing import List
 from faker import Faker
 
 from models.product import TypeEnum
-from repository.cartRepository import cartRepository
-from repository.categoryRepository import categoryRepository
-from repository.orderRepository import orderRepository
-from repository.productRepository import productRepository
-from repository.userRepository import userRepository
+from repositories.cartRepository import cartRepository
+from repositories.categoryRepository import categoryRepository
+from repositories.orderRepository import orderRepository
+from repositories.productRepository import productRepository
+from repositories.userRepository import userRepository
 
 fake = Faker()
 

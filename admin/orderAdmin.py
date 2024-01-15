@@ -4,7 +4,7 @@ from flask_admin.helpers import get_form_data
 
 from admin import ModelView
 from models.order import Order
-from repository.orderRepository import orderRepository
+from repositories.orderRepository import orderRepository
 
 
 class OrderAdmin(ModelView):

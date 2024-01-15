@@ -4,7 +4,7 @@ from flask_admin.helpers import get_form_data
 
 from admin import ModelView
 from models.category import Category
-from repository.categoryRepository import categoryRepository
+from repositories.categoryRepository import categoryRepository
 
 
 class CategoryAdmin(ModelView):
