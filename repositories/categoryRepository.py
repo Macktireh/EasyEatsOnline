@@ -1,5 +1,5 @@
 from models.category import Category
-from repository.baseRepository import BaseRepository
+from repositories.baseRepository import BaseRepository
 
 
 class CategoryRepository(BaseRepository):

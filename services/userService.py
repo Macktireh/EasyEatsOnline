@@ -2,9 +2,9 @@ from typing import List
 
 from werkzeug import exceptions
 
-from dto import RequestUserUpdateDTO
 from models.user import User
-from repository.userRepository import userRepository
+from repositories.userRepository import userRepository
+from utils.types import RequestUserUpdateDTO
 
 
 class UserService:

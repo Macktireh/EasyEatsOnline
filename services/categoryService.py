@@ -2,9 +2,9 @@ from typing import List
 
 from werkzeug import exceptions
 
-from dto import RequestCategoryCreateOrUpdateDTO
 from models.category import Category
-from repository.categoryRepository import categoryRepository
+from repositories.categoryRepository import categoryRepository
+from utils.types import RequestCategoryCreateOrUpdateDTO
 
 
 class CategoryService:

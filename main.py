@@ -10,7 +10,7 @@ from admin.register import registerAdmin
 from config.app import createApp, db
 from config.settings import ConfigName, getEnvVar
 from models.user import User
-from repository.userRepository import userRepository
+from repositories.userRepository import userRepository
 from urls.api import router as routerApi
 from urls.web import router as routerWeb
 from utils import status

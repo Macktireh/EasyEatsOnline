@@ -3,9 +3,9 @@ from typing import Any, Dict
 from flask import current_app as app
 from itsdangerous import URLSafeTimedSerializer
 
-from dto import TokenPayload
 from models.user import User
-from repository.userRepository import userRepository
+from repositories.userRepository import userRepository
+from utils.types import TokenPayload
 
 
 class TokenService:
