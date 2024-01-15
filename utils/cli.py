@@ -25,7 +25,7 @@ def createSuperUserCli() -> None:
         if not AuthValidator.validateEmail(email):
             printRed("Email is invalid.")
             continue
-        if userRepository.getByEmail(email):
+        if userRepository.existsByEmail(email):
             printRed("A user with this e-mail address already exists.")
             continue
 
