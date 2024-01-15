@@ -34,8 +34,7 @@ class CartService:
         user = UserService.getUser(userPublicId)
         product = ProductService.getProduct(productPublicId)
 
-        cart = cartRepository.filter(userId=user.id)
-        if not cart:
+        if not (cart := cartRepository.filter(userId=user.id)):
             raise exceptions.NotFound("Cart not found")
 
         if order := orderRepository.filter(userId=user.id, productId=product.id):
@@ -47,8 +46,7 @@ class CartService:
     def deleteAllFromCart(userPublicId: str) -> None:
         user = UserService.getUser(userPublicId)
 
-        cart = cartRepository.filter(userId=user.id)
-        if not cart:
+        if not (cart := cartRepository.filter(userId=user.id)):
             raise exceptions.NotFound("Cart not found")
 
         for order in cart.orders:

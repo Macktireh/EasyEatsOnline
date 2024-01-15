@@ -58,10 +58,7 @@ class UserRepository(BaseRepository):
         Returns:
             bool: True if a user with the given email address exists, False otherwise.
         """
-        user = self.filter(email=email)
-        if user:
-            return True
-        return False
+        return bool(self.filter(email=email))
 
 
 userRepository = UserRepository(User)

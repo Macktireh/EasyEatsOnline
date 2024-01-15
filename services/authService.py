@@ -34,8 +34,7 @@ class AuthService:
 
     @staticmethod
     def activation(data: RequestActivateDTO) -> Dict[str, str]:
-        user = TokenService.verify(data["token"])
-        if not user:
+        if not (user := TokenService.verify(data["token"])):
             raise exceptions.UnprocessableEntity("Invalid token")
 
         if not user.isActive:
@@ -51,8 +50,7 @@ class AuthService:
     def login(data: RequestLoginDTO) -> Dict[str, str | Dict[str, str]] | None:
         AuthValidator.validateLoginRaise(**data)
 
-        user = AuthService.authenticate(**data)
-        if not user:
+        if not (user := AuthService.authenticate(**data)):
             raise exceptions.Unauthorized("Invalid email address or password")
 
         if not user.isActive:
@@ -64,8 +62,7 @@ class AuthService:
 
     @staticmethod
     def refreshToken(identity: TokenPayload) -> Dict[str, str]:
-        user = userRepository.getByPublicId(identity["publicId"])
-        if not user:
+        if not userRepository.getByPublicId(identity["publicId"]):
             raise exceptions.Unauthorized("Invalid token")
         return dict(
             message="Successfully refreshed.",
@@ -94,8 +91,7 @@ class AuthService:
 
     @staticmethod
     def resetPassword(token: str, data: RequestResetPasswordDTO) -> Dict[str, str]:
-        user = TokenService.verify(token, expiration=60 * 30)
-        if not user:
+        if not (user := TokenService.verify(token, expiration=60 * 30)):
             raise exceptions.UnprocessableEntity("Invalid token")
 
         AuthValidator.validateResetPasswordRaise(**data)

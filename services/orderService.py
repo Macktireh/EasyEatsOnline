@@ -25,8 +25,7 @@ class OrderService:
                 errors=validate,
             )
 
-        order = orderRepository.getByPublicId(data["publicId"])
-        if not order:
+        if not (order := orderRepository.getByPublicId(data["publicId"])):
             raise exceptions.NotFound("Order not found")
 
         order.quantity = int(data["quantity"])
