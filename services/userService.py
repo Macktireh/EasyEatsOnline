@@ -14,15 +14,13 @@ class UserService:
 
     @staticmethod
     def getUser(publicId: str) -> User:
-        user: User | None = userRepository.getByPublicId(publicId)
-        if not user:
+        if not (user := userRepository.getByPublicId(publicId)):
             raise exceptions.NotFound("User not found")
         return user
 
     @staticmethod
     def updateUser(publicId: str, data: RequestUserUpdateDTO) -> User:
-        user = userRepository.getByPublicId(publicId)
-        if not user:
+        if not (user := userRepository.getByPublicId(publicId)):
             raise exceptions.NotFound("User not found")
 
         user.firstName = data.get("firstName", user.firstName)

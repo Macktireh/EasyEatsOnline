@@ -39,15 +39,13 @@ class ProductService:
 
     @staticmethod
     def getProduct(publicId: str) -> Product:
-        product = productRepository.getByPublicId(publicId)
-        if not product:
+        if not (product := productRepository.getByPublicId(publicId)):
             raise exceptions.NotFound("Product not found")
         return product
 
     @staticmethod
     def updateProduct(publicId: str, data: RequestProductCreateOrUpdateDTO) -> Product:
-        product = productRepository.getByPublicId(publicId)
-        if not product:
+        if not (product := productRepository.getByPublicId(publicId)):
             raise exceptions.NotFound("Product not found")
 
         if category := categoryRepository.getByPublicId(data.get("categoryPublicId")):
@@ -61,7 +59,6 @@ class ProductService:
 
     @staticmethod
     def deleteProduct(publicId: str) -> None:
-        product = productRepository.getByPublicId(publicId)
-        if not product:
+        if not (product := productRepository.getByPublicId(publicId)):
             raise exceptions.NotFound("Product not found")
         productRepository.delete(product)
