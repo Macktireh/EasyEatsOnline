@@ -9,7 +9,8 @@
     "**/.ruff_cache": true,
     "**/poetry.lock": true,
     "**/LICENSE": true,
-    "**/db_test.sqlite3": true
+    "**/db_test.sqlite3": true,
+    "**/__pycache__": true
   },
   "python.testing.unittestArgs": ["-v", "-s", "./tests", "-p", "test*.py"],
   "python.testing.pytestEnabled": false,
