@@ -1,1 +1,405 @@
-{"id": "929c06fb-607c-5652-b61e-76da213456d6", "name": "EasyEatsOnline REST API 1.0", "description": "EasyEatsOnline API documentation for developers to use it.", "order": ["2c8787a6-9071-55f1-bf94-072721b828d2"], "requests": [{"id": "2c8787a6-9071-55f1-bf94-072721b828d2", "method": "GET", "name": "Swagger specifications", "description": "The API Swagger specifications as JSON", "url": "http://localhost:5000/api/swagger.json", "headers": "", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "time": 1705318990}, {"id": "16e2559d-7f0e-5749-9993-3a4aa14e217b", "method": "POST", "name": "Account Activation", "description": "Account Activation", "url": "http://localhost:5000/api/auth/user/activation", "headers": "Content-Type:application/json", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd", "pathVariables": {}, "time": 1705318990}, {"id": "cff61ce3-f3f7-5ffa-a366-b1f2320ff855", "method": "POST", "name": "user login", "description": "User Login", "url": "http://localhost:5000/api/auth/user/login", "headers": "Content-Type:application/json", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd", "pathVariables": {}, "time": 1705318990}, {"id": "ab6e3880-6349-528a-8211-9a7e933b8ad8", "method": "POST", "name": "Request Password Reset Link", "description": "Request Password Reset Link", "url": "http://localhost:5000/api/auth/user/request-password-reset", "headers": "Content-Type:application/json", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd", "pathVariables": {}, "time": 1705318990}, {"id": "b21aa250-b6e7-567f-a3fc-4e51175f914b", "method": "POST", "name": "Resend Activation Email", "description": "Resend Activation Email", "url": "http://localhost:5000/api/auth/user/resend-activation-email", "headers": "Content-Type:application/json", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd", "pathVariables": {}, "time": 1705318990}, {"id": "9ae54256-1412-5ca0-b790-72a58f1d9ecf", "method": "POST", "name": "Reset Password", "description": "Reset Password", "url": "http://localhost:5000/api/auth/user/reset-password/", "headers": "Content-Type:application/json", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd", "pathVariables": {}, "time": 1705318990}, {"id": "cfd074c5-d7e9-5899-b86a-f9e5d9e1eb63", "method": "POST", "name": "user signup", "description": "Creates a new User", "url": "http://localhost:5000/api/auth/user/signup", "headers": "Content-Type:application/json", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd", "pathVariables": {}, "time": 1705318990}, {"id": "ed4f5a18-b07f-54d0-9e9c-c745dfef6fcc", "method": "POST", "name": "Refresh JWT token", "description": "Refresh JWT token", "url": "http://localhost:5000/api/auth/user/token/refresh", "headers": "Content-Type:application/json", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd", "time": 1705318990}, {"id": "5dabcf4d-3f74-5a8b-90dc-2917b96c6986", "method": "DELETE", "name": "Delete all orders to cart the current user", "description": "delete all orders to cart", "url": "http://localhost:5000/api/cart", "headers": "Content-Type:application/json", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "ea416cae-3afe-5558-acec-57a100d7cba0", "time": 1705318990}, {"id": "07aecceb-8b8a-50d0-8ce4-85af2498364d", "method": "GET", "name": "Retrieve cart the current user", "description": "retrieve cart", "url": "http://localhost:5000/api/cart", "headers": "X-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "ea416cae-3afe-5558-acec-57a100d7cba0", "pathVariables": {}, "time": 1705318990}, {"id": "9fd906f0-9ff7-59fe-841f-930024d2a3ee", "method": "POST", "name": "Add product to cart", "description": "add product to cart", "url": "http://localhost:5000/api/cart/add-to-cart/:productPublicId", "headers": "Content-Type:application/json\nX-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "ea416cae-3afe-5558-acec-57a100d7cba0", "pathVariables": {"productPublicId": ""}, "time": 1705318990}, {"id": "f1658a11-6a03-5795-8e37-7b3434a50300", "method": "DELETE", "name": "Delete product to cart", "description": "delete product to cart", "url": "http://localhost:5000/api/cart/delete-to-cart/:productPublicId", "headers": "Content-Type:application/json\nX-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "ea416cae-3afe-5558-acec-57a100d7cba0", "pathVariables": {"productPublicId": ""}, "time": 1705318990}, {"id": "391702fe-e4e3-542e-953f-50513c408dfb", "method": "GET", "name": "List categories", "description": "List Categories", "url": "http://localhost:5000/api/categories", "headers": "X-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "5e5e00b0-a872-5a98-9f1f-e1dd2a8b9e7e", "pathVariables": {}, "time": 1705318990}, {"id": "0a77b285-b9a3-5c77-9aa3-4206d99f171f", "method": "POST", "name": "Add category", "description": "Add a new Category", "url": "http://localhost:5000/api/categories", "headers": "Content-Type:application/json\nX-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "5e5e00b0-a872-5a98-9f1f-e1dd2a8b9e7e", "pathVariables": {}, "time": 1705318990}, {"id": "a21b3ef3-6522-529a-b36f-39fcb538cdca", "method": "DELETE", "name": "Delete category", "description": "Delete a category", "url": "http://localhost:5000/api/categories/:publicId", "headers": "Content-Type:application/json", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "5e5e00b0-a872-5a98-9f1f-e1dd2a8b9e7e", "pathVariables": {"publicId": ""}, "time": 1705318990}, {"id": "eb23afa6-7c35-57f0-9151-dd59723473c1", "method": "PATCH", "name": "Update category", "description": "Update a category", "url": "http://localhost:5000/api/categories/:publicId", "headers": "Content-Type:application/json\nX-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "5e5e00b0-a872-5a98-9f1f-e1dd2a8b9e7e", "pathVariables": {"publicId": ""}, "time": 1705318990}, {"id": "6e8d4f4f-41b4-5870-bfb8-acb2d0c10539", "method": "GET", "name": "Retrieve category", "description": "Retrieve a category", "url": "http://localhost:5000/api/categories/:publicId", "headers": "X-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "5e5e00b0-a872-5a98-9f1f-e1dd2a8b9e7e", "pathVariables": {"publicId": ""}, "time": 1705318990}, {"id": "d73968cb-0d22-59e0-b904-b50b538374b8", "method": "GET", "name": "List orders", "description": "list of orders", "url": "http://localhost:5000/api/orders", "headers": "X-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "912b9fad-e763-522f-9cec-283e420e4c5d", "pathVariables": {}, "time": 1705318990}, {"id": "467cccf8-fcbc-59d4-b7f4-8442e5934e91", "method": "PATCH", "name": "Update quantity of order", "description": "update quantity of order", "url": "http://localhost:5000/api/orders/update-quantity", "headers": "Content-Type:application/json\nX-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "912b9fad-e763-522f-9cec-283e420e4c5d", "pathVariables": {}, "time": 1705318990}, {"id": "14f6867b-9f94-562f-bdcf-4c1e1fc418d0", "method": "GET", "name": "List products", "description": "List Products", "url": "http://localhost:5000/api/products", "headers": "X-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "d816472c-f3a0-53d1-b19f-fb596758af4a", "pathVariables": {}, "time": 1705318990}, {"id": "bc8a42f3-7315-5d02-bb67-5402bed52a2d", "method": "POST", "name": "Add product", "description": "Add a new product", "url": "http://localhost:5000/api/products", "headers": "Content-Type:application/json\nX-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "d816472c-f3a0-53d1-b19f-fb596758af4a", "pathVariables": {}, "time": 1705318990}, {"id": "c87a7914-9896-56b5-9ed0-eff0f5af5972", "method": "DELETE", "name": "Delete product", "description": "Delete a product", "url": "http://localhost:5000/api/products/:publicId", "headers": "Content-Type:application/json", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "d816472c-f3a0-53d1-b19f-fb596758af4a", "pathVariables": {"publicId": ""}, "time": 1705318990}, {"id": "50a43070-c228-544f-a824-61efe72f65f5", "method": "PATCH", "name": "Update product", "description": "Update a product", "url": "http://localhost:5000/api/products/:publicId", "headers": "Content-Type:application/json\nX-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "d816472c-f3a0-53d1-b19f-fb596758af4a", "pathVariables": {"publicId": ""}, "time": 1705318990}, {"id": "e4e35edb-32ee-59ab-a68a-55e80c53d6f2", "method": "GET", "name": "Retrieve product", "description": "Retrieve a product", "url": "http://localhost:5000/api/products/:publicId", "headers": "X-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "d816472c-f3a0-53d1-b19f-fb596758af4a", "pathVariables": {"publicId": ""}, "time": 1705318990}, {"id": "5875bb7b-633f-5ed1-abd1-d47bf4f8e6a0", "method": "GET", "name": "List all registered users", "description": "List all registered users", "url": "http://localhost:5000/api/users", "headers": "X-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "5b49625d-0c1b-505b-b1bc-2aba9c505fdd", "pathVariables": {}, "time": 1705318990}, {"id": "a55dc27b-bcd6-5336-985e-b0aa319e4b41", "method": "PATCH", "name": "Update Current User", "description": "Update Current User", "url": "http://localhost:5000/api/users/me", "headers": "Content-Type:application/json\nX-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "5b49625d-0c1b-505b-b1bc-2aba9c505fdd", "pathVariables": {}, "time": 1705318990}, {"id": "921e365c-d450-57a8-9920-097fb0b4aa73", "method": "GET", "name": "Get Current User", "description": "Get Current User", "url": "http://localhost:5000/api/users/me", "headers": "X-Fields:", "collectionId": "929c06fb-607c-5652-b61e-76da213456d6", "folder": "5b49625d-0c1b-505b-b1bc-2aba9c505fdd", "pathVariables": {}, "time": 1705318990}], "folders": [{"id": "2c1cdaa5-9603-5b42-a50c-7fda379965bd", "name": "Auth", "description": "auth related operations", "order": ["16e2559d-7f0e-5749-9993-3a4aa14e217b", "cff61ce3-f3f7-5ffa-a366-b1f2320ff855", "ab6e3880-6349-528a-8211-9a7e933b8ad8", "b21aa250-b6e7-567f-a3fc-4e51175f914b", "9ae54256-1412-5ca0-b790-72a58f1d9ecf", "cfd074c5-d7e9-5899-b86a-f9e5d9e1eb63", "ed4f5a18-b07f-54d0-9e9c-c745dfef6fcc"], "collectionId": "929c06fb-607c-5652-b61e-76da213456d6"}, {"id": "5b49625d-0c1b-505b-b1bc-2aba9c505fdd", "name": "User", "description": "user related operations", "order": ["5875bb7b-633f-5ed1-abd1-d47bf4f8e6a0", "a55dc27b-bcd6-5336-985e-b0aa319e4b41", "921e365c-d450-57a8-9920-097fb0b4aa73"], "collectionId": "929c06fb-607c-5652-b61e-76da213456d6"}, {"id": "5e5e00b0-a872-5a98-9f1f-e1dd2a8b9e7e", "name": "Category", "description": "category related operations", "order": ["391702fe-e4e3-542e-953f-50513c408dfb", "0a77b285-b9a3-5c77-9aa3-4206d99f171f", "a21b3ef3-6522-529a-b36f-39fcb538cdca", "eb23afa6-7c35-57f0-9151-dd59723473c1", "6e8d4f4f-41b4-5870-bfb8-acb2d0c10539"], "collectionId": "929c06fb-607c-5652-b61e-76da213456d6"}, {"id": "d816472c-f3a0-53d1-b19f-fb596758af4a", "name": "Product", "description": "product related operations", "order": ["14f6867b-9f94-562f-bdcf-4c1e1fc418d0", "bc8a42f3-7315-5d02-bb67-5402bed52a2d", "c87a7914-9896-56b5-9ed0-eff0f5af5972", "50a43070-c228-544f-a824-61efe72f65f5", "e4e35edb-32ee-59ab-a68a-55e80c53d6f2"], "collectionId": "929c06fb-607c-5652-b61e-76da213456d6"}, {"id": "ea416cae-3afe-5558-acec-57a100d7cba0", "name": "Cart", "description": "Cart related operations", "order": ["5dabcf4d-3f74-5a8b-90dc-2917b96c6986", "07aecceb-8b8a-50d0-8ce4-85af2498364d", "9fd906f0-9ff7-59fe-841f-930024d2a3ee", "f1658a11-6a03-5795-8e37-7b3434a50300"], "collectionId": "929c06fb-607c-5652-b61e-76da213456d6"}, {"id": "912b9fad-e763-522f-9cec-283e420e4c5d", "name": "Order", "description": "Order related operations", "order": ["d73968cb-0d22-59e0-b904-b50b538374b8", "467cccf8-fcbc-59d4-b7f4-8442e5934e91"], "collectionId": "929c06fb-607c-5652-b61e-76da213456d6"}], "timestamp": 1705318990}
+{
+  "id": "929c06fb-607c-5652-b61e-76da213456d6",
+  "name": "EasyEatsOnline REST API 1.0",
+  "description": "EasyEatsOnline API documentation for developers to use it.",
+  "order": ["2c8787a6-9071-55f1-bf94-072721b828d2"],
+  "requests": [
+    {
+      "id": "2c8787a6-9071-55f1-bf94-072721b828d2",
+      "method": "GET",
+      "name": "Swagger specifications",
+      "description": "The API Swagger specifications as JSON",
+      "url": "http://localhost:5000/api/swagger.json",
+      "headers": "",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "time": 1705318990
+    },
+    {
+      "id": "16e2559d-7f0e-5749-9993-3a4aa14e217b",
+      "method": "POST",
+      "name": "Account Activation",
+      "description": "Account Activation",
+      "url": "http://localhost:5000/api/auth/user/activation",
+      "headers": "Content-Type:application/json",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "cff61ce3-f3f7-5ffa-a366-b1f2320ff855",
+      "method": "POST",
+      "name": "user login",
+      "description": "User Login",
+      "url": "http://localhost:5000/api/auth/user/login",
+      "headers": "Content-Type:application/json",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "ab6e3880-6349-528a-8211-9a7e933b8ad8",
+      "method": "POST",
+      "name": "Request Password Reset Link",
+      "description": "Request Password Reset Link",
+      "url": "http://localhost:5000/api/auth/user/request-password-reset",
+      "headers": "Content-Type:application/json",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "b21aa250-b6e7-567f-a3fc-4e51175f914b",
+      "method": "POST",
+      "name": "Resend Activation Email",
+      "description": "Resend Activation Email",
+      "url": "http://localhost:5000/api/auth/user/resend-activation-email",
+      "headers": "Content-Type:application/json",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "9ae54256-1412-5ca0-b790-72a58f1d9ecf",
+      "method": "POST",
+      "name": "Reset Password",
+      "description": "Reset Password",
+      "url": "http://localhost:5000/api/auth/user/reset-password/",
+      "headers": "Content-Type:application/json",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "cfd074c5-d7e9-5899-b86a-f9e5d9e1eb63",
+      "method": "POST",
+      "name": "user signup",
+      "description": "Creates a new User",
+      "url": "http://localhost:5000/api/auth/user/signup",
+      "headers": "Content-Type:application/json",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "ed4f5a18-b07f-54d0-9e9c-c745dfef6fcc",
+      "method": "POST",
+      "name": "Refresh JWT token",
+      "description": "Refresh JWT token",
+      "url": "http://localhost:5000/api/auth/user/token/refresh",
+      "headers": "Content-Type:application/json",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "2c1cdaa5-9603-5b42-a50c-7fda379965bd",
+      "time": 1705318990
+    },
+    {
+      "id": "5dabcf4d-3f74-5a8b-90dc-2917b96c6986",
+      "method": "DELETE",
+      "name": "Delete all orders to cart the current user",
+      "description": "delete all orders to cart",
+      "url": "http://localhost:5000/api/cart",
+      "headers": "Content-Type:application/json",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "ea416cae-3afe-5558-acec-57a100d7cba0",
+      "time": 1705318990
+    },
+    {
+      "id": "07aecceb-8b8a-50d0-8ce4-85af2498364d",
+      "method": "GET",
+      "name": "Retrieve cart the current user",
+      "description": "retrieve cart",
+      "url": "http://localhost:5000/api/cart",
+      "headers": "X-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "ea416cae-3afe-5558-acec-57a100d7cba0",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "9fd906f0-9ff7-59fe-841f-930024d2a3ee",
+      "method": "POST",
+      "name": "Add product to cart",
+      "description": "add product to cart",
+      "url": "http://localhost:5000/api/cart/add-to-cart/:productPublicId",
+      "headers": "Content-Type:application/json\nX-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "ea416cae-3afe-5558-acec-57a100d7cba0",
+      "pathVariables": { "productPublicId": "" },
+      "time": 1705318990
+    },
+    {
+      "id": "f1658a11-6a03-5795-8e37-7b3434a50300",
+      "method": "DELETE",
+      "name": "Delete product to cart",
+      "description": "delete product to cart",
+      "url": "http://localhost:5000/api/cart/delete-to-cart/:productPublicId",
+      "headers": "Content-Type:application/json\nX-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "ea416cae-3afe-5558-acec-57a100d7cba0",
+      "pathVariables": { "productPublicId": "" },
+      "time": 1705318990
+    },
+    {
+      "id": "391702fe-e4e3-542e-953f-50513c408dfb",
+      "method": "GET",
+      "name": "List categories",
+      "description": "List Categories",
+      "url": "http://localhost:5000/api/categories",
+      "headers": "X-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "5e5e00b0-a872-5a98-9f1f-e1dd2a8b9e7e",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "0a77b285-b9a3-5c77-9aa3-4206d99f171f",
+      "method": "POST",
+      "name": "Add category",
+      "description": "Add a new Category",
+      "url": "http://localhost:5000/api/categories",
+      "headers": "Content-Type:application/json\nX-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "5e5e00b0-a872-5a98-9f1f-e1dd2a8b9e7e",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "a21b3ef3-6522-529a-b36f-39fcb538cdca",
+      "method": "DELETE",
+      "name": "Delete category",
+      "description": "Delete a category",
+      "url": "http://localhost:5000/api/categories/:publicId",
+      "headers": "Content-Type:application/json",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "5e5e00b0-a872-5a98-9f1f-e1dd2a8b9e7e",
+      "pathVariables": { "publicId": "" },
+      "time": 1705318990
+    },
+    {
+      "id": "eb23afa6-7c35-57f0-9151-dd59723473c1",
+      "method": "PATCH",
+      "name": "Update category",
+      "description": "Update a category",
+      "url": "http://localhost:5000/api/categories/:publicId",
+      "headers": "Content-Type:application/json\nX-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "5e5e00b0-a872-5a98-9f1f-e1dd2a8b9e7e",
+      "pathVariables": { "publicId": "" },
+      "time": 1705318990
+    },
+    {
+      "id": "6e8d4f4f-41b4-5870-bfb8-acb2d0c10539",
+      "method": "GET",
+      "name": "Retrieve category",
+      "description": "Retrieve a category",
+      "url": "http://localhost:5000/api/categories/:publicId",
+      "headers": "X-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "5e5e00b0-a872-5a98-9f1f-e1dd2a8b9e7e",
+      "pathVariables": { "publicId": "" },
+      "time": 1705318990
+    },
+    {
+      "id": "d73968cb-0d22-59e0-b904-b50b538374b8",
+      "method": "GET",
+      "name": "List orders",
+      "description": "list of orders",
+      "url": "http://localhost:5000/api/orders",
+      "headers": "X-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "912b9fad-e763-522f-9cec-283e420e4c5d",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "467cccf8-fcbc-59d4-b7f4-8442e5934e91",
+      "method": "PATCH",
+      "name": "Update quantity of order",
+      "description": "update quantity of order",
+      "url": "http://localhost:5000/api/orders/update-quantity",
+      "headers": "Content-Type:application/json\nX-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "912b9fad-e763-522f-9cec-283e420e4c5d",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "14f6867b-9f94-562f-bdcf-4c1e1fc418d0",
+      "method": "GET",
+      "name": "List products",
+      "description": "List Products",
+      "url": "http://localhost:5000/api/products",
+      "headers": "X-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "d816472c-f3a0-53d1-b19f-fb596758af4a",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "bc8a42f3-7315-5d02-bb67-5402bed52a2d",
+      "method": "POST",
+      "name": "Add product",
+      "description": "Add a new product",
+      "url": "http://localhost:5000/api/products",
+      "headers": "Content-Type:application/json\nX-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "d816472c-f3a0-53d1-b19f-fb596758af4a",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "c87a7914-9896-56b5-9ed0-eff0f5af5972",
+      "method": "DELETE",
+      "name": "Delete product",
+      "description": "Delete a product",
+      "url": "http://localhost:5000/api/products/:publicId",
+      "headers": "Content-Type:application/json",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "d816472c-f3a0-53d1-b19f-fb596758af4a",
+      "pathVariables": { "publicId": "" },
+      "time": 1705318990
+    },
+    {
+      "id": "50a43070-c228-544f-a824-61efe72f65f5",
+      "method": "PATCH",
+      "name": "Update product",
+      "description": "Update a product",
+      "url": "http://localhost:5000/api/products/:publicId",
+      "headers": "Content-Type:application/json\nX-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "d816472c-f3a0-53d1-b19f-fb596758af4a",
+      "pathVariables": { "publicId": "" },
+      "time": 1705318990
+    },
+    {
+      "id": "e4e35edb-32ee-59ab-a68a-55e80c53d6f2",
+      "method": "GET",
+      "name": "Retrieve product",
+      "description": "Retrieve a product",
+      "url": "http://localhost:5000/api/products/:publicId",
+      "headers": "X-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "d816472c-f3a0-53d1-b19f-fb596758af4a",
+      "pathVariables": { "publicId": "" },
+      "time": 1705318990
+    },
+    {
+      "id": "5875bb7b-633f-5ed1-abd1-d47bf4f8e6a0",
+      "method": "GET",
+      "name": "List all registered users",
+      "description": "List all registered users",
+      "url": "http://localhost:5000/api/users",
+      "headers": "X-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "5b49625d-0c1b-505b-b1bc-2aba9c505fdd",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "a55dc27b-bcd6-5336-985e-b0aa319e4b41",
+      "method": "PATCH",
+      "name": "Update Current User",
+      "description": "Update Current User",
+      "url": "http://localhost:5000/api/users/me",
+      "headers": "Content-Type:application/json\nX-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "5b49625d-0c1b-505b-b1bc-2aba9c505fdd",
+      "pathVariables": {},
+      "time": 1705318990
+    },
+    {
+      "id": "921e365c-d450-57a8-9920-097fb0b4aa73",
+      "method": "GET",
+      "name": "Get Current User",
+      "description": "Get Current User",
+      "url": "http://localhost:5000/api/users/me",
+      "headers": "X-Fields:",
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6",
+      "folder": "5b49625d-0c1b-505b-b1bc-2aba9c505fdd",
+      "pathVariables": {},
+      "time": 1705318990
+    }
+  ],
+  "folders": [
+    {
+      "id": "2c1cdaa5-9603-5b42-a50c-7fda379965bd",
+      "name": "Auth",
+      "description": "auth related operations",
+      "order": [
+        "16e2559d-7f0e-5749-9993-3a4aa14e217b",
+        "cff61ce3-f3f7-5ffa-a366-b1f2320ff855",
+        "ab6e3880-6349-528a-8211-9a7e933b8ad8",
+        "b21aa250-b6e7-567f-a3fc-4e51175f914b",
+        "9ae54256-1412-5ca0-b790-72a58f1d9ecf",
+        "cfd074c5-d7e9-5899-b86a-f9e5d9e1eb63",
+        "ed4f5a18-b07f-54d0-9e9c-c745dfef6fcc"
+      ],
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6"
+    },
+    {
+      "id": "5b49625d-0c1b-505b-b1bc-2aba9c505fdd",
+      "name": "User",
+      "description": "user related operations",
+      "order": [
+        "5875bb7b-633f-5ed1-abd1-d47bf4f8e6a0",
+        "a55dc27b-bcd6-5336-985e-b0aa319e4b41",
+        "921e365c-d450-57a8-9920-097fb0b4aa73"
+      ],
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6"
+    },
+    {
+      "id": "5e5e00b0-a872-5a98-9f1f-e1dd2a8b9e7e",
+      "name": "Category",
+      "description": "category related operations",
+      "order": [
+        "391702fe-e4e3-542e-953f-50513c408dfb",
+        "0a77b285-b9a3-5c77-9aa3-4206d99f171f",
+        "a21b3ef3-6522-529a-b36f-39fcb538cdca",
+        "eb23afa6-7c35-57f0-9151-dd59723473c1",
+        "6e8d4f4f-41b4-5870-bfb8-acb2d0c10539"
+      ],
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6"
+    },
+    {
+      "id": "d816472c-f3a0-53d1-b19f-fb596758af4a",
+      "name": "Product",
+      "description": "product related operations",
+      "order": [
+        "14f6867b-9f94-562f-bdcf-4c1e1fc418d0",
+        "bc8a42f3-7315-5d02-bb67-5402bed52a2d",
+        "c87a7914-9896-56b5-9ed0-eff0f5af5972",
+        "50a43070-c228-544f-a824-61efe72f65f5",
+        "e4e35edb-32ee-59ab-a68a-55e80c53d6f2"
+      ],
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6"
+    },
+    {
+      "id": "ea416cae-3afe-5558-acec-57a100d7cba0",
+      "name": "Cart",
+      "description": "Cart related operations",
+      "order": [
+        "5dabcf4d-3f74-5a8b-90dc-2917b96c6986",
+        "07aecceb-8b8a-50d0-8ce4-85af2498364d",
+        "9fd906f0-9ff7-59fe-841f-930024d2a3ee",
+        "f1658a11-6a03-5795-8e37-7b3434a50300"
+      ],
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6"
+    },
+    {
+      "id": "912b9fad-e763-522f-9cec-283e420e4c5d",
+      "name": "Order",
+      "description": "Order related operations",
+      "order": [
+        "d73968cb-0d22-59e0-b904-b50b538374b8",
+        "467cccf8-fcbc-59d4-b7f4-8442e5934e91"
+      ],
+      "collectionId": "929c06fb-607c-5652-b61e-76da213456d6"
+    }
+  ],
+  "timestamp": 1705318990
+}
