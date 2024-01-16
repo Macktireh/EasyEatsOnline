@@ -97,6 +97,7 @@ cd EasyEatsOnlineApi
     ```
 
 ### 5. Access the Application
+
 Visit [http://localhost:5000](http://localhost:5000) in your web browser.
 
 
