@@ -106,9 +106,9 @@ Visit [http://localhost:5000](http://localhost:5000) in your web browser.
 
 Run tests with the following command:
 
-    ```bash
-    poetry run flask test
-    ```
+```bash
+poetry run flask test
+```
 
 
 ## Postman Collection
