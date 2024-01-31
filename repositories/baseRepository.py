@@ -2,6 +2,8 @@ from datetime import datetime
 from typing import Any, Dict, List, Tuple, TypeVar
 from uuid import uuid4
 
+from werkzeug import exceptions
+
 from config.app import db
 
 Model = TypeVar("Model")
@@ -133,6 +135,24 @@ class BaseRepository:
         if model := self.model.query.filter_by(*args, **kwargs).first():
             return model, False
         return self.create(*args, **kwargs), True
+    
+    def getOr404(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> Model:
+        """
+        Get a model instance or raise a 404 error if not found.
+    
+        Args:
+            *args: Positional arguments for filtering the query.
+            **kwargs: Keyword arguments for filtering the query.
+    
+        Returns:
+            Model: The retrieved model instance.
+    
+        Raises:
+            NotFound: If the model instance is not found.
+        """
+        if not (model := self.model.query.filter_by(*args, **kwargs).first()):
+            raise exceptions.NotFound(f"{self.model.__name__} not found")
+        return model
 
     def delete(self, _model: Model) -> Model:
         """
