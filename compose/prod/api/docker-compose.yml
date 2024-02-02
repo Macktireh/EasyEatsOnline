@@ -1,6 +1,6 @@
 version: '3'
 
-name: ecommerce
+name: easyeats
 
 services:
 
@@ -8,8 +8,8 @@ services:
     build: 
       context: .
       dockerfile: ./compose/prod/api/Dockerfile
-    image: ecommerce-api
-    container_name: ecommerce-api
+    image: easy-eats-api
+    container_name: easy-eats-api
     volumes:
       - .:/app
     env_file:
@@ -22,7 +22,7 @@ services:
 
   db:
     image: postgres:14
-    container_name: postgres
+    container_name: easyeats-db
     env_file: 
       - ./.env
     volumes:
