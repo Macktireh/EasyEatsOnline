@@ -1,4 +1,4 @@
-FROM python:3.10-slim as python
+FROM python:3.11.7-slim as python
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -11,9 +11,11 @@ RUN apt update && apt install --no-install-recommends -y \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . .
+COPY requirements/ requirements/
 RUN pip install --upgrade pip \
-    pip install -r requirements.txt
+    pip install -r requirements/all.txt
+
+COPY . .
 
 COPY ./compose/local/api/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
