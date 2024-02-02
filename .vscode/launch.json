@@ -44,7 +44,7 @@
       "justMyCode": true
     },
     {
-      "name": "Flask Test",
+      "name": "Flask Run Tests",
       "type": "python",
       "request": "launch",
       "module": "flask",
