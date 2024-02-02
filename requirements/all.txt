@@ -1,0 +1,17 @@
+coverage
+Faker
+Flask-Admin
+Flask-Bcrypt
+Flask-JWT-Extended
+Flask-Login
+Flask-Mail
+Flask-Migrate
+flask-restx
+Flask-SQLAlchemy
+Flask-Testing
+pre-commit
+psycopg2-binary
+python-dotenv
+python-slugify
+ruff
+werkzeug
