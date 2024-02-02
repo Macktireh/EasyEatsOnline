@@ -1,0 +1,12 @@
+Flask-Admin
+Flask-Bcrypt
+Flask-JWT-Extended
+Flask-Login
+Flask-Migrate
+flask-restx
+Flask-SQLAlchemy
+pre-commit
+psycopg2-binary
+python-dotenv
+python-slugify
+werkzeug
