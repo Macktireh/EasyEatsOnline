@@ -24,19 +24,15 @@ class CategoryService:
 
     @staticmethod
     def getCategory(publicId: str) -> Category:
-        if not (category := categoryRepository.getByPublicId(publicId)):
-            raise exceptions.NotFound("Category not found")
-        return category
+        return categoryRepository.getOr404(publicId=publicId)
 
     @staticmethod
     def updateCategory(publicId: str, data: RequestCategoryCreateOrUpdateDTO) -> Category:
-        if not (category := categoryRepository.getByPublicId(publicId)):
-            raise exceptions.NotFound("Category not found")
+        category = categoryRepository.getOr404(publicId=publicId)
         category.name = data.get("name", category.name)
         return categoryRepository.save(category)
 
     @staticmethod
     def deleteCategory(publicId: str) -> None:
-        if not (category := categoryRepository.getByPublicId(publicId)):
-            raise exceptions.NotFound("Category not found")
+        category = categoryRepository.getOr404(publicId=publicId)
         categoryRepository.delete(category)

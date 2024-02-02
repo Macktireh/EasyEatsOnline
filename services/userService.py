@@ -1,7 +1,5 @@
 from typing import List
 
-from werkzeug import exceptions
-
 from models.user import User
 from repositories.userRepository import userRepository
 from utils.types import RequestUserUpdateDTO
@@ -14,14 +12,11 @@ class UserService:
 
     @staticmethod
     def getUser(publicId: str) -> User:
-        if not (user := userRepository.getByPublicId(publicId)):
-            raise exceptions.NotFound("User not found")
-        return user
+        return userRepository.getOr404(publicId=publicId)
 
     @staticmethod
     def updateUser(publicId: str, data: RequestUserUpdateDTO) -> User:
-        if not (user := userRepository.getByPublicId(publicId)):
-            raise exceptions.NotFound("User not found")
+        user = userRepository.getOr404(publicId=publicId)
 
         user.firstName = data.get("firstName", user.firstName)
         user.lastName = data.get("lastName", user.lastName)
