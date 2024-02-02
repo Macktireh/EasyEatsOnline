@@ -1,6 +1,6 @@
 version: '3'
 
-name: EasyEatsOnline
+name: easyeats
 
 services:
 
@@ -8,8 +8,8 @@ services:
     build: 
       context: .
       dockerfile: ./compose/local/api/Dockerfile
-    image: EasyEatsOnlineApi
-    container_name: api
+    image: easy-eats-api
+    container_name: easy-eats-api
     volumes:
       - .:/app
     env_file:
@@ -17,18 +17,18 @@ services:
     ports:
       - 5000:5000
     command: /start
-    # depends_on:
-    #   - db
+    depends_on:
+      - db
 
-  # db:
-  #   image: postgres:14
-  #   container_name: postgres
-  #   env_file: 
-  #     - ./.env
-  #   volumes:
-  #     - db:/var/lib/postgresql/data
-  #   # ports:
-  #   #   - 5432:5432
+  db:
+    image: postgres:14
+    container_name: easyeats-db
+    env_file: 
+      - ./.env
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
   
   # pgadmin:
   #   image: dpage/pgadmin4
@@ -47,5 +47,5 @@ services:
   #     - '5001:80'
 
 
-# volumes:
-#   db: {}
+volumes:
+  db: {}

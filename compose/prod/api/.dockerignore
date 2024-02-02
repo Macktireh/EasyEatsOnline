@@ -14,3 +14,5 @@ __pycache__/
 .vscode/
 db.sqlite3
 README.md
+requirements/all.txt
+requirements/dev.txt
