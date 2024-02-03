@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from flask_admin.helpers import get_form_data
@@ -57,6 +58,7 @@ class ProductAdmin(ModelView):
         if is_created and not model.slug:
             model.slug = slugify(model.name)
         else:
+            model.updatedAt = datetime.now()
             if model.slug != slugify(model.name):
                 model.slug = slugify(model.name)
 
@@ -64,7 +66,7 @@ class ProductAdmin(ModelView):
         form_data = get_form_data()
         try:
             categoryId = int(form_data.get("category"))
-        except TypeError:
+        except (TypeError, ValueError):
             categoryId = None
         data = {
             "name": form_data.get("name"),
