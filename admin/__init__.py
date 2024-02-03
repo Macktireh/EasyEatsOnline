@@ -9,7 +9,7 @@ class HomeAdminModelView(AdminIndexView):
         return current_user.is_authenticated and current_user.isActive and current_user.isStaff and current_user.isAdmin
 
     def inaccessible_callback(self, name, **kwargs) -> Response:
-        return redirect(url_for("adminLogin.login"))
+        return redirect(url_for("web.adminLogin.login"))
 
 
 class ModelView(BaseModelView):
@@ -17,4 +17,4 @@ class ModelView(BaseModelView):
         return current_user.is_authenticated and current_user.isActive and current_user.isStaff and current_user.isAdmin
 
     def inaccessible_callback(self, name, **kwargs) -> Response:
-        return redirect(url_for("adminLogin.login"))
+        return redirect(url_for("web.adminLogin.login"))
