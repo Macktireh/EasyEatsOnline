@@ -24,8 +24,20 @@
       "dom"
     ],
     "paths": {
+      "@/*": [
+        "./src/app/*"
+      ],
       "@components/*": [
         "./src/app/components/*"
+      ],
+      "@interceptors/*": [
+        "./src/app/interceptors/*"
+      ],
+      "@guards/*": [
+        "./src/app/guards/*"
+      ],
+      "@models/*": [
+        "./src/app/models/*"
       ],
       "@services/*": [
         "./src/app/services/*"
