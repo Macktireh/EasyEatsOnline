@@ -1,0 +1,13 @@
+flask
+flask-admin
+flask-bcrypt
+flask-jwt-extended
+flask-login
+flask-migrate
+flask-restx
+flask-sqlalchemy
+psycopg[binary]
+python-dotenv
+python-slugify
+werkzeug
+wtforms==3.1.2
