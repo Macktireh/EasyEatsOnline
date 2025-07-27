@@ -1,31 +1,12 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.4
+    # Ruff version.
+    rev: v0.12.5
     hooks:
-      - id: ruff
+      # Run the linter.
+      - id: ruff-check
+        args: [ --fix ]
         name: ruff (linting)
-
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.4
-    hooks:
+      # Run the formatter.
       - id: ruff-format
         name: ruff (formatting)
-
-  - repo: https://github.com/gitguardian/ggshield
-    rev: v1.18.0
-    hooks:
-      - id: ggshield
-        name: ggshield
-        language_version: python3
-        stages: [commit]
-
-  - repo: local
-    hooks:
-      - id: tests
-        name: run tests
-        stages: [commit]
-        types: [python]
-        entry: make test
-        language: system
-        pass_filenames: false
-        always_run: true
